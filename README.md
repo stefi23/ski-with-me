@@ -20,7 +20,7 @@ Fomd someone or more people to go skiing/snowboarding with.
 
 ---
 
-## What info will be needed in the profiles
+## What info will be needed in the profiles?
 
 - Name
 - Ski / Snowboard / Both
@@ -30,3 +30,19 @@ Fomd someone or more people to go skiing/snowboarding with.
 - Contact info: Phone (optional)
 - Location: add resort that are around you
 - Langages spoken
+
+## Search functionality:
+
+Search based on:
+
+- Resort
+  Filter by:
+- Ski/Snowboard/Both
+- Level
+- Language
+
+## Nice to have:
+
+Add an option to mark as favorite people you'd like to go ski/snowboard with.
+
+Would like to have something similar to [Coding Coach](https://mentors.codingcoach.io/)
