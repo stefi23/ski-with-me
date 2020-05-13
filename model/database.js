@@ -10,7 +10,7 @@ const con = mysql.createConnection({
   host: DB_HOST || "127.0.0.1",
   user: DB_USER || "root",
   password: DB_PASS,
-  database: DB_NAME || "todos",
+  database: DB_NAME || "skiBuddies",
   multipleStatements: true,
 });
 
@@ -18,12 +18,52 @@ con.connect(function (err) {
   if (err) throw err;
   console.log("Connected!");
 
-  //Change this table
   let sql =
-    "DROP TABLE if exists skiBuddies; CREATE TABLE items(id INT NOT NULL AUTO_INCREMENT, text VARCHAR(40) not null, complete BOOLEAN, PRIMARY KEY (id));";
+    "DROP TABLE if exists user; CREATE TABLE users(id INT NOT NULL AUTO_INCREMENT, first_name VARCHAR(40) not null, last_name VARCHAR(40) not null, sport VARCHAR(40) not null, level varchar(255) NOT NULL, resorts varchar(255) not null, password VARCHAR(40) not null, PRIMARY KEY (id));";
+
   con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Table creation `items` was successful!");
+    console.log("Table creation `users` was successful!");
+
+    console.log("Closing...");
+  });
+
+  sql =
+    "DROP TABLE if exists languages; CREATE TABLE languages(id INT NOT NULL AUTO_INCREMENT, language VARCHAR(40) not null, PRIMARY KEY (id));";
+
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table creation `languages` was successful!");
+
+    console.log("Closing...");
+  });
+
+  sql =
+    "DROP TABLE if exists resorts; CREATE TABLE resorts(id INT NOT NULL AUTO_INCREMENT, user_id int(255) not null, resort varchar(255), PRIMARY KEY (id));";
+
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table creation `resorts` was successful!");
+
+    console.log("Closing...");
+  });
+
+  sql =
+    "DROP TABLE if exists favorite_users; CREATE TABLE favorite_users(id INT NOT NULL AUTO_INCREMENT, user_id int(255) not null, user_id_favorite int(255) not null, PRIMARY KEY (id));";
+
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table creation `favorite_users` was successful!");
+
+    console.log("Closing...");
+  });
+
+  sql =
+    "DROP TABLE if exists languages_users; CREATE TABLE languages_users(id INT NOT NULL AUTO_INCREMENT, language_id int(255) not null, user_id int(255) not null, PRIMARY KEY (id));";
+
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table creation `languages_users` was successful!");
 
     console.log("Closing...");
   });
