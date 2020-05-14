@@ -39,11 +39,21 @@ con.connect(function (err) {
   });
 
   sql =
-    "DROP TABLE if exists resorts; CREATE TABLE resorts(id INT NOT NULL AUTO_INCREMENT, user_id int(255) not null, resort varchar(255), PRIMARY KEY (id));";
+    "DROP TABLE if exists resorts; CREATE TABLE resorts(id INT NOT NULL AUTO_INCREMENT, resort varchar(255), PRIMARY KEY (id));";
 
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log("Table creation `resorts` was successful!");
+
+    console.log("Closing...");
+  });
+
+  sql =
+    "DROP TABLE if exists resorts_user; CREATE TABLE resorts_user(id INT NOT NULL AUTO_INCREMENT, user_id INT NOT NULL, resorts_id INT NOT NULL, PRIMARY KEY (id));";
+
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table creation `resorts_user` was successful!");
 
     console.log("Closing...");
   });
@@ -59,11 +69,11 @@ con.connect(function (err) {
   });
 
   sql =
-    "DROP TABLE if exists languages_users; CREATE TABLE languages_users(id INT NOT NULL AUTO_INCREMENT, language_id int(255) not null, user_id int(255) not null, PRIMARY KEY (id));";
+    "DROP TABLE if exists languages_user; CREATE TABLE languages_user(id INT NOT NULL AUTO_INCREMENT, language_id int(255) not null, user_id int(255) not null, PRIMARY KEY (id));";
 
   con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Table creation `languages_users` was successful!");
+    console.log("Table creation `languages_user` was successful!");
 
     console.log("Closing...");
   });
