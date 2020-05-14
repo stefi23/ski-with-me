@@ -20,7 +20,7 @@ router.post("/register", async (req, res, next) => {
       resorts,
     } = req.body;
     let user = await db(
-      `INSERT INTO users (first_name, last_name, email, sport, level, password ) VALUES ("${first_name}", "${last_name}", "${email}", "${sport}", "${level}", "${req.body.password}");`
+      `INSERT INTO users (first_name, last_name, email, sport, level, password ) VALUES ("${first_name}", "${last_name}", "${email}", "${sport}", "${level}", "${password}");`
     );
     resorts.forEach(async (resort) => {
       try {
