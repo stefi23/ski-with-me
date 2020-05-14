@@ -19,7 +19,7 @@ con.connect(function (err) {
   console.log("Connected!");
 
   let sql =
-    "DROP TABLE if exists user; CREATE TABLE users(id INT NOT NULL AUTO_INCREMENT, first_name VARCHAR(40) not null, last_name VARCHAR(40) not null, sport VARCHAR(40) not null, level varchar(255) NOT NULL, resorts varchar(255) not null, password VARCHAR(40) not null, PRIMARY KEY (id));";
+    "DROP TABLE if exists user; CREATE TABLE users(id INT NOT NULL AUTO_INCREMENT, first_name VARCHAR(40) not null, last_name VARCHAR(40) not null, sport VARCHAR(40) not null, level varchar(255) NOT NULL, resorts varchar(255) not null, password VARCHAR(40) not null, email VARCHAR(255) NOT NULL, PRIMARY KEY (id));";
 
   con.query(sql, function (err, result) {
     if (err) throw err;
