@@ -19,7 +19,7 @@ con.connect(function (err) {
   console.log("Connected!");
 
   let sql =
-    "DROP TABLE if exists user; CREATE TABLE users(id INT NOT NULL AUTO_INCREMENT, first_name VARCHAR(40) not null, last_name VARCHAR(40) not null, sport VARCHAR(40) not null, level varchar(255) NOT NULL, resorts varchar(255) not null, password VARCHAR(40) not null, email VARCHAR(255) NOT NULL, PRIMARY KEY (id));";
+    "DROP TABLE if exists user; CREATE TABLE users(id INT NOT NULL AUTO_INCREMENT, first_name VARCHAR(40) NOT NULL, last_name VARCHAR(40)  NOT NULL, sport VARCHAR(40) NOT NULL, level varchar(255) NOT NULL, password VARCHAR(40) NOT NULL, email VARCHAR(255) NOT NULL, PRIMARY KEY (id));";
 
   con.query(sql, function (err, result) {
     if (err) throw err;
@@ -29,7 +29,7 @@ con.connect(function (err) {
   });
 
   sql =
-    "DROP TABLE if exists languages; CREATE TABLE languages(id INT NOT NULL AUTO_INCREMENT, language VARCHAR(40) not null, PRIMARY KEY (id));";
+    "DROP TABLE if exists languages; CREATE TABLE languages(id INT NOT NULL AUTO_INCREMENT, language VARCHAR(40) NOT NULL, PRIMARY KEY (id));";
 
   con.query(sql, function (err, result) {
     if (err) throw err;
@@ -39,7 +39,7 @@ con.connect(function (err) {
   });
 
   sql =
-    "DROP TABLE if exists resorts; CREATE TABLE resorts(id INT NOT NULL AUTO_INCREMENT, resort varchar(255), PRIMARY KEY (id));";
+    "DROP TABLE if exists resorts; CREATE TABLE resorts(id INT NOT NULL AUTO_INCREMENT, resort_name varchar(255), PRIMARY KEY (id));";
 
   con.query(sql, function (err, result) {
     if (err) throw err;
@@ -59,7 +59,7 @@ con.connect(function (err) {
   });
 
   sql =
-    "DROP TABLE if exists favorite_users; CREATE TABLE favorite_users(id INT NOT NULL AUTO_INCREMENT, user_id int(255) not null, user_id_favorite int(255) not null, PRIMARY KEY (id));";
+    "DROP TABLE if exists favorite_users; CREATE TABLE favorite_users(id INT NOT NULL AUTO_INCREMENT, user_id int(255) NOT NULL, user_id_favorite int(255) NOT NULL, PRIMARY KEY (id));";
 
   con.query(sql, function (err, result) {
     if (err) throw err;

@@ -1,7 +1,8 @@
 var express = require("express");
 var router = express.Router();
+const db = require("../model/helper");
 
-/* GET home page. */
+// /* GET home page. */
 router.get("/", function (req, res, next) {
   res.status(200).send("We are live!");
 });
@@ -9,6 +10,7 @@ router.get("/", function (req, res, next) {
 router.post("/register,", async (req, res, next) => {
   console.log("inside");
   console.log(req.body);
+  res.status(200).send("Done");
 
   // try {
   //   let results = await db(
