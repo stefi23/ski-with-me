@@ -3,23 +3,23 @@ var router = express.Router();
 const db = require("../model/helper");
 
 // /* GET home page. */
-router.get("/", function (req, res, next) {
-  res.status(200).send("We are live!");
-});
+router.get("/", async (req, res, next) => {
+  try {
+    let response = await db(`
+  SELECT *
+    FROM users
+    LEFT JOIN languages_user ON languages_user.user_id = users.id
+    LEFT JOIN resorts_user ON resorts_user.user_id = users.id
+    LEFT JOIN languages lang ON languages_user.language_id = lang.id
+    LEFT JOIN resorts resort ON resorts_user.id = resort.id
+    ;`);
 
-router.post("/register,", async (req, res, next) => {
-  console.log("inside");
-  console.log(req.body);
-  res.status(200).send("Done");
-
-  // try {
-  //   let results = await db(
-  //     `INSERT INTO users (first_name, last_name, email, sport, level, resorts, password ) VALUES ("${req.body.first_name}", "${req.body.last_name}", "${req.body.email}", "${req.body.sport}", "${req.body.level}", "${req.body.resorts}", "${req.body.password}"); `
-  //   );
-
-  // } catch (err) {
-  //   res.status(404).send({ message: "user not valid" });
-  // }
+    res.status(200).send(response.data);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
 module.exports = router;
+
+//

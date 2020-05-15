@@ -8,7 +8,6 @@ router.get("/", function(req, res, next) {
 });
 
 router.post("/register", async (req, res, next) => {
-  console.log(req.body.resorts);
   try {
     let {
       first_name,
@@ -25,7 +24,7 @@ router.post("/register", async (req, res, next) => {
     resorts.forEach(async (resort) => {
       try {
         result = await db(
-          `SELECT id FROM resorts WHERE resort_name=${resort} `
+          `SELECT id FROM resorts WHERE resort_name="${resort}"`
         );
         if (!result.data.length) {
           let results_resort = await db(
