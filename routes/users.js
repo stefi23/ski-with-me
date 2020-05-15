@@ -24,17 +24,19 @@ router.post("/register", async (req, res, next) => {
     resorts.forEach(async (resort) => {
       try {
         result = await db(
-          `SELECT id FROM resorts WHERE resort_name="${resort}"`
+          `SELECT id FROM resorts WHERE resort_name="${resort}";`
         );
         if (!result.data.length) {
           let results_resort = await db(
-            `INSERT INTO resorts (resort_name) VALUES ("${resort}")`
+            `INSERT INTO resorts (resort_name) VALUES ("${resort}");`
           );
         }
 
-        let user_id = await db(`SELECT id FROM users WHERE email = "${email}"`);
+        let user_id = await db(
+          `SELECT id FROM users WHERE email = "${email}";`
+        );
         let resorts_id = await db(
-          `SELECT id FROM resorts WHERE resort_name="${resort}"`
+          `SELECT id FROM resorts WHERE resort_name="${resort}";`
         );
         user_id = user_id.data[0].id;
         let resort_id = resorts_id.data[0].id;

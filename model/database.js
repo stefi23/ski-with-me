@@ -29,7 +29,7 @@ con.connect(function (err) {
   });
 
   sql =
-    "DROP TABLE if exists languages; CREATE TABLE languages(id INT NOT NULL AUTO_INCREMENT, language VARCHAR(40) NOT NULL, PRIMARY KEY (id));";
+    "DROP TABLE if exists languages; CREATE TABLE languages(id INT NOT NULL AUTO_INCREMENT, language VARCHAR(255) NOT NULL, PRIMARY KEY (id));";
 
   con.query(sql, function (err, result) {
     if (err) throw err;
