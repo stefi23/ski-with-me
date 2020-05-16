@@ -49,7 +49,7 @@ con.connect(function (err) {
   });
 
   sql =
-    "DROP TABLE if exists resorts_user; CREATE TABLE resorts_user(id INT NOT NULL AUTO_INCREMENT, user_id INT NOT NULL, resorts_id INT NOT NULL, PRIMARY KEY (id));";
+    "DROP TABLE if exists resorts_user; CREATE TABLE resorts_user(id INT NOT NULL AUTO_INCREMENT, user_id INT NOT NULL, resort_id INT NOT NULL, PRIMARY KEY (id));";
 
   con.query(sql, function (err, result) {
     if (err) throw err;
