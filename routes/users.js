@@ -19,6 +19,11 @@ router.post("/register", async (req, res, next) => {
       resorts,
       languages,
     } = req.body;
+
+    if (isUserRegistered(email)) {
+      res.status(200).send({ message: "user is already registered" });
+    }
+
     let user = await db(
       `INSERT INTO users (first_name, last_name, email, sport, level, password ) VALUES ("${first_name}", "${last_name}", "${email}", "${sport}", "${level}", "${password}");`
     );
@@ -95,17 +100,17 @@ const insertValuesIntoIntermediateTable = async (
 const insertIntoDatabase = async (
   email,
   table_name,
-  table_colum,
+  table_column,
   value,
   valueId
 ) => {
-  result = await valueExistsInDatabase(table_name, table_colum, value);
+  result = await valueExistsInDatabase(table_name, table_column, value);
   if (result.data[0] && !result.data[0].length) {
-    await insertValueIntoTable(table_name, table_colum, value);
+    await insertValueIntoTable(table_name, table_column, value);
   }
 
   let user_id = await getUserId(email);
-  let result_id = await getValueId(table_name, table_colum, value);
+  let result_id = await getValueId(table_name, table_column, value);
   user_id = user_id.data[0].id;
   let value_id = result_id.data[0].id;
 
@@ -116,6 +121,15 @@ const insertIntoDatabase = async (
     user_id,
     value_id
   );
+};
+
+const isUserRegistered = async (email) => {
+  result = getValueId("users", "email", email);
+  if (result.data[0] && !result.data[0].length) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 module.exports = router;
