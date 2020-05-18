@@ -1,10 +1,71 @@
 var express = require("express");
 var router = express.Router();
 const db = require("../model/helper");
+var jwt = require("jsonwebtoken");
+var userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
+require("dotenv").config();
+const crypto = require("crypto");
+
+const supersecret = process.env.SUPER_SECRET;
 
 /* GET users listing. */
 router.get("/", function(req, res, next) {
   res.send("respond with a resource");
+});
+
+router.post("/login", async (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const hashedPassword = await cryptoPassword(password);
+
+  try {
+    let result = await db(
+      `SELECT id from users WHERE email = "${email}"  AND password = "${hashedPassword}";`
+    );
+
+    if (result.data[0] && result.data[0].id) {
+      //   create new token
+      const token = jwt.sign(
+        {
+          user_id: result.data[0].id,
+        },
+        supersecret
+      );
+      res.status(200).send({
+        messsage: "You're good to go here's your token",
+        token,
+      });
+    } else {
+      res
+        .status(400)
+        .send({ message: "Login not successful", error: "user not found" });
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+router.get("/profileInfo", userShouldBeLoggedIn, function(req, res, next) {
+  res.send({
+    message: "Yes the user is logged in " + req.user_id,
+  });
+});
+
+router.get("/profile", (req, res, next) => {
+  const token = req.headers[`x-access-token`];
+  if (!token) {
+    res.status(401).send({ message: "Please provide a token" });
+  } else {
+    jwt.verify(token, supersecret, function(err, decoded) {
+      if (err) {
+        res.status(401).send({ message: err.message });
+      } else {
+        res.send({
+          message: "here is your protected data for user " + decoded.user_id,
+        });
+      }
+    });
+  }
 });
 
 router.post("/register", async (req, res, next) => {
@@ -20,12 +81,15 @@ router.post("/register", async (req, res, next) => {
       languages,
     } = req.body;
 
-    if (isUserRegistered(email)) {
+    if (!isUserRegistered(email)) {
       res.status(200).send({ message: "user is already registered" });
     }
 
+    const hashedPassword = await cryptoPassword(password);
+    console.log(hashedPassword);
+
     let user = await db(
-      `INSERT INTO users (first_name, last_name, email, sport, level, password ) VALUES ("${first_name}", "${last_name}", "${email}", "${sport}", "${level}", "${password}");`
+      `INSERT INTO users (first_name, last_name, email, sport, level, password ) VALUES ("${first_name}", "${last_name}", "${email}", "${sport}", "${level}", "${hashedPassword}");`
     );
     resorts.forEach(async (resort) => {
       try {
@@ -110,6 +174,9 @@ const insertIntoDatabase = async (
   }
 
   let user_id = await getUserId(email);
+
+  let token = jwt.sign({ user_id: user_id }, supersecret);
+
   let result_id = await getValueId(table_name, table_column, value);
   user_id = user_id.data[0].id;
   let value_id = result_id.data[0].id;
@@ -124,12 +191,25 @@ const insertIntoDatabase = async (
 };
 
 const isUserRegistered = async (email) => {
-  result = getValueId("users", "email", email);
+  result = await getValueId("users", "email", email);
   if (result.data[0] && !result.data[0].length) {
     return true;
   } else {
     return false;
   }
+};
+
+const cryptoPassword = (password) => {
+  return new Promise((resolve, reject) => {
+    crypto.pbkdf2(password, "abc", 100000, 64, "sha512", (err, derivedKey) => {
+      if (err) {
+        reject(err);
+      } else {
+        let hashPassword = derivedKey.toString("hex");
+        resolve(hashPassword);
+      }
+    });
+  });
 };
 
 module.exports = router;
