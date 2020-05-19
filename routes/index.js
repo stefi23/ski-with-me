@@ -88,7 +88,7 @@ router.get("/resorts", async (req, res) => {
     LEFT JOIN resorts_user ON resorts_user.resort_id = resort.id
     LEFT JOIN users ON users.id = resorts_user.user_id
     LEFT JOIN languages_user ON languages_user.user_id = users.id
-    LEFT JOIN languages ON languages_user.language_id = lang.id
+    LEFT JOIN languages lang ON languages_user.language_id = lang.id
     WHERE resort_name = "${resort}"
     ${language ? ` AND languages.language = "${language}"` : ""}
     ${sport ? ` AND users.sport = "${sport}"` : ""}
@@ -99,8 +99,8 @@ router.get("/resorts", async (req, res) => {
   }
 });
 
-router.get("/everything", async (req, res) => {
-  // accepts urls like http://localhost/users?language=English&sport=ski&level
+router.get(`/everything`, async (req, res) => {
+  // accepts urls like http://localhost/everything?language=english&sport=ski&level=pro
   const { level, language, sport, resort } = req.query;
   if (!level && !language && !sport && !resort) {
     const response = await db(`
@@ -117,29 +117,30 @@ router.get("/everything", async (req, res) => {
   try {
     let whereClause = level ? ` WHERE users.level = "${level}"` : "";
     if (sport) {
-      whereClause += whereClause
+      whereClause = whereClause
         ? `${whereClause} AND users.sport = "${sport}"`
         : ` WHERE users.sport = "${sport}"`;
     }
     if (language) {
-      whereClause += whereClause
-        ? `${whereClause} AND languages.language = "${language}"`
-        : ` WHERE languages.language = "${language}"`;
+      whereClause = whereClause
+        ? `${whereClause} AND lang.language = "${language}"`
+        : ` WHERE lang.language = "${language}"`;
     }
     if (resort) {
-      whereClause += whereClause
+      whereClause = whereClause
         ? `${whereClause} AND resort_name = "${resort}"`
         : ` WHERE resort_name = "${resort}"`;
     }
+    console.log("where", whereClause);
     const response = await db(`
-  SELECT users.id, first_name, last_name, sport,level, language, resort_name
+    SELECT users.id, first_name, last_name, sport,level,GROUP_CONCAT(DISTINCT resort_name), GROUP_CONCAT( DISTINCT language)
     FROM users
     LEFT JOIN resorts_user ON resorts_user.user_id = users.id
     LEFT JOIN resorts ON resorts.id = resorts_user.resort_id
     LEFT JOIN languages_user ON languages_user.user_id = users.id
-    LEFT JOIN languages ON languages_user.language_id = lang.id
+    LEFT JOIN languages lang ON languages_user.language_id = lang.id
     ${whereClause}
-    ;`); // Again, you will probably will get duplicated entries for this query
+    GROUP BY id, first_name, last_name;`); // Again, you will probably will get duplicated entries for this query - fixed
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
