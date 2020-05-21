@@ -20,8 +20,9 @@ router.post("/login", async (req, res, next) => {
 
   try {
     let result = await db(
-      `SELECT id from users WHERE email = "${email}"  AND password = "${hashedPassword}";`
+      `SELECT id, first_name from users WHERE email = "${email}"  AND password = "${hashedPassword}";`
     );
+    const name = result.data[0].first_name;
 
     if (result.data[0] && result.data[0].id) {
       //   create new token
@@ -32,8 +33,8 @@ router.post("/login", async (req, res, next) => {
         supersecret
       );
       res.status(200).send({
-        messsage: "You're good to go here's your token",
-        token,
+        messsage: "Login successful",
+        name,
       });
     } else {
       res

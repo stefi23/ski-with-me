@@ -131,7 +131,7 @@ router.get(`/everything`, async (req, res) => {
         ? `${whereClause} AND resort_name = "${resort}"`
         : ` WHERE resort_name = "${resort}"`;
     }
-    console.log("where", whereClause);
+
     const response = await db(`
     SELECT users.id, first_name, last_name, sport,level,GROUP_CONCAT(DISTINCT resort_name), GROUP_CONCAT( DISTINCT language)
     FROM users
@@ -148,5 +148,3 @@ router.get(`/everything`, async (req, res) => {
 });
 
 module.exports = router;
-
-//

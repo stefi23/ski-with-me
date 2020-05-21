@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default class Login extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ export default class Login extends Component {
   };
 
   attemptLogin = () => {
+    console.log("login");
     axios("/users/login", {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -33,39 +35,57 @@ export default class Login extends Component {
       .catch((err) => console.log(err));
   };
 
-  getProtectedData = () => {
-    axios("/users/profile", {
-      headers: { "x-access-token": localStorage.getItem("token") },
-    })
-      .then((results) => {
-        console.log(results.data);
-      })
-      .catch((err) => console.log(err));
-  };
-
+  // getProtectedData = () => {
+  //   axios("/users/profile", {
+  //     headers: { "x-access-token": localStorage.getItem("token") },
+  //   })
+  //     .then((results) => {
+  //       console.log(results.data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
   render() {
     return (
-      <div className="container">
-        <h1>Login</h1>
-        <input
-          name="email"
-          onChange={this.handleInput}
-          value={this.state.email}
-          className="form-control"
-        />
-        <input
-          type="password"
-          name="password"
-          onChange={this.handleInput}
-          value={this.state.password}
-          className="form-control"
-        />
-        <button className="btn btn-primary" onClick={this.attemptLogin}>
-          Submit
-        </button>
-        <button className="btn btn-primary" onClick={this.getProtectedData}>
-          Get Protected Data
-        </button>
+      <div className="login">
+        <div className="login_inner p-5">
+          <h1>Welcome Back</h1>
+
+          <input
+            name="email"
+            onChange={this.handleInput}
+            value={this.state.email}
+            className="form-control m-2"
+            placeholder="Enter email"
+          />
+          <input
+            type="password"
+            name="password"
+            onChange={this.handleInput}
+            value={this.state.password}
+            className="form-control m-2"
+            placeholder="Enter password"
+          />
+
+          <button className="btn btn-primary m-2" onClick={this.attemptLogin}>
+            Login NOW
+          </button>
+          <div className="m-2">
+            <p>
+              Don't have an account?
+              <span>
+                {" "}
+                <Link to="/register" className="">
+                  Sign Up
+                </Link>
+              </span>
+            </p>
+            <button className="btn" onClick={this.attemptLogin}>
+              <Link to="/" className="">
+                Close
+              </Link>
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
