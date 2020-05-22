@@ -70,48 +70,171 @@ class Register extends React.Component {
                 <input
                   type="text"
                   className="form-control"
-                  name="first_name"
-                  placeholder="Name"
+                  name="firstName"
                   onChange={this.handleInput}
                 />
               </div>
               <div className="form-group col-md-4">
-                <label>Country</label>
-                <select
-                  id="inputState"
+                <label>Last Name</label>
+                <input
+                  type="text"
                   className="form-control"
-                  name="country"
+                  name="lastName"
                   onChange={this.handleInput}
-                >
-                  <option>Choose...</option>
-                  <option>Barcelona</option>
-                  <option>Madrid</option>
-                  <option>London</option>
-                </select>
+                />
               </div>
             </div>
+
             <div className="form-row">
               <div className="form-group col-md-4">
                 <label>Email</label>
+
                 <input
-                  type="email"
-                  className="form-control"
                   name="email"
-                  placeholder="Email"
                   onChange={this.handleInput}
+                  value={this.state.email}
+                  className="form-control"
                 />
               </div>
               <div className="form-group col-md-4">
                 <label>Password</label>
                 <input
                   type="password"
-                  className="form-control"
                   name="password"
                   onChange={this.handleInput}
+                  value={this.state.password}
+                  className="form-control"
                 />
-                <small id="passwordHelpInline" className="text-muted">
-                  Must be 8-20 characters long.
-                </small>
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group col-md-4 mb-0">
+                <label>Sport</label>
+              </div>
+              <div className="form-group col-md-4 mb-0">
+                <label>Level</label>
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group col-md-4">
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="inlineRadioOptions"
+                    id="inlineRadio1"
+                    value="option1"
+                  />
+                  <label class="form-check-label" for="inlineRadio1">
+                    ski
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="inlineRadioOptions"
+                    id="inlineRadio2"
+                    value="option2"
+                  />
+                  <label class="form-check-label" for="inlineRadio2">
+                    snowboard
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="inlineRadioOptions"
+                    id="inlineRadio3"
+                    value="option3"
+                  />
+                  <label class="form-check-label" for="inlineRadio3">
+                    both
+                  </label>
+                </div>
+              </div>
+              <div className="form-group col-md-4">
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="inlineRadioOptions"
+                    id="inlineRadio1"
+                    value="option1"
+                  />
+                  <label class="form-check-label" for="inlineRadio1">
+                    beginner
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="inlineRadioOptions"
+                    id="inlineRadio1"
+                    value="option1"
+                  />
+                  <label class="form-check-label" for="inlineRadio1">
+                    medium
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="inlineRadioOptions"
+                    id="inlineRadio2"
+                    value="option2"
+                  />
+                  <label class="form-check-label" for="inlineRadio2">
+                    advanced
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="inlineRadioOptions"
+                    id="inlineRadio3"
+                    value="option3"
+                  />
+                  <label class="form-check-label" for="inlineRadio3">
+                    pro
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group col-md-8">
+                <label>Resorts</label>
+
+                <input
+                  name="resort"
+                  onChange={this.handleInput}
+                  value={this.state.email}
+                  className="form-control"
+                />
+                <br />
+                <button className="btn btn-primary"> Add more resorts </button>
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group col-md-8">
+                <label>Languages</label>
+
+                <input
+                  name="language"
+                  onChange={this.handleInput}
+                  value={this.state.email}
+                  className="form-control"
+                />
+                <br />
+                <button className="btn btn-primary">
+                  {" "}
+                  Add more languages{" "}
+                </button>
               </div>
             </div>
             <div className="form-group">

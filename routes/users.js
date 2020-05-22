@@ -62,6 +62,7 @@ router.get("/profile", (req, res, next) => {
       if (err) {
         res.status(401).send({ message: err.message });
       } else {
+        console.log(decoded);
         res.send({
           message: "here is your protected data for user " + decoded.user_id,
         });

@@ -38,15 +38,6 @@ export default class Login extends Component {
       .catch((err) => console.log(err));
   };
 
-  // getProtectedData = () => {
-  //   axios("/users/profile", {
-  //     headers: { "x-access-token": localStorage.getItem("token") },
-  //   })
-  //     .then((results) => {
-  //       console.log(results.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
   render() {
     return (
       <div className="login">

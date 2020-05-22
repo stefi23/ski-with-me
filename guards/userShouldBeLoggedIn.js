@@ -10,6 +10,7 @@ function userShouldBeLoggedIn(req, res, next) {
       if (err) res.status(401).send({ message: err.message });
       else {
         //everything is awesome
+
         req.user_id = decoded.user_id;
         next();
       }

@@ -14,6 +14,7 @@ import { Navbar } from "react-bootstrap";
 
 function App() {
   const [isUserLoggedin, updateLoggedIn] = useState(false);
+  const [name, getName] = useState("");
 
   useEffect(() => {
     axios("/users/profile", {
@@ -37,7 +38,7 @@ function App() {
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             {isUserLoggedin ? (
-              <Navbar.Text>Welcome Name</Navbar.Text>
+              <Navbar.Text>Welcome {name} </Navbar.Text>
             ) : (
               <ul className="navbar-nav">
                 <li className="nav-item">
@@ -60,7 +61,7 @@ function App() {
             {isUserLoggedin ? (
               <Redirect to="/" />
             ) : (
-              <Login updateLoggedIn={updateLoggedIn} />
+              <Login updateLoggedIn={updateLoggedIn} getName={getName} />
             )}
           </Route>
           <Route path="/register" component={Register}></Route>
