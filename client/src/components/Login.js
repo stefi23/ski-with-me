@@ -29,9 +29,7 @@ export default class Login extends Component {
       },
     })
       .then((results) => {
-        console.log({ results });
-        console.log(results.data.token);
-        localStorage.setItem("token", results.data.token);
+        localStorage.setItem("skiBuddyToken", results.data.token);
         this.props.updateLoggedIn(true);
         this.props.getName(results.data.name);
       })

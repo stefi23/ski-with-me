@@ -20,11 +20,12 @@ function App() {
     axios("/users/profile", {
       method: "GET",
       headers: {
-        "x-access-token": localStorage.getItem("token"),
+        "x-access-token": localStorage.getItem("skiBuddyToken"),
       },
     })
       .then((result) => {
-        console.log("result: ", result);
+        console.log(result.data);
+        getName(result.data.name);
         updateLoggedIn(true);
       })
       .catch((error) => console.log(error));

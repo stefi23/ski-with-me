@@ -16,11 +16,12 @@ router.get("/", function(req, res, next) {
 router.post("/login", async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  const hashedPassword = await cryptoPassword(password);
+  const hashedPassword = await cryptoPassword(password, email);
 
   try {
     let result = await db(
-      `SELECT id, first_name from users WHERE email = "${email}"  AND password = "${hashedPassword}";`
+      `SELECT id, first_name from users WHERE email = ?  AND password = "${hashedPassword}";`,
+      [email]
     );
     const name = result.data[0].first_name;
 
@@ -58,13 +59,18 @@ router.get("/profile", (req, res, next) => {
   if (!token) {
     res.status(401).send({ message: "Please provide a token" });
   } else {
-    jwt.verify(token, supersecret, function(err, decoded) {
+    jwt.verify(token, supersecret, async function(err, decoded) {
       if (err) {
         res.status(401).send({ message: err.message });
       } else {
-        console.log(decoded);
+        const { data } = await db(
+          `SELECT first_name from users WHERE id = ${decoded.user_id}`
+        );
+        const name = data[0].first_name;
+
         res.send({
           message: "here is your protected data for user " + decoded.user_id,
+          name,
         });
       }
     });
@@ -88,8 +94,7 @@ router.post("/register", async (req, res, next) => {
       res.status(200).send({ message: "user is already registered" });
     }
 
-    const hashedPassword = await cryptoPassword(password);
-    console.log(hashedPassword);
+    const hashedPassword = await cryptoPassword(password, email);
 
     let user = await db(
       `INSERT INTO users (first_name, last_name, email, sport, level, password ) VALUES ("${first_name}", "${last_name}", "${email}", "${sport}", "${level}", "${hashedPassword}");`
@@ -202,9 +207,10 @@ const isUserRegistered = async (email) => {
   }
 };
 
-const cryptoPassword = (password) => {
+const cryptoPassword = (password, email) => {
   return new Promise((resolve, reject) => {
-    crypto.pbkdf2(password, "abc", 100000, 64, "sha512", (err, derivedKey) => {
+    console.log("email", email);
+    crypto.pbkdf2(password, email, 100000, 64, "sha512", (err, derivedKey) => {
       if (err) {
         reject(err);
       } else {

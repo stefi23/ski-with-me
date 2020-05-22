@@ -1,7 +1,7 @@
 require("dotenv").config();
 const mysql = require("mysql");
 
-module.exports = async function db(query) {
+module.exports = async function db(query, query_params = []) {
   const results = {
     data: [],
     error: null,
@@ -24,7 +24,7 @@ module.exports = async function db(query) {
       if (err) throw err;
       console.log("Connected!");
 
-      con.query(query, function (err, result) {
+      con.query(query, query_params, function (err, result) {
         if (err) {
           results.error = err;
           console.log(err);
