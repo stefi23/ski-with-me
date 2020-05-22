@@ -1,13 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import Login from "./Login";
+import Login from "./components/Login";
 import Register from "./components/Register";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import LoggedIn from "./LoggedIn.js";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
+import axios from "axios";
 import { Navbar } from "react-bootstrap";
 
 function App() {
   const [isUserLoggedin, updateLoggedIn] = useState(false);
+
+  useEffect(() => {
+    axios("/users/profile", {
+      method: "GET",
+      headers: {
+        "x-access-token": localStorage.getItem("token"),
+      },
+    })
+      .then((result) => {
+        console.log("result: ", result);
+        updateLoggedIn(true);
+      })
+      .catch((error) => console.log(error));
+  });
 
   return (
     <Router>
@@ -36,15 +56,15 @@ function App() {
         </Navbar>
 
         <Switch>
-          {isUserLoggedin ? (
-            <Route path="/" />
-          ) : (
-            <Route
-              path="/login"
-              render={(props) => <Login updateLoggedIn={updateLoggedIn} />}
-            />
-          )}
+          <Route path="/login">
+            {isUserLoggedin ? (
+              <Redirect to="/" />
+            ) : (
+              <Login updateLoggedIn={updateLoggedIn} />
+            )}
+          </Route>
           <Route path="/register" component={Register}></Route>
+          <Route path="/"></Route>
         </Switch>
       </div>
     </Router>

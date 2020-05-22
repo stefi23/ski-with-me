@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import "./App.css";
+import "../App.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 export default class Login extends Component {
   constructor(props) {
@@ -29,8 +29,11 @@ export default class Login extends Component {
       },
     })
       .then((results) => {
+        console.log({ results });
+        console.log(results.data.token);
         localStorage.setItem("token", results.data.token);
         this.props.updateLoggedIn(true);
+        this.props.getName(results.data.name);
       })
       .catch((err) => console.log(err));
   };

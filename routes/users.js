@@ -35,6 +35,7 @@ router.post("/login", async (req, res, next) => {
       res.status(200).send({
         messsage: "Login successful",
         name,
+        token,
       });
     } else {
       res
