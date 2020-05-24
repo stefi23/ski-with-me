@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../App.css";
 import axios from "axios";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default class Login extends Component {
   constructor(props) {
@@ -19,7 +19,6 @@ export default class Login extends Component {
   };
 
   attemptLogin = () => {
-    console.log("login");
     axios("/users/login", {
       method: "POST",
       headers: { "Content-type": "application/json" },

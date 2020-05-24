@@ -20,8 +20,8 @@ router.post("/login", async (req, res, next) => {
 
   try {
     let result = await db(
-      `SELECT id, first_name from users WHERE email = ?  AND password = "${hashedPassword}";`,
-      [email]
+      `SELECT id, first_name from users WHERE email = ?  AND password = ?;`,
+      [email, hashedPassword]
     );
     const name = result.data[0].first_name;
 
@@ -48,34 +48,39 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.get("/profileInfo", userShouldBeLoggedIn, function(req, res, next) {
+router.get("/profile", userShouldBeLoggedIn, async function(req, res, next) {
+  const { data } = await db(
+    `SELECT first_name from users WHERE id = ${req.user_id}`
+  );
+  const name = data[0].first_name;
   res.send({
     message: "Yes the user is logged in " + req.user_id,
+    name,
   });
 });
 
-router.get("/profile", (req, res, next) => {
-  const token = req.headers[`x-access-token`];
-  if (!token) {
-    res.status(401).send({ message: "Please provide a token" });
-  } else {
-    jwt.verify(token, supersecret, async function(err, decoded) {
-      if (err) {
-        res.status(401).send({ message: err.message });
-      } else {
-        const { data } = await db(
-          `SELECT first_name from users WHERE id = ${decoded.user_id}`
-        );
-        const name = data[0].first_name;
+// router.get("/profile2", (req, res, next) => {
+//   const token = req.headers[`x-access-token`];
+//   if (!token) {
+//     res.status(401).send({ message: "Please provide a token" });
+//   } else {
+//     jwt.verify(token, supersecret, async function(err, decoded) {
+//       if (err) {
+//         res.status(401).send({ message: err.message });
+//       } else {
+//         const { data } = await db(
+//           `SELECT first_name from users WHERE id = ${decoded.user_id}`
+//         );
+//         const name = data[0].first_name;
 
-        res.send({
-          message: "here is your protected data for user " + decoded.user_id,
-          name,
-        });
-      }
-    });
-  }
-});
+//         res.send({
+//           message: "here is your protected data for user " + decoded.user_id,
+//           name,
+//         });
+//       }
+//     });
+//   }
+// });
 
 router.post("/register", async (req, res, next) => {
   try {
@@ -209,7 +214,6 @@ const isUserRegistered = async (email) => {
 
 const cryptoPassword = (password, email) => {
   return new Promise((resolve, reject) => {
-    console.log("email", email);
     crypto.pbkdf2(password, email, 100000, 64, "sha512", (err, derivedKey) => {
       if (err) {
         reject(err);

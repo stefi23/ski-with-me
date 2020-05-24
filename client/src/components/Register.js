@@ -1,92 +1,119 @@
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
+      first_name: "",
+      last_name: "",
       email: "",
       password: "",
-      country: "",
+      sport: "",
+      level: "",
+      resorts: [""],
+      languages: [""],
     };
   }
 
-  //gets list of all users from the DB
-  getUsers = () => {
-    axios("/users").then((response) => {
-      this.setState({ users: response.data });
-    });
-  };
-
-  //adds users to the DB
   addUser() {
-    fetch("/users/register", {
+    axios("/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        name: this.state.name,
+      data: {
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
         email: this.state.email,
         password: this.state.password,
-        country: this.state.country,
-      }),
-    }).then(this.getUsers);
-    if (
-      this.state.name &&
-      this.state.email &&
-      this.state.password &&
-      this.state.country
-    ) {
-      this.props.history.push(`/`);
-    }
+        sport: this.state.sport,
+        level: this.state.level,
+        resorts: this.state.resorts,
+        languages: this.state.languages,
+      },
+    }).catch((err) => console.log(err));
   }
 
-  handleInput = (e) => {
+  handleInput = (e, index) => {
+    e.preventDefault();
+    const languages = [...this.state.languages];
+    languages[index] = e.target.value;
     this.setState({
       [e.target.name]: e.target.value,
+      languages: languages,
     });
   };
 
-  // handleClearForm = e => {
-  //   this.setState({
-  //     name: "",
-  //     email: "",
-  //     password: "",
-  //     country: ""
-  //   });
-  // };
+  handleInputResorts = (e, index) => {
+    e.preventDefault();
+    const resorts = [...this.state.resorts];
+    resorts[index] = e.target.value;
+    this.setState({
+      [e.target.name]: e.target.value,
+      resorts,
+    });
+  };
+
+  addAnotherLanguage() {
+    this.setState({
+      languages: [...this.state.languages, ""],
+    });
+  }
+  addAnotherResort() {
+    this.setState({
+      resorts: [...this.state.resorts, ""],
+    });
+  }
+
+  handleRemove(index) {
+    const languages = [...this.state.languages];
+    languages.splice(index, 1);
+    this.setState({
+      languages: languages,
+    });
+  }
+
+  handleRemoveResort(index) {
+    const resorts = [...this.state.resorts];
+    resorts.splice(index, 1);
+    this.setState({
+      resorts: resorts,
+    });
+  }
 
   render() {
     return (
       <div>
-        <div className="login">
-          <div className="login_inner p-5">
+        <div className="register">
+          <div className="register_inner p-5">
             <h2> Sign Up </h2>
             <div className="form-row">
-              <div className="form-group col-md-4">
+              <div className="form-group col-md-6">
                 <label>First Name</label>
                 <input
                   type="text"
                   className="form-control"
-                  name="firstName"
+                  name="first_name"
+                  value={this.state.firstName}
                   onChange={this.handleInput}
                 />
               </div>
-              <div className="form-group col-md-4">
+              <div className="form-group col-md-6">
                 <label>Last Name</label>
                 <input
                   type="text"
                   className="form-control"
-                  name="lastName"
+                  name="last_name"
+                  value={this.state.lastName}
                   onChange={this.handleInput}
                 />
               </div>
             </div>
 
             <div className="form-row">
-              <div className="form-group col-md-4">
+              <div className="form-group col-md-6">
                 <label>Email</label>
 
                 <input
@@ -96,7 +123,7 @@ class Register extends React.Component {
                   className="form-control"
                 />
               </div>
-              <div className="form-group col-md-4">
+              <div className="form-group col-md-6">
                 <label>Password</label>
                 <input
                   type="password"
@@ -108,98 +135,107 @@ class Register extends React.Component {
               </div>
             </div>
             <div className="form-row">
-              <div className="form-group col-md-4 mb-0">
+              <div className="form-group col-md-6 mb-0">
                 <label>Sport</label>
               </div>
-              <div className="form-group col-md-4 mb-0">
+              <div className="form-group col-md-6 mb-0">
                 <label>Level</label>
               </div>
             </div>
             <div className="form-row">
-              <div className="form-group col-md-4">
-                <div class="form-check form-check-inline">
+              <div className="form-group col-md-6">
+                <div className="form-check form-check-inline">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="sport"
                     id="inlineRadio1"
-                    value="option1"
+                    value="ski"
+                    onChange={this.handleInput}
                   />
-                  <label class="form-check-label" for="inlineRadio1">
+                  <label className="form-check-label" for="inlineRadio1">
                     ski
                   </label>
                 </div>
-                <div class="form-check form-check-inline">
+
+                <div className="form-check form-check-inline">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="sport"
                     id="inlineRadio2"
-                    value="option2"
+                    value="snowboard"
+                    onChange={this.handleInput}
                   />
-                  <label class="form-check-label" for="inlineRadio2">
+                  <label className="form-check-label" for="inlineRadio2">
                     snowboard
                   </label>
                 </div>
-                <div class="form-check form-check-inline">
+                <div className="form-check form-check-inline">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="sport"
                     id="inlineRadio3"
-                    value="option3"
+                    value="both"
+                    onChange={this.handleInput}
                   />
-                  <label class="form-check-label" for="inlineRadio3">
+                  <label className="form-check-label" for="inlineRadio3">
                     both
                   </label>
                 </div>
               </div>
-              <div className="form-group col-md-4">
-                <div class="form-check form-check-inline">
+
+              <div className="form-group col-md-6">
+                <div className="form-check form-check-inline">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="level"
                     id="inlineRadio1"
-                    value="option1"
+                    value="beginner"
+                    onChange={this.handleInput}
                   />
-                  <label class="form-check-label" for="inlineRadio1">
+                  <label className="form-check-label" for="inlineRadio1">
                     beginner
                   </label>
                 </div>
-                <div class="form-check form-check-inline">
+                <div className="form-check form-check-inline">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="level"
                     id="inlineRadio1"
-                    value="option1"
+                    value="medium"
+                    onChange={this.handleInput}
                   />
-                  <label class="form-check-label" for="inlineRadio1">
+                  <label className="form-check-label" for="inlineRadio1">
                     medium
                   </label>
                 </div>
-                <div class="form-check form-check-inline">
+                <div className="form-check form-check-inline">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="level"
                     id="inlineRadio2"
-                    value="option2"
+                    value="advanced"
+                    onChange={this.handleInput}
                   />
-                  <label class="form-check-label" for="inlineRadio2">
+                  <label className="form-check-label" for="inlineRadio2">
                     advanced
                   </label>
                 </div>
-                <div class="form-check form-check-inline">
+                <div className="form-check form-check-inline">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="level"
                     id="inlineRadio3"
-                    value="option3"
+                    value="pro"
+                    onChange={this.handleInput}
                   />
-                  <label class="form-check-label" for="inlineRadio3">
+                  <label className="form-check-label" for="inlineRadio3">
                     pro
                   </label>
                 </div>
@@ -207,33 +243,75 @@ class Register extends React.Component {
             </div>
 
             <div className="form-row">
-              <div className="form-group col-md-8">
+              <div className="form-group col-md-6">
                 <label>Resorts</label>
-
-                <input
-                  name="resort"
-                  onChange={this.handleInput}
-                  value={this.state.email}
-                  className="form-control"
-                />
-                <br />
-                <button className="btn btn-primary"> Add more resorts </button>
+              </div>
+            </div>
+            {this.state.resorts.map((resort, index) => {
+              return (
+                <div className="form-row" key={index}>
+                  <div className="form-group col-md-6">
+                    <input
+                      value={resort}
+                      className="form-control mb-2"
+                      onChange={(e) => this.handleInputResorts(e, index)}
+                    />
+                  </div>
+                  <div className="form-group col-md-6">
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => this.handleRemoveResort(index)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+            <div className="form-row">
+              <div className="form-group col-md-12">
+                <button
+                  className="btn btn-primary"
+                  onClick={(e) => this.addAnotherResort(e)}
+                >
+                  Add more resorts
+                </button>
               </div>
             </div>
             <div className="form-row">
-              <div className="form-group col-md-8">
+              <div className="form-group col-md-6">
                 <label>Languages</label>
+              </div>
+            </div>
 
-                <input
-                  name="language"
-                  onChange={this.handleInput}
-                  value={this.state.email}
-                  className="form-control"
-                />
-                <br />
-                <button className="btn btn-primary">
-                  {" "}
-                  Add more languages{" "}
+            {this.state.languages.map((language, index) => {
+              return (
+                <div className="form-row" key={index}>
+                  <div className="form-group col-md-6">
+                    <input
+                      value={language}
+                      className="form-control mb-2"
+                      onChange={(e) => this.handleInput(e, index)}
+                    />
+                  </div>
+                  <div className="form-group col-md-6">
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => this.handleRemove(index)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+            <div className="form-row">
+              <div className="form-group col-md-12">
+                <button
+                  className="btn btn-primary"
+                  onClick={(e) => this.addAnotherLanguage(e)}
+                >
+                  Add more languages
                 </button>
               </div>
             </div>
@@ -258,6 +336,11 @@ class Register extends React.Component {
               // }}
             >
               Submit
+            </button>
+            <button className="btn" onClick={this.attemptLogin}>
+              <Link to="/" className="">
+                Close
+              </Link>
             </button>
           </div>
         </div>
