@@ -26,7 +26,6 @@ router.post("/login", async (req, res, next) => {
     const name = result.data[0].first_name;
 
     if (result.data[0] && result.data[0].id) {
-      //   create new token
       const token = jwt.sign(
         {
           user_id: result.data[0].id,
@@ -95,8 +94,13 @@ router.post("/register", async (req, res, next) => {
       languages,
     } = req.body;
 
-    if (!isUserRegistered(email)) {
-      res.status(200).send({ message: "user is already registered" });
+    try {
+      const result = await isUserRegistered(email);
+      if (!result) {
+        return res.status(200).send({ message: "user is already registered" });
+      }
+    } catch (err) {
+      res.status(500).send(err);
     }
 
     const hashedPassword = await cryptoPassword(password, email);
@@ -205,7 +209,8 @@ const insertIntoDatabase = async (
 
 const isUserRegistered = async (email) => {
   result = await getValueId("users", "email", email);
-  if (result.data[0] && !result.data[0].length) {
+
+  if (result.data[0] && !result.data[0].id) {
     return true;
   } else {
     return false;

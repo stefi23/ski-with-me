@@ -48,7 +48,12 @@ function App() {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/register" className="nav-link">
+                  <Link
+                    to="/register"
+                    className="nav-link"
+                    data-toggle="modal"
+                    data-target="#exampleModalLong"
+                  >
                     Sign Up
                   </Link>
                 </li>

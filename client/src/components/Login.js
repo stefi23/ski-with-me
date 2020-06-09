@@ -1,63 +1,76 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "../App.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap";
 
-export default class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-    };
-  }
+function Login(props) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  handleInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+  const history = useHistory();
+
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
   };
 
-  attemptLogin = () => {
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleClose = () => {
+    history.push("/");
+  };
+
+  const attemptLogin = () => {
     axios("/users/login", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       data: {
-        email: this.state.email,
-        password: this.state.password,
+        email: email,
+        password: password,
       },
     })
       .then((results) => {
         localStorage.setItem("skiBuddyToken", results.data.token);
-        this.props.updateLoggedIn(true);
-        this.props.getName(results.data.name);
+        console.log("inside", props.updateLoggedIn);
+        props.updateLoggedIn(true);
+        props.getName(results.data.name);
       })
       .catch((err) => console.log(err));
   };
 
-  render() {
-    return (
-      <div className="login">
-        <div className="login_inner p-5">
-          <h1>Welcome Back</h1>
-
+  return (
+    <>
+      <Modal
+        show={true}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        onHide={handleClose}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Welcome Back
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           <input
             name="email"
-            onChange={this.handleInput}
-            value={this.state.email}
+            onChange={handleEmail}
+            value={email}
             className="form-control m-2"
             placeholder="Enter email"
           />
           <input
             type="password"
             name="password"
-            onChange={this.handleInput}
-            value={this.state.password}
+            onChange={handlePassword}
+            value={password}
             className="form-control m-2"
             placeholder="Enter password"
           />
-
-          <button className="btn btn-primary m-2" onClick={this.attemptLogin}>
+          <button className="btn btn-primary m-2" onClick={attemptLogin}>
             Login NOW
           </button>
           <div className="m-2">
@@ -70,14 +83,14 @@ export default class Login extends Component {
                 </Link>
               </span>
             </p>
-            <button className="btn" onClick={this.attemptLogin}>
-              <Link to="/" className="">
-                Close
-              </Link>
-            </button>
           </div>
-        </div>
-      </div>
-    );
-  }
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={handleClose}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
 }
+
+export default Login;

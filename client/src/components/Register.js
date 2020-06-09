@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import MultipleComponent from "./MultipleInput";
 
 class Register extends React.Component {
   constructor(props) {
@@ -34,53 +35,6 @@ class Register extends React.Component {
         languages: this.state.languages,
       },
     }).catch((err) => console.log(err));
-  }
-
-  handleInput = (e, index) => {
-    e.preventDefault();
-    const languages = [...this.state.languages];
-    languages[index] = e.target.value;
-    this.setState({
-      [e.target.name]: e.target.value,
-      languages: languages,
-    });
-  };
-
-  handleInputResorts = (e, index) => {
-    e.preventDefault();
-    const resorts = [...this.state.resorts];
-    resorts[index] = e.target.value;
-    this.setState({
-      [e.target.name]: e.target.value,
-      resorts,
-    });
-  };
-
-  addAnotherLanguage() {
-    this.setState({
-      languages: [...this.state.languages, ""],
-    });
-  }
-  addAnotherResort() {
-    this.setState({
-      resorts: [...this.state.resorts, ""],
-    });
-  }
-
-  handleRemove(index) {
-    const languages = [...this.state.languages];
-    languages.splice(index, 1);
-    this.setState({
-      languages: languages,
-    });
-  }
-
-  handleRemoveResort(index) {
-    const resorts = [...this.state.resorts];
-    resorts.splice(index, 1);
-    this.setState({
-      resorts: resorts,
-    });
   }
 
   render() {
@@ -241,80 +195,24 @@ class Register extends React.Component {
                 </div>
               </div>
             </div>
-
-            <div className="form-row">
-              <div className="form-group col-md-6">
-                <label>Resorts</label>
-              </div>
-            </div>
-            {this.state.resorts.map((resort, index) => {
-              return (
-                <div className="form-row" key={index}>
-                  <div className="form-group col-md-6">
-                    <input
-                      value={resort}
-                      className="form-control mb-2"
-                      onChange={(e) => this.handleInputResorts(e, index)}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => this.handleRemoveResort(index)}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-            <div className="form-row">
-              <div className="form-group col-md-12">
-                <button
-                  className="btn btn-primary"
-                  onClick={(e) => this.addAnotherResort(e)}
-                >
-                  Add more resorts
-                </button>
-              </div>
-            </div>
-            <div className="form-row">
-              <div className="form-group col-md-6">
-                <label>Languages</label>
-              </div>
-            </div>
-
-            {this.state.languages.map((language, index) => {
-              return (
-                <div className="form-row" key={index}>
-                  <div className="form-group col-md-6">
-                    <input
-                      value={language}
-                      className="form-control mb-2"
-                      onChange={(e) => this.handleInput(e, index)}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => this.handleRemove(index)}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-            <div className="form-row">
-              <div className="form-group col-md-12">
-                <button
-                  className="btn btn-primary"
-                  onClick={(e) => this.addAnotherLanguage(e)}
-                >
-                  Add more languages
-                </button>
-              </div>
-            </div>
+            <MultipleComponent
+              title="Resorts"
+              items={this.state.resorts}
+              onChange={(resorts) => {
+                this.setState({
+                  resorts,
+                });
+              }}
+            />
+            <MultipleComponent
+              title="Languages"
+              items={this.state.languages}
+              onChange={(languages) => {
+                this.setState({
+                  languages,
+                });
+              }}
+            />
             <div className="form-group">
               <div className="form-check">
                 <input
