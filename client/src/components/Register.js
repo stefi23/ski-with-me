@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import MultipleComponent from "./MultipleInput";
+import { Modal, Button } from "react-bootstrap";
 
 class Register extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class Register extends React.Component {
     axios("/users/register", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/jsoån",
       },
       data: {
         first_name: this.state.first_name,
@@ -39,10 +40,20 @@ class Register extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="register">
-          <div className="register_inner p-5">
-            <h2> Sign Up </h2>
+      <>
+        <Modal
+          show={true}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          // onHide={handleClose}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Sign up
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="px-4 py-5">
             <div className="form-row">
               <div className="form-group col-md-6">
                 <label>First Name</label>
@@ -65,7 +76,6 @@ class Register extends React.Component {
                 />
               </div>
             </div>
-
             <div className="form-row">
               <div className="form-group col-md-6">
                 <label>Email</label>
@@ -240,9 +250,18 @@ class Register extends React.Component {
                 Close
               </Link>
             </button>
-          </div>
-        </div>
-      </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+            // onClick={handleClose}
+            >
+              <Link to="/" className="">
+                Close
+              </Link>
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
     );
   }
 }
