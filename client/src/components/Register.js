@@ -38,6 +38,13 @@ class Register extends React.Component {
     }).catch((err) => console.log(err));
   }
 
+  handleInput = (e) => {
+    e.preventDefault();
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
   render() {
     return (
       <>
@@ -115,6 +122,7 @@ class Register extends React.Component {
                     name="sport"
                     id="inlineRadio1"
                     value="ski"
+                    checked={this.state.sport === "ski"}
                     onChange={this.handleInput}
                   />
                   <label className="form-check-label" for="inlineRadio1">
