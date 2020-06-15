@@ -70,7 +70,9 @@ function App() {
               <Login updateLoggedIn={updateLoggedIn} getName={getName} />
             )}
           </Route>
-          <Route path="/register" component={Register}></Route>
+          <Route path="/register">
+            {<Register updateLoggedIn={updateLoggedIn} />}
+          </Route>
           <Route path="/"></Route>
         </Switch>
       </div>

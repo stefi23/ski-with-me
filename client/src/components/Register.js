@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import MultipleComponent from "./MultipleInput";
 import { Modal, Button } from "react-bootstrap";
 
@@ -12,7 +12,7 @@ class Register extends React.Component {
       last_name: "",
       email: "",
       password: "",
-      sport: "",
+      sport: "ski",
       level: "",
       resorts: [""],
       languages: [""],
@@ -23,7 +23,7 @@ class Register extends React.Component {
     axios("/users/register", {
       method: "POST",
       headers: {
-        "Content-Type": "application/jsoån",
+        "Content-Type": "application/json",
       },
       data: {
         first_name: this.state.first_name,
@@ -35,11 +35,16 @@ class Register extends React.Component {
         resorts: this.state.resorts,
         languages: this.state.languages,
       },
-    }).catch((err) => console.log(err));
+    })
+      .then((results) => {
+        localStorage.setItem("skiBuddyToken", results.data.token);
+        this.props.updateLoggedIn(true);
+        this.props.history.push("/");
+      })
+      .catch((err) => console.log(err));
   }
 
   handleInput = (e) => {
-    e.preventDefault();
     this.setState({
       [e.target.name]: e.target.value,
     });
@@ -122,8 +127,8 @@ class Register extends React.Component {
                     name="sport"
                     id="inlineRadio1"
                     value="ski"
-                    checked={this.state.sport === "ski"}
                     onChange={this.handleInput}
+                    defaultChecked={this.state.sport === "ski"}
                   />
                   <label className="form-check-label" for="inlineRadio1">
                     ski
@@ -138,6 +143,7 @@ class Register extends React.Component {
                     id="inlineRadio2"
                     value="snowboard"
                     onChange={this.handleInput}
+                    defaultChecked={this.state.sport === "snowboard"}
                   />
                   <label className="form-check-label" for="inlineRadio2">
                     snowboard
@@ -150,6 +156,7 @@ class Register extends React.Component {
                     name="sport"
                     id="inlineRadio3"
                     value="both"
+                    defaultChecked={this.state.sport === "both"}
                     onChange={this.handleInput}
                   />
                   <label className="form-check-label" for="inlineRadio3">
@@ -273,4 +280,4 @@ class Register extends React.Component {
     );
   }
 }
-export default Register;
+export default withRouter(Register);

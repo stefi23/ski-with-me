@@ -26,12 +26,13 @@ router.post("/login", async (req, res, next) => {
     const name = result.data[0].first_name;
 
     if (result.data[0] && result.data[0].id) {
-      const token = jwt.sign(
-        {
-          user_id: result.data[0].id,
-        },
-        supersecret
-      );
+      const token = await getToken(result.data[0].id);
+      // const token = jwt.sign(
+      //   {
+      //     user_id: result.data[0].id,
+      //   },
+      //   supersecret
+      // );
       res.status(200).send({
         messsage: "Login successful",
         name,
@@ -93,7 +94,7 @@ router.post("/register", async (req, res, next) => {
       resorts,
       languages,
     } = req.body;
-
+    let token;
     try {
       const result = await isUserRegistered(email);
       if (!result) {
@@ -108,6 +109,18 @@ router.post("/register", async (req, res, next) => {
     let user = await db(
       `INSERT INTO users (first_name, last_name, email, sport, level, password ) VALUES ("${first_name}", "${last_name}", "${email}", "${sport}", "${level}", "${hashedPassword}");`
     );
+
+    let userData = await db(
+      `SELECT id from users WHERE email = ? AND password = ?;`,
+      [email, hashedPassword]
+    );
+    console.log("userData:", userData, "data: ", userData.data[0].id);
+    //userData: { data: [ RowDataPacket { id: 18 } ], error: null }
+    if (userData.data[0] && userData.data[0].id) {
+      token = await getToken(userData.data[0].id);
+    }
+    console.log(token);
+
     resorts.forEach(async (resort) => {
       try {
         await insertIntoDatabase(
@@ -137,7 +150,7 @@ router.post("/register", async (req, res, next) => {
     });
 
     if (user.data && user.data.length) {
-      res.status(200).send({ message: "user was added" });
+      res.status(200).send({ message: "user was added", token });
     }
   } catch (err) {
     res.status(404).send({ message: "user not valid" });
@@ -215,6 +228,16 @@ const isUserRegistered = async (email) => {
   } else {
     return false;
   }
+};
+
+const getToken = async (user_id) => {
+  const token = jwt.sign(
+    {
+      user_id: user_id,
+    },
+    supersecret
+  );
+  return token;
 };
 
 const cryptoPassword = (password, email) => {
