@@ -1,93 +1,64 @@
-import React, {useState} from "react";
+import React from "react";
 import axios from "axios";
-import { Link, withRouter, useHistory,  } from "react-router-dom";
+import { Link, withRouter, useHistory } from "react-router-dom";
 import MultipleComponent from "./MultipleInput";
 import { Modal, Button } from "react-bootstrap";
 
 //Going to make this into a functional component xD
 
-function Register(props) {
-  const [firstName, setFirstName ] = useState("");
-  const [lastName, setLastName ] = useState("");
-  const [email, setEmail ] = useState("");
-  const [password, setPassword ] = useState("");
-  const [sport, setSport ] = useState("");
-  const [level, setLevel ] = useState("");
-  const [resorts, setResorts ] = useState([""]);
-  const [languages, setLanguages ] = useState([""]);
-
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     first_name: "",
-  //     last_name: "",
-  //     email: "",
-  //     password: "",
-  //     sport: "ski",
-  //     level: "",
-  //     resorts: [""],
-  //     languages: [""],
-  //   };
+class CopyRegister extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      first_name: "",
+      last_name: "",
+      email: "",
+      password: "",
+      sport: "ski",
+      level: "",
+      resorts: [""],
+      languages: [""],
+    };
     
-  // }
+  }
 
-  const handleFirstName = (e) => {
-    setFirstName(e.target.value);
-  };
 
-  const handleLastName = (e) => {
-    setLastName(e.target.value);
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleSport = (e) => {
-    setSport(e.target.value);
-  };
-
-  const handleLevel = (e) => {
-    setLevel(e.target.value);
-  };
   
 
-  const addUser = () => {
+  addUser() {
     axios("/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       data: {
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
-        password: password,
-        sport: sport,
-        level: level,
-        resorts: resorts,
-        languages: languages,
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
+        email: this.state.email,
+        password: this.state.password,
+        sport: this.state.sport,
+        level: this.state.level,
+        resorts: this.state.resorts,
+        languages: this.state.languages,
       },
     })
       .then((results) => {
         localStorage.setItem("skiBuddyToken", results.data.token);
-        props.updateLoggedIn(true);
-        props.history.push("/");
+        this.props.updateLoggedIn(true);
+        this.props.history.push("/");
       })
       .catch((err) => console.log(err));
   }
 
-  //to fix
-  const handleInput = (e) => {
+  handleInput = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
 
+  render() {
+
+      
 
     return (
       <>
@@ -96,7 +67,7 @@ function Register(props) {
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          // onHide={handleClose}
+          onHide={this.handleClose}
         >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
@@ -110,9 +81,9 @@ function Register(props) {
                 <input
                   type="text"
                   className="form-control"
-                  name="firstName"
-                  value={firstName}
-                  onChange={handleFirstName}
+                  name="first_name"
+                  value={this.state.firstName}
+                  onChange={this.handleInput}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -120,9 +91,9 @@ function Register(props) {
                 <input
                   type="text"
                   className="form-control"
-                  name="lastName"
-                  value={lastName}
-                  onChange={handleLastName}
+                  name="last_name"
+                  value={this.state.lastName}
+                  onChange={this.handleInput}
                 />
               </div>
             </div>
@@ -132,8 +103,8 @@ function Register(props) {
 
                 <input
                   name="email"
-                  onChange={handleEmail}
-                  value={email}
+                  onChange={this.handleInput}
+                  value={this.state.email}
                   className="form-control"
                 />
               </div>
@@ -142,8 +113,8 @@ function Register(props) {
                 <input
                   type="password"
                   name="password"
-                  onChange={handlePassword}
-                  value={password}
+                  onChange={this.handleInput}
+                  value={this.state.password}
                   className="form-control"
                 />
               </div>
@@ -165,8 +136,8 @@ function Register(props) {
                     name="sport"
                     id="inlineRadio1"
                     value="ski"
-                    onChange={handleSport}
-                    defaultChecked={sport === "ski"}
+                    onChange={this.handleInput}
+                    defaultChecked={this.state.sport === "ski"}
                   />
                   <label className="form-check-label" for="inlineRadio1">
                     ski
@@ -180,8 +151,8 @@ function Register(props) {
                     name="sport"
                     id="inlineRadio2"
                     value="snowboard"
-                    onChange={handleSport}
-                    defaultChecked={sport === "snowboard"}
+                    onChange={this.handleInput}
+                    defaultChecked={this.state.sport === "snowboard"}
                   />
                   <label className="form-check-label" for="inlineRadio2">
                     snowboard
@@ -194,8 +165,8 @@ function Register(props) {
                     name="sport"
                     id="inlineRadio3"
                     value="both"
-                    defaultChecked={sport === "both"}
-                    onChange={handleSport}
+                    defaultChecked={this.state.sport === "both"}
+                    onChange={this.handleInput}
                   />
                   <label className="form-check-label" for="inlineRadio3">
                     both
@@ -211,7 +182,7 @@ function Register(props) {
                     name="level"
                     id="inlineRadio1"
                     value="beginner"
-                    onChange={handleLevel}
+                    onChange={this.handleInput}
                   />
                   <label className="form-check-label" for="inlineRadio1">
                     beginner
@@ -224,7 +195,7 @@ function Register(props) {
                     name="level"
                     id="inlineRadio1"
                     value="medium"
-                    onChange={handleLevel}
+                    onChange={this.handleInput}
                   />
                   <label className="form-check-label" for="inlineRadio1">
                     medium
@@ -237,7 +208,7 @@ function Register(props) {
                     name="level"
                     id="inlineRadio2"
                     value="advanced"
-                    onChange={handleLevel}
+                    onChange={this.handleInput}
                   />
                   <label className="form-check-label" for="inlineRadio2">
                     advanced
@@ -250,7 +221,7 @@ function Register(props) {
                     name="level"
                     id="inlineRadio3"
                     value="pro"
-                    onChange={handleLevel}
+                    onChange={this.handleInput}
                   />
                   <label className="form-check-label" for="inlineRadio3">
                     pro
@@ -260,20 +231,20 @@ function Register(props) {
             </div>
             <MultipleComponent
               title="Resorts"
-              items={resorts}
+              items={this.state.resorts}
               onChange={(resorts) => {
-                setResorts(
+                this.setState({
                   resorts,
-                );
+                });
               }}
             />
             <MultipleComponent
               title="Languages"
-              items={languages}
+              items={this.state.languages}
               onChange={(languages) => {
-                setLanguages(
+                this.setState({
                   languages,
-                );
+                });
               }}
             />
             <div className="form-group">
@@ -291,17 +262,16 @@ function Register(props) {
             <button
               type="submit"
               className="btn btn-primary"
-              onClick={() => addUser()}
+              onClick={() => this.addUser()}
               // onSubmit={() => {
               //   if (window.confirm("Register was succesful!"));
               // }}
             >
               Submit
             </button>
-            <button className="btn" 
-            >
+            <button className="btn" onClick={this.attemptLogin}>
               <Link to="/" className="">
-                Back to homepage
+                Close
               </Link>
             </button>
           </Modal.Body>
@@ -319,6 +289,6 @@ function Register(props) {
       </>
     );
   }
-
-export default withRouter(Register);
+}
+export default withRouter(CopyRegister);
 

@@ -29,7 +29,7 @@ function App() {
         updateLoggedIn(true);
       })
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   return (
     <Router>
