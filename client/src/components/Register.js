@@ -1,10 +1,9 @@
 import React, {useState} from "react";
 import axios from "axios";
-import { Link, withRouter, useHistory,  } from "react-router-dom";
+import { Link, withRouter, useHistory } from "react-router-dom";
 import MultipleComponent from "./MultipleInput";
 import { Modal, Button } from "react-bootstrap";
 
-//Going to make this into a functional component xD
 
 function Register(props) {
   const [firstName, setFirstName ] = useState("");
@@ -16,20 +15,7 @@ function Register(props) {
   const [resorts, setResorts ] = useState([""]);
   const [languages, setLanguages ] = useState([""]);
 
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     first_name: "",
-  //     last_name: "",
-  //     email: "",
-  //     password: "",
-  //     sport: "ski",
-  //     level: "",
-  //     resorts: [""],
-  //     languages: [""],
-  //   };
-    
-  // }
+  const history = useHistory();
 
   const handleFirstName = (e) => {
     setFirstName(e.target.value);
@@ -55,6 +41,9 @@ function Register(props) {
     setLevel(e.target.value);
   };
   
+  const handleClose = () => {
+    history.push("/");
+  };
 
   const addUser = () => {
     axios("/users/register", {
@@ -81,13 +70,6 @@ function Register(props) {
       .catch((err) => console.log(err));
   }
 
-  //to fix
-  const handleInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
 
     return (
       <>
@@ -96,7 +78,7 @@ function Register(props) {
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          // onHide={handleClose}
+          onHide={handleClose}
         >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
@@ -307,11 +289,9 @@ function Register(props) {
           </Modal.Body>
           <Modal.Footer>
             <Button
-            // onClick={handleClose}
+            onClick={handleClose}
             >
-              <Link to="/" className="">
-                Close
-              </Link>
+              Close
             </Button>
             
           </Modal.Footer>
