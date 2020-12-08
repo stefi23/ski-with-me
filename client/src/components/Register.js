@@ -2,11 +2,23 @@ import React, {useState} from "react";
 import axios from "axios";
 import { Link, withRouter, useHistory } from "react-router-dom";
 import MultipleComponent from "./MultipleInput";
+import InputBox from "./InputBox"
 import { Modal, Button } from "react-bootstrap";
+
+
+const useInput = () => {
+  const [value, setValue] = useState("")
+  function handleInputChange(event){
+    setValue(event.target.value)
+  }
+  return [value, handleInputChange]
+}
 
 
 function Register(props) {
   const [firstName, setFirstName ] = useState("");
+  const [firstName2, handleFirstName2Change ] = useInput()
+
   const [lastName, setLastName ] = useState("");
   const [email, setEmail ] = useState("");
   const [password, setPassword ] = useState("");
@@ -96,7 +108,12 @@ function Register(props) {
                   value={firstName}
                   onChange={handleFirstName}
                 />
-              </div>
+                {/* <InputBox
+                  title="First name"
+                  value={firstName}
+                  onChange={handleFirstNameChange}
+                />*/}
+              </div> 
               <div className="form-group col-md-6">
                 <label>Last Name</label>
                 <input
@@ -107,7 +124,26 @@ function Register(props) {
                   onChange={handleLastName}
                 />
               </div>
+               <div className="form-group col-md-6">
+                <label>First Name 2</label>
+                {/* test custom hook*/}
+                <input
+                  type="text"
+                  className="form-control"
+                  name="lastName"
+                  value={firstName2}
+                  onChange={handleFirstName2Change}
+                />
+              </div>
+              <h1>{firstName2}</h1>
+              {/* test end */}
             </div>
+            {/* to check Input Box component !!*/}
+                 <InputBox
+              title="First name 3"
+              items={firstName2}
+              onChange={handleFirstName2Change}
+            />
             <div className="form-row">
               <div className="form-group col-md-6">
                 <label>Email</label>
@@ -237,6 +273,7 @@ function Register(props) {
                   <label className="form-check-label" for="inlineRadio3">
                     pro
                   </label>
+                  
                 </div>
               </div>
             </div>
