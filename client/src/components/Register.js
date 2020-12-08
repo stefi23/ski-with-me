@@ -74,58 +74,37 @@ function Register(props) {
           <Modal.Body className="px-4 py-5">
             <div className="form-row">
               <div className="form-group col-md-6">
-                <label>First Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="firstName"
+                <InputBox
+                  label="First name"
                   value={firstName}
                   onChange={handleFirstNameChange}
                 />
-                {/* <InputBox
-                  title="First name"
-                  value={firstName}
-                  onChange={handleFirstNameChange}
-                />*/}
               </div> 
               <div className="form-group col-md-6">
-                <label>Last Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="lastName"
+                <InputBox
+                  label="Last name"
                   value={lastName}
                   onChange={handleLastNameChange}
                 />
               </div>
             </div>
-            {/* to check Input Box component !!*/}
-                 {/* <InputBox
-              title="First name"
-              items={firstName}
-              onChange={handleFirstNameChange}
-            /> */}
             <div className="form-row">
               <div className="form-group col-md-6">
-                <label>Email</label>
-
-                <input
-                  name="email"
-                  onChange={handleEmailChange}
+                 <InputBox
+                  label="Email"
                   value={email}
-                  className="form-control"
+                  onChange={handleEmailChange}
                 />
+              
               </div>
               <div className="form-group col-md-6">
-                <label>Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  onChange={handlePasswordChange}
+                <InputBox
+                  label="Password"
                   value={password}
-                  className="form-control"
+                  onChange={handlePasswordChange}
                 />
               </div>
+            
             </div>
             <div className="form-row">
               <div className="form-group col-md-6 mb-0">

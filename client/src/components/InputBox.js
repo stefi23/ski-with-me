@@ -1,8 +1,8 @@
 import React from "react";
 
-function InputBox({title,value,onChange}){
+function InputBox({label,value,onChange}){
     return(
-    <> <label>{title}</label>
+    <> <label>{label}</label>
             <input
                   type="text"
                   className="form-control"
@@ -11,7 +11,12 @@ function InputBox({title,value,onChange}){
                   onChange={onChange}
                 />
         </>
+
+       
     )
 }
 
+
 export default InputBox;
+
+
