@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useDebugValue} from "react";
 import axios from "axios";
 import { Link, withRouter, useHistory } from "react-router-dom";
 import MultipleComponent from "./MultipleInput";
@@ -6,17 +6,13 @@ import { Modal, Button } from "react-bootstrap";
 import InputBox from "./InputBox"
 import RadioBox from "./RadioBox"
 
-const useInput = (initialValue = "") => {
-  const [value, setValue] = useState(initialValue)
-  useEffect(() => {
-   setValue(initialValue);
-  }, []);
+const useInput = (input) => {
+  const [value, setValue] = useState(input)
   function handleInputChange(event){
     setValue(event.target.value)
   }
   return [value, handleInputChange]
 }
-
 
 
 function Register(props) {
@@ -100,8 +96,7 @@ function Register(props) {
                   label="Email"
                   value={email}
                   onChange={handleEmailChange}
-                />
-              
+                /> 
               </div>
               <div className="form-group col-md-6">
                 <InputBox
@@ -109,8 +104,7 @@ function Register(props) {
                   value={password}
                   onChange={handlePasswordChange}
                 />
-              </div>
-            
+              </div>    
             </div>
             <div className="form-row">
               <div className="form-group col-md-6 mb-0">
@@ -119,167 +113,76 @@ function Register(props) {
               <div className="form-group col-md-6 mb-0">
                 <label>Level</label>
               </div>
-
             </div>
-            {`sport: ${sport}`}
             <div className="form-row">
               <div className="form-group col-md-6">
                 <div className="form-check form-check-inline">
-                  {/* Test Radio Box
-                  RadioBox */}
                   <RadioBox
-                    label="ski"
                     name="sport"
+                    label="ski"
                     value="ski"
                     onChange={handleSportChange} 
                     defaultChecked={sport === "ski"}
                     id="sport-ski"
                     />
-                  {/* <input
-                    className="form-check-input"
-                    type="radio"
-                    name="sport"
-                    id="inlineRadio1"
-                    value="ski"
-                    onChange={handleSportChange}
-                    defaultChecked={sport === "ski"}
-                  />
-                  <label className="form-check-label" for="inlineRadio1">
-                    ski
-                  </label> */}
                 </div>
-
                 <div className="form-check form-check-inline">
                   <RadioBox
+                    name="sport"
                     label="snowboard"
                     value="snowboard"
-                    name="sport"
                     onChange={handleSportChange}
                     defaultChecked={sport === "snowboard"}
                     id="sport-snowboad"
                      />
-                  {/* <input
-                    className="form-check-input"
-                    type="radio"
-                    name="sport"
-                    id="inlineRadio2"
-                    value="snowboard"
-                    onChange={handleSportChange}
-                    defaultChecked={sport === "snowboard"}
-                  />
-                  <label className="form-check-label" for="inlineRadio2">
-                    snowboard
-                  </label> */}
                 </div>
                 <div className="form-check form-check-inline">
                   <RadioBox
+                   name="sport"
                     label="both"
                     value="both"
-                    name="sport"
                     onChange={handleSportChange}
                     defaultChecked={sport === "both"}
                     id="sport-both" />
-                  {/* <input
-                    className="form-check-input"
-                    type="radio"
-                    name="sport"
-                    id="inlineRadio3"
-                    value="both"
-                    defaultChecked={sport === "both"}
-                    onChange={handleSportChange}
-                  />
-                  <label className="form-check-label" for="inlineRadio3">
-                    both
-                  </label> */}
                 </div>
               </div>
-                {`level: ${level}`}
               <div className="form-group col-md-6">
                 <div className="form-check form-check-inline">
                   <RadioBox
+                    name="level"
                     label="beginner"
                     value="beginner"
-                    name="level"
                     onChange={handleLevelChange}
                     defaultChecked={level === "beginner"} 
                     id="level-beginner"
                     />
-                  {/* <input
-                    className="form-check-input"
-                    type="radio"
-                    name="level"
-                    id="inlineRadio1"
-                    value="beginner"
-                    defaultChecked={level === "beginner"}
-                    onChange={handleLevelChange}
-                  />
-                  <label className="form-check-label" for="inlineRadio1">
-                    beginner
-                  </label> */}
                 </div>
                 <div className="form-check form-check-inline">
                    <RadioBox
+                    name="level"
                     label="medium"
                     value="medium"
-                    name="level"
                     onChange={handleLevelChange}
                     defaultChecked={level === "medium"} 
                     id="level-medium"/>
-                  {/* <input
-                    className="form-check-input"
-                    type="radio"
-                    name="level"
-                    id="inlineRadio1"
-                    value="medium"
-                    defaultChecked={level === "medium"}
-                    onChange={handleLevelChange}
-                  />
-                  <label className="form-check-label" for="inlineRadio1">
-                    medium
-                  </label> */}
                 </div>
                 <div className="form-check form-check-inline">
                   <RadioBox
+                    name="level"
                     label="advanced"
                     value="advanced"
-                    name="level"
                     onChange={handleLevelChange}
                     defaultChecked={level === "advanced"}
                     id="level-advanced" />
-                  {/* <input
-                    className="form-check-input"
-                    type="radio"
-                    name="level"
-                    id="inlineRadio2"
-                    value="advanced"
-                    defaultChecked={level === "advanced"}
-                    onChange={handleLevelChange}
-                  />
-                  <label className="form-check-label" for="inlineRadio2">
-                    advanced
-                  </label> */}
                 </div>
                 <div className="form-check form-check-inline">
                   <RadioBox
+                    name="level"
                     label="pro"
                     value="pro"
-                    name="level"
                     onChange={handleLevelChange}
                     defaultChecked={level === "pro"}
                     id="level-pro" />
-                  {/* <input
-                    className="form-check-input"
-                    type="radio"
-                    name="level"
-                    id="inlineRadio3"
-                    value="pro"
-                    onChange={handleLevelChange}
-                    defaultChecked={level === "pro"}
-                  />
-                  <label className="form-check-label" for="inlineRadio3">
-                    pro
-                  </label> */}
-                  
                 </div>
               </div>
             </div>

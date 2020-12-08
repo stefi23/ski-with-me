@@ -16,8 +16,6 @@ function RadioBox({label,value,onChange, defaultChecked, id, name}){
         <label className="form-check-label" for={id}>
             {label}
         </label>
-
-        
         </>
 
        
