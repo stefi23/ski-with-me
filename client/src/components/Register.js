@@ -1,13 +1,16 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import axios from "axios";
 import { Link, withRouter, useHistory } from "react-router-dom";
 import MultipleComponent from "./MultipleInput";
-import InputBox from "./InputBox"
 import { Modal, Button } from "react-bootstrap";
+import InputBox from "./InputBox"
+import RadioBox from "./RadioBox"
 
-
-const useInput = () => {
-  const [value, setValue] = useState("")
+const useInput = (initialValue = "") => {
+  const [value, setValue] = useState(initialValue)
+  useEffect(() => {
+   setValue(initialValue);
+  },[]);
   function handleInputChange(event){
     setValue(event.target.value)
   }
@@ -15,17 +18,20 @@ const useInput = () => {
 }
 
 
+
 function Register(props) {
   const [firstName, handleFirstNameChange ] = useInput()
   const [lastName, handleLastNameChange ] = useInput("");
   const [email, handleEmailChange ] = useInput("");
   const [password, handlePasswordChange ] = useInput("");
-  const [sport, handleSportChange ] = useInput("");
-  const [level, handleLevelChange ] = useInput("");
+  const [sport, handleSportChange ] = useInput("ski");
+  const [level, handleLevelChange ] = useInput("medium");
   const [resorts, setResorts ] = useState([""]);
   const [languages, setLanguages ] = useState([""]);
 
   const history = useHistory();
+
+  
   
   const handleClose = () => {
     history.push("/");
@@ -113,10 +119,15 @@ function Register(props) {
               <div className="form-group col-md-6 mb-0">
                 <label>Level</label>
               </div>
+
             </div>
+            {`sport: ${sport}`}
             <div className="form-row">
               <div className="form-group col-md-6">
                 <div className="form-check form-check-inline">
+                  {/* Test Radio Box
+                  RadioBox */}
+                  {/* <RadioBox /> */}
                   <input
                     className="form-check-input"
                     type="radio"
@@ -169,6 +180,7 @@ function Register(props) {
                     name="level"
                     id="inlineRadio1"
                     value="beginner"
+                    defaultChecked={level === "beginner"}
                     onChange={handleLevelChange}
                   />
                   <label className="form-check-label" for="inlineRadio1">
@@ -182,6 +194,7 @@ function Register(props) {
                     name="level"
                     id="inlineRadio1"
                     value="medium"
+                    defaultChecked={level === "medium"}
                     onChange={handleLevelChange}
                   />
                   <label className="form-check-label" for="inlineRadio1">
@@ -195,6 +208,7 @@ function Register(props) {
                     name="level"
                     id="inlineRadio2"
                     value="advanced"
+                    defaultChecked={level === "advanced"}
                     onChange={handleLevelChange}
                   />
                   <label className="form-check-label" for="inlineRadio2">
@@ -209,6 +223,7 @@ function Register(props) {
                     id="inlineRadio3"
                     value="pro"
                     onChange={handleLevelChange}
+                    defaultChecked={level === "pro"}
                   />
                   <label className="form-check-label" for="inlineRadio3">
                     pro
