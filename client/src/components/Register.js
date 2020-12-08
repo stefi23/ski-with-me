@@ -10,7 +10,7 @@ const useInput = (initialValue = "") => {
   const [value, setValue] = useState(initialValue)
   useEffect(() => {
    setValue(initialValue);
-  },[]);
+  }, []);
   function handleInputChange(event){
     setValue(event.target.value)
   }
@@ -127,8 +127,15 @@ function Register(props) {
                 <div className="form-check form-check-inline">
                   {/* Test Radio Box
                   RadioBox */}
-                  {/* <RadioBox /> */}
-                  <input
+                  <RadioBox
+                    label="ski"
+                    name="sport"
+                    value="ski"
+                    onChange={handleSportChange} 
+                    defaultChecked={sport === "ski"}
+                    id="sport-ski"
+                    />
+                  {/* <input
                     className="form-check-input"
                     type="radio"
                     name="sport"
@@ -139,11 +146,19 @@ function Register(props) {
                   />
                   <label className="form-check-label" for="inlineRadio1">
                     ski
-                  </label>
+                  </label> */}
                 </div>
 
                 <div className="form-check form-check-inline">
-                  <input
+                  <RadioBox
+                    label="snowboard"
+                    value="snowboard"
+                    name="sport"
+                    onChange={handleSportChange}
+                    defaultChecked={sport === "snowboard"}
+                    id="sport-snowboad"
+                     />
+                  {/* <input
                     className="form-check-input"
                     type="radio"
                     name="sport"
@@ -154,10 +169,17 @@ function Register(props) {
                   />
                   <label className="form-check-label" for="inlineRadio2">
                     snowboard
-                  </label>
+                  </label> */}
                 </div>
                 <div className="form-check form-check-inline">
-                  <input
+                  <RadioBox
+                    label="both"
+                    value="both"
+                    name="sport"
+                    onChange={handleSportChange}
+                    defaultChecked={sport === "both"}
+                    id="sport-both" />
+                  {/* <input
                     className="form-check-input"
                     type="radio"
                     name="sport"
@@ -168,13 +190,21 @@ function Register(props) {
                   />
                   <label className="form-check-label" for="inlineRadio3">
                     both
-                  </label>
+                  </label> */}
                 </div>
               </div>
-
+                {`level: ${level}`}
               <div className="form-group col-md-6">
                 <div className="form-check form-check-inline">
-                  <input
+                  <RadioBox
+                    label="beginner"
+                    value="beginner"
+                    name="level"
+                    onChange={handleLevelChange}
+                    defaultChecked={level === "beginner"} 
+                    id="level-beginner"
+                    />
+                  {/* <input
                     className="form-check-input"
                     type="radio"
                     name="level"
@@ -185,10 +215,17 @@ function Register(props) {
                   />
                   <label className="form-check-label" for="inlineRadio1">
                     beginner
-                  </label>
+                  </label> */}
                 </div>
                 <div className="form-check form-check-inline">
-                  <input
+                   <RadioBox
+                    label="medium"
+                    value="medium"
+                    name="level"
+                    onChange={handleLevelChange}
+                    defaultChecked={level === "medium"} 
+                    id="level-medium"/>
+                  {/* <input
                     className="form-check-input"
                     type="radio"
                     name="level"
@@ -199,10 +236,17 @@ function Register(props) {
                   />
                   <label className="form-check-label" for="inlineRadio1">
                     medium
-                  </label>
+                  </label> */}
                 </div>
                 <div className="form-check form-check-inline">
-                  <input
+                  <RadioBox
+                    label="advanced"
+                    value="advanced"
+                    name="level"
+                    onChange={handleLevelChange}
+                    defaultChecked={level === "advanced"}
+                    id="level-advanced" />
+                  {/* <input
                     className="form-check-input"
                     type="radio"
                     name="level"
@@ -213,10 +257,17 @@ function Register(props) {
                   />
                   <label className="form-check-label" for="inlineRadio2">
                     advanced
-                  </label>
+                  </label> */}
                 </div>
                 <div className="form-check form-check-inline">
-                  <input
+                  <RadioBox
+                    label="pro"
+                    value="pro"
+                    name="level"
+                    onChange={handleLevelChange}
+                    defaultChecked={level === "pro"}
+                    id="level-pro" />
+                  {/* <input
                     className="form-check-input"
                     type="radio"
                     name="level"
@@ -227,7 +278,7 @@ function Register(props) {
                   />
                   <label className="form-check-label" for="inlineRadio3">
                     pro
-                  </label>
+                  </label> */}
                   
                 </div>
               </div>

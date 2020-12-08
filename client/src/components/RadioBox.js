@@ -1,22 +1,23 @@
 import React from "react";
 
-function RadioBox({label,value,onChange}){
+function RadioBox({label,value,onChange, defaultChecked, id, name}){
     return(
     <> 
-        <label 
-            className="form-check-label" 
-            for="inlineRadio1">{label}
+         <input
+            className="form-check-input"
+            type="radio"
+            name={name}
+            id="inlineRadio1"
+            value={value}
+            onChange={onChange}
+            defaultChecked={defaultChecked}
+            id={id}
+        />
+        <label className="form-check-label" for={id}>
+            {label}
         </label>
-            <input
-                className="form-check-input"
-                type="radio"
-                name="sport"
-                id="inlineRadio1"
-                value="ski"
-                // onChange={handleSportChange}
-                // defaultChecked={sport === "ski"}
-                  />
-                  
+
+        
         </>
 
        
