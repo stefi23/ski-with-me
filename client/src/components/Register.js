@@ -16,42 +16,16 @@ const useInput = () => {
 
 
 function Register(props) {
-  const [firstName, setFirstName ] = useState("");
-  const [firstName2, handleFirstName2Change ] = useInput()
-
-  const [lastName, setLastName ] = useState("");
-  const [email, setEmail ] = useState("");
-  const [password, setPassword ] = useState("");
-  const [sport, setSport ] = useState("");
-  const [level, setLevel ] = useState("");
+  const [firstName, handleFirstNameChange ] = useInput()
+  const [lastName, handleLastNameChange ] = useInput("");
+  const [email, handleEmailChange ] = useInput("");
+  const [password, handlePasswordChange ] = useInput("");
+  const [sport, handleSportChange ] = useInput("");
+  const [level, handleLevelChange ] = useInput("");
   const [resorts, setResorts ] = useState([""]);
   const [languages, setLanguages ] = useState([""]);
 
   const history = useHistory();
-
-  const handleFirstName = (e) => {
-    setFirstName(e.target.value);
-  };
-
-  const handleLastName = (e) => {
-    setLastName(e.target.value);
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleSport = (e) => {
-    setSport(e.target.value);
-  };
-
-  const handleLevel = (e) => {
-    setLevel(e.target.value);
-  };
   
   const handleClose = () => {
     history.push("/");
@@ -106,7 +80,7 @@ function Register(props) {
                   className="form-control"
                   name="firstName"
                   value={firstName}
-                  onChange={handleFirstName}
+                  onChange={handleFirstNameChange}
                 />
                 {/* <InputBox
                   title="First name"
@@ -121,36 +95,23 @@ function Register(props) {
                   className="form-control"
                   name="lastName"
                   value={lastName}
-                  onChange={handleLastName}
+                  onChange={handleLastNameChange}
                 />
               </div>
-               <div className="form-group col-md-6">
-                <label>First Name 2</label>
-                {/* test custom hook*/}
-                <input
-                  type="text"
-                  className="form-control"
-                  name="lastName"
-                  value={firstName2}
-                  onChange={handleFirstName2Change}
-                />
-              </div>
-              <h1>{firstName2}</h1>
-              {/* test end */}
             </div>
             {/* to check Input Box component !!*/}
-                 <InputBox
-              title="First name 3"
-              items={firstName2}
-              onChange={handleFirstName2Change}
-            />
+                 {/* <InputBox
+              title="First name"
+              items={firstName}
+              onChange={handleFirstNameChange}
+            /> */}
             <div className="form-row">
               <div className="form-group col-md-6">
                 <label>Email</label>
 
                 <input
                   name="email"
-                  onChange={handleEmail}
+                  onChange={handleEmailChange}
                   value={email}
                   className="form-control"
                 />
@@ -160,7 +121,7 @@ function Register(props) {
                 <input
                   type="password"
                   name="password"
-                  onChange={handlePassword}
+                  onChange={handlePasswordChange}
                   value={password}
                   className="form-control"
                 />
@@ -183,7 +144,7 @@ function Register(props) {
                     name="sport"
                     id="inlineRadio1"
                     value="ski"
-                    onChange={handleSport}
+                    onChange={handleSportChange}
                     defaultChecked={sport === "ski"}
                   />
                   <label className="form-check-label" for="inlineRadio1">
@@ -198,7 +159,7 @@ function Register(props) {
                     name="sport"
                     id="inlineRadio2"
                     value="snowboard"
-                    onChange={handleSport}
+                    onChange={handleSportChange}
                     defaultChecked={sport === "snowboard"}
                   />
                   <label className="form-check-label" for="inlineRadio2">
@@ -213,7 +174,7 @@ function Register(props) {
                     id="inlineRadio3"
                     value="both"
                     defaultChecked={sport === "both"}
-                    onChange={handleSport}
+                    onChange={handleSportChange}
                   />
                   <label className="form-check-label" for="inlineRadio3">
                     both
@@ -229,7 +190,7 @@ function Register(props) {
                     name="level"
                     id="inlineRadio1"
                     value="beginner"
-                    onChange={handleLevel}
+                    onChange={handleLevelChange}
                   />
                   <label className="form-check-label" for="inlineRadio1">
                     beginner
@@ -242,7 +203,7 @@ function Register(props) {
                     name="level"
                     id="inlineRadio1"
                     value="medium"
-                    onChange={handleLevel}
+                    onChange={handleLevelChange}
                   />
                   <label className="form-check-label" for="inlineRadio1">
                     medium
@@ -255,7 +216,7 @@ function Register(props) {
                     name="level"
                     id="inlineRadio2"
                     value="advanced"
-                    onChange={handleLevel}
+                    onChange={handleLevelChange}
                   />
                   <label className="form-check-label" for="inlineRadio2">
                     advanced
@@ -268,7 +229,7 @@ function Register(props) {
                     name="level"
                     id="inlineRadio3"
                     value="pro"
-                    onChange={handleLevel}
+                    onChange={handleLevelChange}
                   />
                   <label className="form-check-label" for="inlineRadio3">
                     pro
