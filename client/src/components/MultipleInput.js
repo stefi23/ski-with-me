@@ -1,6 +1,6 @@
 import React from "react";
 
-function MultipleComponent({ title, items, onChange }) {
+function MultipleComponent({ title, items, onAdd, onRemove, onEdit }) {
   return (
     <div>
       <div className="form-row">
@@ -15,33 +15,14 @@ function MultipleComponent({ title, items, onChange }) {
               <input
                 value={item}
                 className="form-control mb-2"
-                onChange={(e) =>
-                  onChange(
-                    items.map((item, indexToMatch) => {
-                      if (index === indexToMatch) {
-                        return e.target.value;
-                      }
-                      return item;
-                    })
-                  )
-                }
+                onChange={(e) => onEdit(e.target.value,index)}
               />
             </div>
             <div className="form-group col-md-6">
               {items.length < 2 ? null : (
                 <button
                   className="btn btn-primary"
-                  onClick={() => {
-                    onChange(
-                      items.filter((item, indexToMatch) => {
-                        if (index === indexToMatch) {
-                          return false;
-                        } else {
-                          return true;
-                        }
-                      })
-                    );
-                  }}
+                  onClick={() => {onRemove(index)}}
                 >
                   Remove
                 </button>
@@ -55,7 +36,7 @@ function MultipleComponent({ title, items, onChange }) {
         <div className="form-group col-md-12">
           <button
             className="btn btn-primary"
-            onClick={() => onChange([...items, ""])}
+            onClick={() => onAdd("")}
           >
             Add more resorts
           </button>

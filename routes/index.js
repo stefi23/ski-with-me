@@ -20,6 +20,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+//All users from a specific resort
 router.get("/resort/:resort", async (req, res) => {
   const resort = req.params.resort;
   try {
@@ -38,6 +39,7 @@ router.get("/resort/:resort", async (req, res) => {
   }
 });
 
+//All users with a specific level
 router.get("/level/:level", async (req, res) => {
   const level = req.params.level;
   try {
@@ -56,6 +58,7 @@ router.get("/level/:level", async (req, res) => {
   }
 });
 
+//All users doing a specific sport
 router.get("/sport/:sport", async (req, res) => {
   const sport = req.params.sport;
   try {
