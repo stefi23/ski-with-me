@@ -33,7 +33,6 @@ function Login(props) {
     })
       .then((results) => {
         localStorage.setItem("skiBuddyToken", results.data.token);
-        console.log("inside", props.updateLoggedIn);
         props.updateLoggedIn(true);
         props.getName(results.data.name);
       })

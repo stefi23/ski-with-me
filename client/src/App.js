@@ -13,7 +13,7 @@ import axios from "axios";
 import { Navbar } from "react-bootstrap";
 
 function App() {
-  const [isUserLoggedin, updateLoggedIn] = useState(false);
+  const [isUserLoggedin, setUserLoggedIn] = useState(false);
   const [name, getName] = useState("");
 
   useEffect(() => {
@@ -26,13 +26,13 @@ function App() {
       .then((result) => {
         console.log(result.data);
         getName(result.data.name);
-        updateLoggedIn(true);
+        setUserLoggedIn(true);
       })
       .catch((error) => console.log(error));
   }, []);
 
   function handleLogout(){
-    updateLoggedIn(false);
+    setUserLoggedIn(false);
     window.localStorage.removeItem('skiBuddyToken');
   }
 
@@ -90,11 +90,11 @@ function App() {
             {isUserLoggedin ? (
               <Redirect to="/" />
             ) : (
-              <Login updateLoggedIn={updateLoggedIn} getName={getName} />
+              <Login updateLoggedIn={setUserLoggedIn} getName={getName} />
             )}
           </Route>
           <Route path="/register">
-            {<Register updateLoggedIn={updateLoggedIn} />}
+            {<Register updateLoggedIn={setUserLoggedIn} />}
           </Route>
           <Route path="/"></Route>
         </Switch>
