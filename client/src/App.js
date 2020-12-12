@@ -31,6 +31,11 @@ function App() {
       .catch((error) => console.log(error));
   }, []);
 
+  function handleLogout(){
+    updateLoggedIn(false);
+    window.localStorage.removeItem('skiBuddyToken');
+  }
+
   return (
     <Router>
       <div className="container">
@@ -39,11 +44,28 @@ function App() {
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             {isUserLoggedin ? (
-              <Navbar.Text>Welcome {name} </Navbar.Text>
+              <ul className="navbar-nav">
+                <li className="nav-item">
+              <Navbar.Text>
+                Welcome {name} 
+                </Navbar.Text>
+                </li>
+                 <li className="nav-item">
+                <Link to="/" 
+                      className="nav-link"
+                      style={{'color': '#e2e2e5'}}
+                      onClick={handleLogout}>Log out
+                </Link> 
+                </li>
+                </ul>
+              
+              
             ) : (
               <ul className="navbar-nav">
                 <li className="nav-item">
-                  <Link to="/login" className="nav-link">
+                  <Link to="/login" 
+                        className="nav-link"
+                        style={{'color': '#e2e2e5'}}>
                     Login
                   </Link>
                 </li>
@@ -51,8 +73,9 @@ function App() {
                   <Link
                     to="/register"
                     className="nav-link"
-                    data-toggle="modal"
-                    data-target="#exampleModalLong"
+                    style={{'color': '#e2e2e5'}}
+                    // data-toggle="modal"
+                    // data-target="#exampleModalLong"
                   >
                     Sign Up
                   </Link>
