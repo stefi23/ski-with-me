@@ -40,8 +40,8 @@ function App() {
 
   return (
     <div className="container">
-      <div class="row">
-        <div class="col-md-12">
+      <div className="row">
+        <div className="col-md-12">
     <Router>
         <Navbar bg="dark" variant="dark" className="mt-3 mb-3">
           <Navbar.Brand href="/">Ski Buddies</Navbar.Brand>
@@ -106,12 +106,12 @@ function App() {
     </Router>
        </div>
           </div>   
-              <div class="row">
-                 <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-12">
+              <div className="row">
+                 <div className="col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-12">
                 <Search />
                 </div>
-                <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">
-                  <div class="row">
+                <div className="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">
+                  <div className="row">
                 <SkiersList />
                 </div>
                 </div>
