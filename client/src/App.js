@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Search from "./components/Search";
+import SkiersList from "./components/SkiersList";
 import {
   BrowserRouter as Router,
   Switch,
@@ -37,9 +39,11 @@ function App() {
   }
 
   return (
+    <div className="container">
+      <div class="row">
+        <div class="col-md-12">
     <Router>
-      <div className="container">
-        <Navbar bg="dark" variant="dark" className="m-3">
+        <Navbar bg="dark" variant="dark" className="mt-3 mb-3">
           <Navbar.Brand href="/">Ski Buddies</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
@@ -98,8 +102,21 @@ function App() {
           </Route>
           <Route path="/"></Route>
         </Switch>
-      </div>
+
     </Router>
+       </div>
+          </div>   
+              <div class="row">
+                 <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-12">
+                <Search />
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-12">
+                  <div class="row">
+                <SkiersList />
+                </div>
+                </div>
+              </div>
+  </div>
   );
 }
 
