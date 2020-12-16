@@ -107,10 +107,10 @@ function App() {
        </div>
           </div>   
               <div class="row">
-                 <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-12">
+                 <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-12">
                 <Search />
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-12">
+                <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">
                   <div class="row">
                 <SkiersList />
                 </div>
