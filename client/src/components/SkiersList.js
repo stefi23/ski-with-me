@@ -31,7 +31,7 @@ function SkiersList(props){
             <SkierCard  name={`${skier.first_name} ${skier.last_name}`} 
                         level={skier.level}
                         resorts={skier.resorts.split(',')}
-                        languages={skier.languages}
+                        languages={skier.languages.split(',')}
                         sport={skier.sport}
                         email={skier.email}
                         isUserLoggedin={props.isUserLoggedin}

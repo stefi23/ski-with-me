@@ -45,7 +45,14 @@ function SkierCard(props){
             <TextCenter>{props.sport === "ski" ? '⛷️' : '🏂'}</TextCenter>
             <Title>{props.name}</Title>
             <LightText>- {props.level} -</LightText>
-            <StyledP>🗣️ &nbsp;{props.languages}</StyledP>  
+            {/* <StyledP>🗣️ &nbsp;{props.languages}</StyledP>   */}
+            <StyledP>🗣️ &nbsp;
+                {props.languages.map((language, index)=> {
+                    return(
+                        <span>{language}{index === props.languages.length -1? null : ", " }</span>
+                    )
+                })}
+            </StyledP>
             <StyledP>🏔️ &nbsp;
                 {props.resorts.map((resort, index)=> {
                     return(
