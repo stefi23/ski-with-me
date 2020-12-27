@@ -112,7 +112,7 @@ function App() {
                 </div>
                 <div className="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">
                   <div className="row">
-                <SkiersList/>
+                <SkiersList isUserLoggedin={isUserLoggedin}/>
                 </div>
                 </div>
               </div>

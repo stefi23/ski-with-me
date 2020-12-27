@@ -30,6 +30,13 @@ import styled from 'styled-components'
     const TextCenter = styled.h1`
         text-align:center;
     `
+    const LinkLogin = styled.a`
+        text-align : center;
+        display:block;
+        color: #6989af;
+        font-weight:bold;
+    
+    `
 
 function SkierCard(props){
 
@@ -40,6 +47,12 @@ function SkierCard(props){
             <LightText>- {props.level} -</LightText>
             <StyledP>🏔️ &nbsp;{props.resorts}</StyledP>
             <StyledP>🗣️ &nbsp;{props.languages}</StyledP>  
+    
+           {props.isUserLoggedin  ? 
+                    ( <StyledP>👋 &nbsp;{props.email}</StyledP> ) :
+                    (<><LinkLogin href="/login" >👋 Contact info</LinkLogin></>) 
+
+            }
         </SkierCardDiv>
     )
 }
