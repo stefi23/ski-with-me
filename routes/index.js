@@ -107,7 +107,7 @@ router.get(`/everything`, async (req, res) => {
   const { level, language, sport, resort } = req.query;
   if (!level && !language && !sport && !resort) {
     const response = await db(`
-  SELECT users.id, first_name, last_name, sport,level,GROUP_CONCAT(DISTINCT resort_name) AS resorts, GROUP_CONCAT( DISTINCT language) AS languages
+  SELECT users.id, first_name, last_name, sport,level,GROUP_CONCAT(DISTINCT resort_name) AS resorts, GROUP_CONCAT( DISTINCT language) AS languages, email
     FROM users
     LEFT JOIN languages_user ON languages_user.user_id = users.id
     LEFT JOIN resorts_user ON resorts_user.user_id = users.id
