@@ -1,6 +1,6 @@
 import React, {useEffect} from "react"
-import styled, {css} from 'styled-components'
-import axios from "axios";
+import styled from 'styled-components'
+
 
     const SkierCardDiv = styled.div`
         background: #fcfdff;
@@ -31,16 +31,16 @@ import axios from "axios";
         text-align:center;
     `
 
-function SkierCard(){
+function SkierCard(props){
 
     return(
         <SkierCardDiv>
-         
-            <TextCenter>⛷️</TextCenter>
-            <Title>Stefi Rosca</Title>
-            <LightText>- pro -</LightText>
-            <StyledP>🏔️ &nbsp;Andorra, La Molina</StyledP>
-            <StyledP>🗣️ &nbsp;English, Spanish, German, Romanian</StyledP>
+            <TextCenter>{props.sport === "ski" ? '⛷️' : '🏂'}</TextCenter>
+            <Title>{props.name}</Title>
+            <LightText>- {props.level} -</LightText>
+            <StyledP>🏔️ &nbsp;{props.resorts}</StyledP>
+            <StyledP>🗣️ &nbsp;{props.languages}</StyledP>
+            
           
         </SkierCardDiv>
     )
