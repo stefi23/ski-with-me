@@ -37,17 +37,27 @@ import styled from 'styled-components'
         font-weight:bold;
     
     `
+    
 
 function SkierCard(props){
+
+    console.log("resorts",props.resorts)
 
     return(
         <SkierCardDiv>
             <TextCenter>{props.sport === "ski" ? '⛷️' : '🏂'}</TextCenter>
             <Title>{props.name}</Title>
             <LightText>- {props.level} -</LightText>
-            <StyledP>🏔️ &nbsp;{props.resorts}</StyledP>
+            {/* <StyledP>🏔️ &nbsp;{props.resorts}</StyledP> */}
             <StyledP>🗣️ &nbsp;{props.languages}</StyledP>  
-    
+            <StyledP>🏔️ &nbsp;
+                {props.resorts.map((resort, index)=> {
+                    return(
+                        <span>{resort}{index === props.resorts.length -1? null : ", " }</span>
+                    )
+                })}
+            </StyledP>
+   
            {props.isUserLoggedin  ? 
                     ( <StyledP>👋 &nbsp;{props.email}</StyledP> ) :
                     (<><LinkLogin href="/login" >👋 Contact info</LinkLogin></>) 
@@ -59,24 +69,3 @@ function SkierCard(props){
 
 export default SkierCard
 
-
-      
-
-
-
-
-
-//     return(
-//         <SkierCardDiv>
-   
-//             <h1 style={ {"textAlign" : "center"}}>⛷️</h1>
-//             <p style={title}>Stefi Rosca</p>
-//             <p style ={lightText}> - pro - </p>
-//             <p style={pText}>🏔️ &nbsp;Andorra, La Molina</p>
-//             <p style={pText}>🗣️ &nbsp;English, Spanish, German, Romanian</p>
-    
-//         </SkierCardDiv>
-//     )
-// }
-
-// export default SkierCard
