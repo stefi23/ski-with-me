@@ -6,6 +6,8 @@ import InputBox from "./InputBox"
 import RadioBox from "./RadioBox"
 import MultipleComponent from "./MultipleInput";
 
+
+
 const useInput = (input) => {
   const [value, setValue] = useState(input)
   function handleInputChange(event){
@@ -63,6 +65,7 @@ function Register(props) {
   };
 
   const addUser = () => {
+
     axios("/users/register", {
       method: "POST",
       headers: {

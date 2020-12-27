@@ -40,15 +40,11 @@ import styled from 'styled-components'
     
 
 function SkierCard(props){
-
-    console.log("resorts",props.resorts)
-
     return(
         <SkierCardDiv>
             <TextCenter>{props.sport === "ski" ? '⛷️' : '🏂'}</TextCenter>
             <Title>{props.name}</Title>
             <LightText>- {props.level} -</LightText>
-            {/* <StyledP>🏔️ &nbsp;{props.resorts}</StyledP> */}
             <StyledP>🗣️ &nbsp;{props.languages}</StyledP>  
             <StyledP>🏔️ &nbsp;
                 {props.resorts.map((resort, index)=> {

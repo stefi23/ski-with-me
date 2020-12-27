@@ -10,7 +10,7 @@ function SkiersList(props){
     try {
         const resp = await axios.get('/everything');
         setSkierList(resp.data)
-        console.log(resp.data[2].resorts.split(','))
+        console.log(resp.data)
     } catch (err) {
         // Handle Error Here
         console.error(err);

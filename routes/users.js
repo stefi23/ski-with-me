@@ -122,6 +122,7 @@ router.post("/register", async (req, res, next) => {
     console.log(token);
 
     resorts.forEach(async (resort) => {
+      resort = capitalizeFirstLetter(resort)
       try {
         await insertIntoDatabase(
           email,
@@ -136,6 +137,7 @@ router.post("/register", async (req, res, next) => {
     });
 
     languages.forEach(async (language) => {
+      language = capitalizeFirstLetter(language)
       try {
         await insertIntoDatabase(
           email,
@@ -252,5 +254,9 @@ const cryptoPassword = (password, email) => {
     });
   });
 };
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 module.exports = router;
