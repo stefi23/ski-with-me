@@ -109,6 +109,7 @@ function Register(props) {
             <div className="form-row">
               <div className="form-group col-md-6">
                 <InputBox
+                  type="text"
                   label="First name"
                   value={firstName}
                   onChange={handleFirstNameChange}
@@ -116,6 +117,7 @@ function Register(props) {
               </div> 
               <div className="form-group col-md-6">
                 <InputBox
+                  type="text"
                   label="Last name"
                   value={lastName}
                   onChange={handleLastNameChange}
@@ -125,6 +127,7 @@ function Register(props) {
             <div className="form-row">
               <div className="form-group col-md-6">
                  <InputBox
+                  type="email"
                   label="Email"
                   value={email}
                   onChange={handleEmailChange}
@@ -132,6 +135,7 @@ function Register(props) {
               </div>
               <div className="form-group col-md-6">
                 <InputBox
+                  type="password"
                   label="Password"
                   value={password}
                   onChange={handlePasswordChange}

@@ -1,11 +1,11 @@
 import React from "react";
 
-function InputBox({label,value,onChange}){
+function InputBox({label,type,value,onChange}){
     return(
     <> 
         <label>{label}</label>
         <input
-            type="text"
+            type={type}
             className="form-control"
             name={value}
             value={value}
