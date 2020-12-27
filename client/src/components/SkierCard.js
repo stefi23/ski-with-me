@@ -39,9 +39,7 @@ function SkierCard(props){
             <Title>{props.name}</Title>
             <LightText>- {props.level} -</LightText>
             <StyledP>🏔️ &nbsp;{props.resorts}</StyledP>
-            <StyledP>🗣️ &nbsp;{props.languages}</StyledP>
-            
-          
+            <StyledP>🗣️ &nbsp;{props.languages}</StyledP>  
         </SkierCardDiv>
     )
 }
