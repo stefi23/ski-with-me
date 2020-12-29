@@ -1,5 +1,7 @@
 import React from 'react'
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import axios from "axios"
+
 
 function SelectBox() {
 
@@ -8,6 +10,24 @@ function SelectBox() {
     function sportSelected(e) {
         setSport(e.target.value);
     }
+
+    const getUsersSportSecific = async () => {
+        if (sport) {
+            try {
+                console.log(sport)
+                const resp = await axios.get(`/sport/${sport}`);
+                console.log(resp.data)
+            } catch (err) {
+                // Handle Error Here
+                console.error(err);
+            }
+        }
+    };
+
+    useEffect(() => {
+        console.log("useEffect")
+        getUsersSportSecific();
+    }, [sport])
 
     return (
         <>

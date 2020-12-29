@@ -69,7 +69,7 @@ router.get("/sport/:sport", async (req, res) => {
     LEFT JOIN resorts_user ON resorts_user.user_id = users.id
     LEFT JOIN languages lang ON languages_user.language_id = lang.id 
     LEFT JOIN resorts resort ON resorts_user.id = resort.id
-    WHERE sport = "ski"
+    WHERE sport = "${sport}"
     GROUP BY id, first_name, last_name;
 `);
     res.status(200).send(response.data);
