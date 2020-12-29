@@ -17,6 +17,7 @@ import { Navbar } from "react-bootstrap";
 function App() {
   const [isUserLoggedin, setUserLoggedIn] = useState(false);
   const [name, getName] = useState("");
+  const [skierList, setSkierList] = useState([])
 
   const getUserdatafromDB = async () => {
     try {
@@ -34,8 +35,19 @@ function App() {
     }
   }
 
+  const getDatafromDB = async () => {
+    try {
+      const resp = await axios.get('/everything');
+      setSkierList(resp.data)
+    } catch (err) {
+      // Handle Error Here
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     getUserdatafromDB()
+    getDatafromDB()
   }, []);
 
   function handleLogout() {
@@ -117,7 +129,7 @@ function App() {
         </div>
         <div className="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">
           <div className="row">
-            <SkiersList isUserLoggedin={isUserLoggedin} />
+            <SkiersList isUserLoggedin={isUserLoggedin} skierListData={skierList} />
           </div>
         </div>
       </div>
