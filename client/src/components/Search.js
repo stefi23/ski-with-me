@@ -7,29 +7,16 @@ import axios from "axios"
 function Search(props) {
 
     const [sportSearched, setSportSearched] = useState("")
-
-    const getSport = (sport) => {
-        console.log(sport);
+    const getSportSearched = (sport) => {
+        props.getSportSearched(sport)
         setSportSearched(sport)
     };
 
-    const getUsersSportSecific = async () => {
-        if (sportSearched) {
-            try {
-                console.log("here", sportSearched)
-                const resp = await axios.get(`/sport/${sportSearched}`);
-                console.log(resp.data)
-            } catch (err) {
-                // Handle Error Here
-                console.error(err);
-            }
-        }
-    };
 
 
-    useEffect(() => {
-        getUsersSportSecific()
-    }, [sportSearched]);
+    // useEffect(() => {
+    //     getUsersSportSecific()
+    // }, [sportSearched]);
 
 
 
@@ -39,7 +26,7 @@ function Search(props) {
                 <div className="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
                     <div className="row g-3">
                         <div className="col-md-12">
-                            <SelectBox getSport={getSport} />
+                            <SelectBox getSportSearched={getSportSearched} />
                             {/* <label for="inputState" className="form-label">Sport</label>
                             <select id="inputState" className="form-select">
                                 <option selected>Choose sport...</option>

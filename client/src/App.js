@@ -49,9 +49,8 @@ function App() {
   const getUsersSportSecific = async () => {
     if (sport) {
       try {
-        console.log(sport)
         const resp = await axios.get(`/sport/${sport}`);
-        console.log(resp.data)
+        setSkierList(resp.data)
       } catch (err) {
         // Handle Error Here
         console.error(err);
@@ -59,11 +58,20 @@ function App() {
     }
   };
 
+  const getSportSearched = (sportSearched) => {
+    setSport(sportSearched)
+  }
+
+
 
   useEffect(() => {
-    getUserdatafromDB()
-    getSkierListfromDB()
-  }, []);
+    if (sport) {
+      getUsersSportSecific()
+    } else {
+      getUserdatafromDB()
+      getSkierListfromDB()
+    }
+  }, [sport]);
 
   function handleLogout() {
     setUserLoggedIn(false);
@@ -140,7 +148,7 @@ function App() {
       </div>
       <div className="row">
         <div className="col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-12">
-          <Search />
+          <Search getSportSearched={getSportSearched} />
         </div>
         <div className="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">
           <div className="row">
