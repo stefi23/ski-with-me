@@ -3,23 +3,21 @@ import { useState, useEffect } from "react"
 
 
 
-function SelectBox(props) {
+function SelectBox({ getSelection, label, options, value }) {
 
-    const [sport, setSport] = useState("")
-
-    function sportSelected(e) {
-        setSport(e.target.value)
-        props.getSportSearched(e.target.value)
+    function valueSelected(e) {
+        getSelection(e.target.value)
     }
     return (
         <>
-            <label for="inputState" className="form-label">Sport</label>
-            <select id="sport" className="form-select"
-                onChange={sportSelected} value={sport}>
-                <option value="" selected>Choose sport...</option>
-                <option value="ski">ski</option>
-                <option value="snowboard">snowboard</option>
-                <option value="both">both</option>
+
+            <select id="sport"
+                className="form-select"
+                onChange={valueSelected} value={value}>
+                <option value="" selected>{label}</option>
+                {options.map((option, index) =>
+                    <option value={option} key={index}>{option}</option>
+                )}
             </select>
         </>
     )

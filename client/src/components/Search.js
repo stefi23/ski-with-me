@@ -5,19 +5,12 @@ import axios from "axios"
 
 
 function Search(props) {
+    const [sport, setSport] = useState("")
 
-    const [sportSearched, setSportSearched] = useState("")
     const getSportSearched = (sport) => {
+        setSport(sport)
         props.getSportSearched(sport)
-        setSportSearched(sport)
     };
-
-
-
-    // useEffect(() => {
-    //     getUsersSportSecific()
-    // }, [sportSearched]);
-
 
 
     return (
@@ -26,14 +19,10 @@ function Search(props) {
                 <div className="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
                     <div className="row g-3">
                         <div className="col-md-12">
-                            <SelectBox getSportSearched={getSportSearched} />
-                            {/* <label for="inputState" className="form-label">Sport</label>
-                            <select id="inputState" className="form-select">
-                                <option selected>Choose sport...</option>
-                                <option>ski</option>
-                                <option>snowboard</option>
-                                <option>both</option>
-                            </select> */}
+                            <SelectBox getSelection={getSportSearched}
+                                options={["ski", "snowboard", "both"]}
+                                label="Choose sport..."
+                                value={sport} />
                         </div>
                     </div>
                 </div>
