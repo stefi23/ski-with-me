@@ -3,31 +3,14 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 
 
-function SelectBox() {
+function SelectBox(props) {
 
     const [sport, setSport] = useState("")
 
     function sportSelected(e) {
-        setSport(e.target.value);
+        setSport(e.target.value)
+        props.getSport(e.target.value)
     }
-
-    const getUsersSportSecific = async () => {
-        if (sport) {
-            try {
-                console.log(sport)
-                const resp = await axios.get(`/sport/${sport}`);
-                console.log(resp.data)
-            } catch (err) {
-                // Handle Error Here
-                console.error(err);
-            }
-        }
-    };
-
-    useEffect(() => {
-        console.log("useEffect")
-        getUsersSportSecific();
-    }, [sport])
 
     return (
         <>

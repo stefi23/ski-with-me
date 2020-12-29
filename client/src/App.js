@@ -18,6 +18,7 @@ function App() {
   const [isUserLoggedin, setUserLoggedIn] = useState(false);
   const [name, getName] = useState("");
   const [skierList, setSkierList] = useState([])
+  const [sport, setSport] = useState("")
 
   const getUserdatafromDB = async () => {
     try {
@@ -44,6 +45,20 @@ function App() {
       console.error(err);
     }
   };
+
+  const getUsersSportSecific = async () => {
+    if (sport) {
+      try {
+        console.log(sport)
+        const resp = await axios.get(`/sport/${sport}`);
+        console.log(resp.data)
+      } catch (err) {
+        // Handle Error Here
+        console.error(err);
+      }
+    }
+  };
+
 
   useEffect(() => {
     getUserdatafromDB()

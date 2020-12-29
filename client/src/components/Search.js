@@ -1,20 +1,37 @@
-import React from "react";
-import styled from 'styled-components'
+import React, { useState, useEffect } from "react";
 import SelectBox from "./SelectBox"
-import { Modal, Button } from "react-bootstrap";
-
-const Title = styled.h1`
-        color: #6989af;
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 5px;
-        text-align : left;
-`;
+import axios from "axios"
 
 
-function Search() {
 
-    const sports = ["ski", "snowboard", "both"]
+function Search(props) {
+
+    const [sportSearched, setSportSearched] = useState("")
+
+    const getSport = (sport) => {
+        console.log(sport);
+        setSportSearched(sport)
+    };
+
+    const getUsersSportSecific = async () => {
+        if (sportSearched) {
+            try {
+                console.log("here", sportSearched)
+                const resp = await axios.get(`/sport/${sportSearched}`);
+                console.log(resp.data)
+            } catch (err) {
+                // Handle Error Here
+                console.error(err);
+            }
+        }
+    };
+
+
+    useEffect(() => {
+        getUsersSportSecific()
+    }, [sportSearched]);
+
+
 
     return (
         <>
@@ -22,7 +39,7 @@ function Search() {
                 <div className="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
                     <div className="row g-3">
                         <div className="col-md-12">
-                            <SelectBox />
+                            <SelectBox getSport={getSport} />
                             {/* <label for="inputState" className="form-label">Sport</label>
                             <select id="inputState" className="form-select">
                                 <option selected>Choose sport...</option>
