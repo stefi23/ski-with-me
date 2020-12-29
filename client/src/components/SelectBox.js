@@ -21,7 +21,6 @@ function SelectBox(props) {
                 <option value="snowboard">snowboard</option>
                 <option value="both">both</option>
             </select>
-            <p>{sport}</p>
         </>
     )
 
