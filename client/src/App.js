@@ -35,7 +35,7 @@ function App() {
     }
   }
 
-  const getDatafromDB = async () => {
+  const getSkierListfromDB = async () => {
     try {
       const resp = await axios.get('/everything');
       setSkierList(resp.data)
@@ -47,7 +47,7 @@ function App() {
 
   useEffect(() => {
     getUserdatafromDB()
-    getDatafromDB()
+    getSkierListfromDB()
   }, []);
 
   function handleLogout() {
