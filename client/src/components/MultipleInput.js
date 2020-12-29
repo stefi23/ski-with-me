@@ -1,9 +1,5 @@
 import React from "react";
 
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 function MultipleComponent({ title, items, onAdd, onRemove, onEdit }) {
   return (
     <div>
@@ -19,14 +15,14 @@ function MultipleComponent({ title, items, onAdd, onRemove, onEdit }) {
               <input
                 value={item}
                 className="form-control mb-2"
-                onChange={(e) => onEdit(e.target.value,index)}
+                onChange={(e) => onEdit(e.target.value, index)}
               />
             </div>
             <div className="form-group col-md-6">
               {items.length < 2 ? null : (
                 <button
                   className="btn btn-primary"
-                  onClick={() => {onRemove(index)}}
+                  onClick={() => { onRemove(index) }}
                 >
                   Remove
                 </button>

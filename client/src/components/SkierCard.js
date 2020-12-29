@@ -49,14 +49,14 @@ function SkierCard(props){
             <StyledP>🗣️ &nbsp;
                 {props.languages.map((language, index)=> {
                     return(
-                        <span>{language}{index === props.languages.length -1? null : ", " }</span>
+                        <span key={index}>{language}{index === props.languages.length -1? null : ", " }</span>
                     )
                 })}
             </StyledP>
             <StyledP>🏔️ &nbsp;
                 {props.resorts.map((resort, index)=> {
                     return(
-                        <span>{resort}{index === props.resorts.length -1? null : ", " }</span>
+                        <span key={index}>{resort}{index === props.resorts.length -1? null : ", " }</span>
                     )
                 })}
             </StyledP>

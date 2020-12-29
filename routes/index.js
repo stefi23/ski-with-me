@@ -63,14 +63,15 @@ router.get("/sport/:sport", async (req, res) => {
   const sport = req.params.sport;
   try {
     const response = await db(`
-  SELECT users.id, first_name, last_name, sport,level, language, resort_name
+  SELECT users.id, first_name, last_name, sport,level,GROUP_CONCAT(DISTINCT resort_name) AS resorts, GROUP_CONCAT( DISTINCT language) AS languages, email
     FROM users
     LEFT JOIN languages_user ON languages_user.user_id = users.id
     LEFT JOIN resorts_user ON resorts_user.user_id = users.id
-    LEFT JOIN languages lang ON languages_user.language_id = lang.id
+    LEFT JOIN languages lang ON languages_user.language_id = lang.id 
     LEFT JOIN resorts resort ON resorts_user.id = resort.id
-    WHERE sport = "${sport}"
-    ;`);
+    WHERE sport = "ski"
+    GROUP BY id, first_name, last_name;
+`);
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
