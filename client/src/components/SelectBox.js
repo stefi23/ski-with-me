@@ -3,15 +3,14 @@ import { useState, useEffect } from "react"
 
 
 
-function SelectBox({ getSelection, label, options, value }) {
+function SelectBox({ getSelection, label, options, value, id }) {
 
     function valueSelected(e) {
         getSelection(e.target.value)
     }
     return (
         <>
-
-            <select id="sport"
+            <select id={id}
                 className="form-select"
                 onChange={valueSelected} value={value}>
                 <option value="" selected>{label}</option>
