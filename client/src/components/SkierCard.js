@@ -45,22 +45,26 @@ function SkierCard(props) {
             <TextCenter>{props.sport === "ski" ? '⛷️' : props.sport === "snowboard" ? '🏂' : '⛷️/🏂'}</TextCenter>
             <Title>{props.name}</Title>
             <LightText>- {props.level} -</LightText>
-            {/* <StyledP>🗣️ &nbsp;{props.languages}</StyledP>   */}
             <StyledP>🗣️ &nbsp;
-                {props.languages.map((language, index) => {
-                return (
-                    <span key={index}>{language}{index === props.languages.length - 1 ? null : ", "}</span>
-                )
-            })}
+                {props.languages ? (
+                    props.languages.split(",").map((language, index) => {
+                        const lastElement = props.languages.split(',').length - 1
+                        return (
+                            <span key={index}>{language}{
+                                index === lastElement ? null : ", "}</span>
+                        )
+                    })) : "No resort added"}
             </StyledP>
             <StyledP>🏔️ &nbsp;
-                {props.resorts.map((resort, index) => {
-                return (
-                    <span key={index}>{resort}{index === props.resorts.length - 1 ? null : ", "}</span>
-                )
-            })}
+                {props.resorts ? (
+                    props.resorts.split(",").map((resort, index) => {
+                        const lastElement = props.resorts.split(',').length - 1
+                        return (
+                            <span key={index}>{resort}{
+                                index === lastElement ? null : ", "}</span>
+                        )
+                    })) : "No resort added"}
             </StyledP>
-
             {props.isUserLoggedin ?
                 (<StyledP>👋 &nbsp;{props.email}</StyledP>) :
                 (<><LinkLogin href="/login" >👋 Contact info</LinkLogin></>)

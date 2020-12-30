@@ -68,9 +68,8 @@ function App() {
   }
 
 
-
   useEffect(() => {
-    if (sport) {
+    if (sport && sport !== "Choose sport...") {
       getUsersSportSecific()
     } else {
       getUserdatafromDB()

@@ -3,7 +3,6 @@ import SkierCard from "./SkierCard"
 
 
 function SkiersList(props) {
-
     return (
         <>
             {
@@ -13,8 +12,8 @@ function SkiersList(props) {
                         <div className="col-sm-12 col-md-4 col-lg-3 col-xl-3 mb-3" key={index}>
                             <SkierCard name={`${skier.first_name} ${skier.last_name}`}
                                 level={skier.level}
-                                resorts={skier.resorts.split(',')}
-                                languages={skier.languages.split(',')}
+                                resorts={skier.resorts}
+                                languages={skier.languages}
                                 sport={skier.sport}
                                 email={skier.email}
                                 isUserLoggedin={props.isUserLoggedin}
