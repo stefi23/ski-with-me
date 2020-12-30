@@ -17,6 +17,8 @@ function Search(props) {
     const [level, setLevel] = useState("")
     const [resort, setResort] = useState("")
     const [resorts, setResorts] = useState([])
+    const [showResorts, setShowResorts] = useState(false)
+
 
     const getSportSearched = (sport) => {
         setSport(sport)
@@ -37,13 +39,31 @@ function Search(props) {
             // Handle Error Here
             console.error(err);
         }
+        // setShowResorts(showResorts => !showResorts)
     };
 
-    useEffect(() => {
-        getResortsListfromDB()
-        //Update resorts array with data from db
-        console.log(resorts)
-    }, [])
+    const getResortsSuggestions = async () => {
+        try {
+            const resp = await axios.get(`/AllResorts/${resort}`);
+            setResorts(resp.data)
+        } catch (err) {
+            // Handle Error Here
+            console.error(err);
+        }
+    };
+
+    const autocompleteResorts = () => {
+        getResortsSuggestions()
+
+    }
+
+    const takeSuggestion = (suggestion) => {
+        setResort(suggestion)
+    }
+
+    // useEffect(() => {
+    //     getResortsListfromDB()
+    // }, [resort])
 
     return (
         <>
@@ -78,22 +98,27 @@ function Search(props) {
                                 name="resorts"
                                 value={resort}
                                 onChange={((e) => setResort(e.target.value))}
+                                onClick={getResortsListfromDB}
+                                onFocus={() => setShowResorts(true)}
+                                onBlur={() => setShowResorts(false)}
                                 placeholder="Which resort?"
-                                // onKeyUp={autocompleteResorts} // autocomplete-> fetch data and update the 
-                                // resorts array
+                                onKeyUp={autocompleteResorts} // autocomplete-> fetch data and update the 
                                 autoComplete="off"
                             />
                             <div className=" autocomplete rounded">
-                                {resorts.map((resort, index) => (
-                                    <p
-                                        key={index}
-                                        className="autosuggestElement p-2 mb-0"
-                                        // onClick={() => takeSuggestion(suggestion)}
-                                        value={resort.resort_name}
-                                    >
-                                        {resort.resort_name}
-                                    </p>
-                                ))}
+                                {resorts.length > 0 && showResorts ? (
+
+                                    resorts.map((resort, index) => (
+                                        <p
+                                            key={index}
+                                            className="autosuggestElement p-2 mb-0"
+                                            onMouseOver={() =>
+                                                takeSuggestion(resort.resort_name)}
+                                            value={resort.resort_name}
+                                        >
+                                            {resort.resort_name}
+                                        </p>
+                                    ))) : null}
                             </div>
                         </div>
                     </div>
