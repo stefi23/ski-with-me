@@ -14,6 +14,8 @@ const Title = styled.h1`
 function Search(props) {
     const [sport, setSport] = useState("")
     const [level, setLevel] = useState("")
+    const [resort, setResort] = useState("")
+    const [resorts, setResorts] = useState([])
 
     const getSportSearched = (sport) => {
         setSport(sport)
@@ -22,9 +24,13 @@ function Search(props) {
 
     const getLevelSearched = (level) => {
         setLevel(level)
-        // props.getSportSearched(sport) //data to parent
+        props.getLevelSearched(level) //data to parent
     };
 
+    useEffect(() => {
+        //Fetch resorts; 
+        //Update resorts array with data from db
+    }, [resort])
 
     return (
         <>
@@ -51,6 +57,31 @@ function Search(props) {
                                 label="Choose level..."
                                 value={level}
                             />
+                        </div>
+                        <div className="col-12">
+                            <input
+                                className="form-control"
+                                type="name"
+                                name="resorts"
+                                value={resort}
+                                onChange={((e) => setResort(e.target.value))}
+                                placeholder="Which resort?"
+                                // onKeyUp={autocompleteResorts} // autocomplete-> fetch data and update the 
+                                // resorts array
+                                autoComplete="off"
+                            />
+                            <div className=" autocomplete rounded">
+                                {resorts.map((resort, index) => (
+                                    <p
+                                        key={index}
+                                        className="autosuggestElement p-2 mb-0"
+                                        // onClick={() => takeSuggestion(suggestion)}
+                                        value={resort}
+                                    >
+                                        {resort}
+                                    </p>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

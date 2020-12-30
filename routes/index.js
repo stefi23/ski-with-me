@@ -82,6 +82,7 @@ router.get("/sport/:sport", async (req, res) => {
 router.get("/resorts", async (req, res) => {
   // accepts urls like http://localhost/resorts?resort=Molina&language=English&sport=ski
   const { resort, language, sport } = req.query;
+  console.log(resort)
   if (!resort) {
     res.status(404).send("Not found");
     return;
@@ -90,7 +91,7 @@ router.get("/resorts", async (req, res) => {
     const response = await db(`
   SELECT resort_name
     FROM resorts
-    LEFT JOIN resorts_user ON resorts_user.resort_id = resort.id
+    LEFT JOIN resorts_user ON resorts_user.resort_id = resorts.id
     LEFT JOIN users ON users.id = resorts_user.user_id
     LEFT JOIN languages_user ON languages_user.user_id = users.id
     LEFT JOIN languages lang ON languages_user.language_id = lang.id

@@ -19,6 +19,7 @@ function App() {
   const [name, getName] = useState("");
   const [skierList, setSkierList] = useState([])
   const [sport, setSport] = useState("")
+  const [level, setLevel] = useState("")
 
   const getUserdatafromDB = async () => {
     try {
@@ -60,6 +61,10 @@ function App() {
 
   const getSportSearched = (sportSearched) => {
     setSport(sportSearched)
+  }
+
+  const getLevelSearched = (levelSearched) => {
+    setLevel(levelSearched)
   }
 
 
@@ -148,7 +153,7 @@ function App() {
       </div>
       <div className="row">
         <div className="col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-12">
-          <Search getSportSearched={getSportSearched} />
+          <Search getSportSearched={getSportSearched} getLevelSearched={getLevelSearched} />
         </div>
         <div className="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">
           <div className="row">

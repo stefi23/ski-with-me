@@ -13,7 +13,7 @@ function SelectBox({ getSelection, label, options, value, id }) {
             <select id={id}
                 className="form-select"
                 onChange={valueSelected} value={value}>
-                <option value="" selected>{label}</option>
+                <option defaultValue="" >{label}</option>
                 {options.map((option, index) =>
                     <option value={option} key={index}>{option}</option>
                 )}

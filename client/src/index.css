@@ -17,3 +17,17 @@ code {
   background-color: #6989af !important;
   border-radius: 10px;
 }
+
+.autocomplete {
+  background-color: aquamarine;
+  color:blueviolet;
+  overflow: auto;
+  max-height: 120px;
+}
+
+.autosuggestElement:hover {
+  background-color: #4c4f5b;
+  cursor: pointer;
+  color: #eeeeff !important;
+  margin-bottom: 0px!important;
+}

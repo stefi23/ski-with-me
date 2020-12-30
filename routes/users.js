@@ -5,11 +5,13 @@ var jwt = require("jsonwebtoken");
 var userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 require("dotenv").config();
 const crypto = require("crypto");
+const isEqual = require('lodash/isEmpty')
+const capitalize = require('lodash/capitalize')
 
 const supersecret = process.env.SUPER_SECRET;
 
 /* GET users listing. */
-router.get("/", function(req, res, next) {
+router.get("/", function (req, res, next) {
   res.send("respond with a resource");
 });
 
@@ -48,7 +50,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.get("/profile", userShouldBeLoggedIn, async function(req, res, next) {
+router.get("/profile", userShouldBeLoggedIn, async function (req, res, next) {
   const { data } = await db(
     `SELECT first_name from users WHERE id = ${req.user_id}`
   );
@@ -122,7 +124,7 @@ router.post("/register", async (req, res, next) => {
     console.log(token);
 
     resorts.forEach(async (resort) => {
-      resort = capitalizeFirstLetter(resort)
+      resort = capitalize(resort)
       try {
         await insertIntoDatabase(
           email,
@@ -137,7 +139,7 @@ router.post("/register", async (req, res, next) => {
     });
 
     languages.forEach(async (language) => {
-      language = capitalizeFirstLetter(language)
+      language = capitalize(language);
       try {
         await insertIntoDatabase(
           email,
@@ -201,7 +203,11 @@ const insertIntoDatabase = async (
   valueId
 ) => {
   result = await valueExistsInDatabase(table_name, table_column, value);
-  if (result.data[0] && !result.data[0].length) {
+  console.log("result data:", result.data[0])
+  // result.data[0] && 
+
+  console.log("Here:", isEqual(result.data[0], {}))
+  if (isEqual(result.data[0], {})) {
     await insertValueIntoTable(table_name, table_column, value);
   }
 
@@ -254,9 +260,5 @@ const cryptoPassword = (password, email) => {
     });
   });
 };
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 module.exports = router;
