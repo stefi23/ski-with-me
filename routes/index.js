@@ -20,6 +20,29 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+//All resorts available in the db 
+router.get("/AllResorts", async (req, res) => {
+  try {
+    const response = await db(`
+  SELECT resort_name FROM resorts`);
+    res.status(200).send(response.data);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+//Serch resorts based on user input 
+router.get("/AllResorts/:resort", async (req, res) => {
+  const resort = req.params.resort;
+  try {
+    const response = await db(`
+  SELECT resort_name FROM resorts WHERE resort_name LIKE "%${resort}%";`);
+    res.status(200).send(response.data);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 //All users from a specific resort
 router.get("/resort/:resort", async (req, res) => {
   const resort = req.params.resort;

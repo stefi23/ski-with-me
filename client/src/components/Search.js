@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SelectBox from "./SelectBox"
 import styled from 'styled-components'
+import axios from "axios";
 
 
 const Title = styled.h1`
@@ -27,10 +28,22 @@ function Search(props) {
         props.getLevelSearched(level) //data to parent
     };
 
+
+    const getResortsListfromDB = async () => {
+        try {
+            const resp = await axios.get('/AllResorts');
+            setResorts(resp.data)
+        } catch (err) {
+            // Handle Error Here
+            console.error(err);
+        }
+    };
+
     useEffect(() => {
-        //Fetch resorts; 
+        getResortsListfromDB()
         //Update resorts array with data from db
-    }, [resort])
+        console.log(resorts)
+    }, [])
 
     return (
         <>
@@ -76,9 +89,9 @@ function Search(props) {
                                         key={index}
                                         className="autosuggestElement p-2 mb-0"
                                         // onClick={() => takeSuggestion(suggestion)}
-                                        value={resort}
+                                        value={resort.resort_name}
                                     >
-                                        {resort}
+                                        {resort.resort_name}
                                     </p>
                                 ))}
                             </div>
