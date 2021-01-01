@@ -24,7 +24,18 @@ router.get("/", async (req, res, next) => {
 router.get("/AllResorts", async (req, res) => {
   try {
     const response = await db(`
-  SELECT resort_name FROM resorts`);
+  SELECT resort_name FROM resorts;`);
+    res.status(200).send(response.data);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+//All languages available in the db 
+router.get("/AllLanguages", async (req, res) => {
+  try {
+    const response = await db(`
+  SELECT language FROM languages;`);
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
@@ -37,6 +48,18 @@ router.get("/AllResorts/:resort", async (req, res) => {
   try {
     const response = await db(`
   SELECT resort_name FROM resorts WHERE resort_name LIKE "%${resort}%";`);
+    res.status(200).send(response.data);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+//Serch language based on user input 
+router.get("/AllLanguages/:language", async (req, res) => {
+  const language = req.params.language;
+  try {
+    const response = await db(`
+   SELECT language FROM languages WHERE language LIKE "%${language}%";`);
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
