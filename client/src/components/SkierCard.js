@@ -40,6 +40,8 @@ const LinkLogin = styled.a`
 
 
 function SkierCard(props) {
+
+    console.log(props)
     return (
         <SkierCardDiv>
             <TextCenter>{props.sport === "ski" ? '⛷️' : props.sport === "snowboard" ? '🏂' : '⛷️/🏂'}</TextCenter>

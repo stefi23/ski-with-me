@@ -41,8 +41,10 @@ function App() {
   }
 
   const getSkierListfromDB = async () => {
+
     try {
-      const resp = await axios.get('/everything');
+      // const resp = await axios.get('/everything');
+      const resp = await axios.get(`/everything?language=${language}&sport=${sport}&level=${level}&resort=${resort}`);
       setSkierList(resp.data)
     } catch (err) {
       // Handle Error Here
@@ -50,17 +52,11 @@ function App() {
     }
   };
 
-  const getUsersSportSecific = async () => {
-    if (sport) {
-      try {
-        const resp = await axios.get(`/sport/${sport}`);
-        setSkierList(resp.data)
-      } catch (err) {
-        // Handle Error Here
-        console.error(err);
-      }
-    }
-  };
+  useEffect(() => {
+    getUserdatafromDB()
+    getSkierListfromDB()
+  }, [sport, level, language, resort]);
+
 
   const getSportSearched = (sportSearched) => {
     setSport(sportSearched)
@@ -78,15 +74,6 @@ function App() {
     setLanguage(languageSearched)
   }
 
-
-  useEffect(() => {
-    if (sport && sport !== "Choose sport...") {
-      getUsersSportSecific()
-    } else {
-      getUserdatafromDB()
-      getSkierListfromDB()
-    }
-  }, [sport]);
 
   function handleLogout() {
     setUserLoggedIn(false);
@@ -163,10 +150,10 @@ function App() {
       </div>
       <div className="row">
         <div className="col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-12">
-          <Search  getSportSearched={getSportSearched}
-                   getLevelSearched={getLevelSearched}
-                   getResortSearched={getResortSearched}
-                   getLanguageSearched={getLanguageSearched} />
+          <Search getSportSearched={getSportSearched}
+            getLevelSearched={getLevelSearched}
+            getResortSearched={getResortSearched}
+            getLanguageSearched={getLanguageSearched} />
         </div>
         <div className="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">
           <div className="row">

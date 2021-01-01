@@ -21,7 +21,7 @@ function Search(props) {
     const [resort, setResort] = useState("")
     const [resorts, setResorts] = useState([])
     const [showResorts, setShowResorts] = useState(false)
-    
+
     // 
     const [language, setLanguage] = useState("")
     const [showLanguages, setShowLanguages] = useState(false)
@@ -39,9 +39,14 @@ function Search(props) {
         props.getLevelSearched(level) //data to parent
     };
 
-    props.getResortSearched(resort);
-
-    props.getLanguageSearched(language);
+    useEffect(() => {
+        if (resort) {
+            props.getResortSearched(resort)
+        }
+        if (language) {
+            props.getLanguageSearched(language)
+        }
+    }, [resort, language])
 
 
     const getResortsListfromDB = async () => {
@@ -74,7 +79,7 @@ function Search(props) {
         }
     };
 
-        const getLanguagesSuggestions = async () => {
+    const getLanguagesSuggestions = async () => {
         try {
             const resp = await axios.get(`/AllLanguages/${language}`);
             setLanguages(resp.data)
@@ -111,32 +116,32 @@ function Search(props) {
                                 value={level}
                             />
                         </div>
-                         <div className="col-12">
-                             <Dropbox   value={resort} 
-                                        input="resort_name"    
-                                        setValue={setResort}
-                                        placeholder={"Which resort?"} 
-                                        getListfromDB={getResortsListfromDB} 
-                                        getSuggestions={getResortsSuggestions} //move to Dropbox
-                                        autoCompleteValues={resorts} //move to Dropbox
-                                        setAutocompleteValues={setResorts} //move to Dropbox
-                                        setOpenSuggestions={setShowResorts}
-                                        openSuggestions={showResorts}
-                                        />
-                         </div>
-                         <div className="col-12">
-                             <Dropbox   value={language} 
-                                        input="language"
-                                        setValue={setLanguage}
-                                        placeholder={"Speaks?"} 
-                                        getListfromDB={getLanguagesListfromDB} 
-                                        getSuggestions={getLanguagesSuggestions} //move to Dropbox
-                                        autoCompleteValues={languages} //move to Dropbox
-                                        setAutocompleteValues={setLanguages} //move to Dropbox
-                                        setOpenSuggestions={setShowLanguages}
-                                        openSuggestions={showLanguages}
-                                        />
-                         </div>
+                        <div className="col-12">
+                            <Dropbox value={resort}
+                                input="resort_name"
+                                setValue={setResort}
+                                placeholder={"Which resort?"}
+                                getListfromDB={getResortsListfromDB}
+                                getSuggestions={getResortsSuggestions} //move to Dropbox
+                                autoCompleteValues={resorts} //move to Dropbox
+                                setAutocompleteValues={setResorts} //move to Dropbox
+                                setOpenSuggestions={setShowResorts}
+                                openSuggestions={showResorts}
+                            />
+                        </div>
+                        <div className="col-12">
+                            <Dropbox value={language}
+                                input="language"
+                                setValue={setLanguage}
+                                placeholder={"Speaks?"}
+                                getListfromDB={getLanguagesListfromDB}
+                                getSuggestions={getLanguagesSuggestions} //move to Dropbox
+                                autoCompleteValues={languages} //move to Dropbox
+                                setAutocompleteValues={setLanguages} //move to Dropbox
+                                setOpenSuggestions={setShowLanguages}
+                                openSuggestions={showLanguages}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
