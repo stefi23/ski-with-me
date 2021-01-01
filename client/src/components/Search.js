@@ -39,6 +39,10 @@ function Search(props) {
         props.getLevelSearched(level) //data to parent
     };
 
+    props.getResortSearched(resort);
+
+    props.getLanguageSearched(language);
+
 
     const getResortsListfromDB = async () => {
         try {
@@ -64,6 +68,16 @@ function Search(props) {
         try {
             const resp = await axios.get(`/AllResorts/${resort}`);
             setResorts(resp.data)
+        } catch (err) {
+            // Handle Error Here
+            console.error(err);
+        }
+    };
+
+        const getLanguagesSuggestions = async () => {
+        try {
+            const resp = await axios.get(`/AllLanguages/${language}`);
+            setLanguages(resp.data)
         } catch (err) {
             // Handle Error Here
             console.error(err);
@@ -97,38 +111,9 @@ function Search(props) {
                                 value={level}
                             />
                         </div>
-                        {/* <div className="col-12">
-                            <input
-                                className="form-control"
-                                type="name"
-                                name="resorts"
-                                value={resort}
-                                onChange={((e) => setResort(e.target.value))}
-                                onClick={getResortsListfromDB}
-                                onFocus={() => setShowResorts(true)}
-                                onBlur={() => setShowResorts(false)}
-                                placeholder="Which resort?"
-                                onKeyUp={autocompleteResorts} // autocomplete-> fetch data and update the 
-                                autoComplete="off"
-                            />
-                            <div className=" autocomplete rounded">
-                                {resorts.length > 0 && showResorts ? (
-
-                                    resorts.map((resort, index) => (
-                                        <p
-                                            key={index}
-                                            className="autosuggestElement p-2 mb-0"
-                                            onMouseDown={() =>
-                                                takeSuggestion(resort.resort_name)}
-                                            value={resort.resort_name}
-                                        >
-                                            {resort.resort_name}
-                                        </p>
-                                    ))) : null}
-                            </div>
-                        </div> */}
                          <div className="col-12">
                              <Dropbox   value={resort} 
+                                        input="resort_name"    
                                         setValue={setResort}
                                         placeholder={"Which resort?"} 
                                         getListfromDB={getResortsListfromDB} 
@@ -141,12 +126,13 @@ function Search(props) {
                          </div>
                          <div className="col-12">
                              <Dropbox   value={language} 
+                                        input="language"
                                         setValue={setLanguage}
                                         placeholder={"Speaks?"} 
-                                        getListfromDB={getResortsListfromDB} 
-                                        getSuggestions={getResortsSuggestions} //move to Dropbox
-                                        autoCompleteValues={resorts} //move to Dropbox
-                                        setAutocompleteValues={setResorts} //move to Dropbox
+                                        getListfromDB={getLanguagesListfromDB} 
+                                        getSuggestions={getLanguagesSuggestions} //move to Dropbox
+                                        autoCompleteValues={languages} //move to Dropbox
+                                        setAutocompleteValues={setLanguages} //move to Dropbox
                                         setOpenSuggestions={setShowLanguages}
                                         openSuggestions={showLanguages}
                                         />

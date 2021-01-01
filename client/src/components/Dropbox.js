@@ -1,8 +1,7 @@
 import React from "react"
 
-function Dropbox({placeholder, value, setValue, getListfromDB, setOpenSuggestions, autoCompleteValues, openSuggestions,  getSuggestions}){
-    console.log("thos", autoCompleteValues)
-
+function Dropbox({placeholder, value, input, setValue, getListfromDB, setOpenSuggestions, autoCompleteValues, openSuggestions,  getSuggestions}){
+    
   const autocompleteSuggestions = () => {
         getSuggestions()
     }
@@ -12,6 +11,7 @@ function Dropbox({placeholder, value, setValue, getListfromDB, setOpenSuggestion
     }
 
 return (
+   
     <>
      <input
                                 className="form-control"
@@ -29,15 +29,15 @@ return (
                             <div className=" autocomplete rounded">
                                 {autoCompleteValues.length > 0  && openSuggestions ? (
 
-                                    autoCompleteValues.map((value, index) => (
+                                    autoCompleteValues.map((autoCompletevalue, index) => (
                                         <p
                                             key={index}
                                             className="autosuggestElement p-2 mb-0"
                                            onMouseDown={() =>
-                                               takeSuggestion(value.resort_name)}
-                                            value={value.resort_name}
+                                               takeSuggestion(autoCompletevalue[input])}
+                                            value={autoCompletevalue[input]}
                                         >
-                                            {value.resort_name}
+                                            {autoCompletevalue[input]}
                                         </p>
                                     ))) : null}
                             </div>
