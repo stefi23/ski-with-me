@@ -153,7 +153,9 @@ function App() {
           <Search getSportSearched={getSportSearched}
             getLevelSearched={getLevelSearched}
             getResortSearched={getResortSearched}
-            getLanguageSearched={getLanguageSearched} />
+            getLanguageSearched={getLanguageSearched}
+            skierListData={skierList}
+          />
         </div>
         <div className="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">
           <div className="row">

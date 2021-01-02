@@ -16,7 +16,7 @@ const Title = styled.h1`
 function Search(props) {
     const [sport, setSport] = useState("")
     const [level, setLevel] = useState("")
-
+    const [skierData, setSkierData] = useState([])
     //
     const [resort, setResort] = useState("")
     const [resorts, setResorts] = useState([])
@@ -27,17 +27,22 @@ function Search(props) {
     const [showLanguages, setShowLanguages] = useState(false)
     const [languages, setLanguages] = useState([])
 
-
-
     const getSportSearched = (sport) => {
         setSport(sport)
         props.getSportSearched(sport)
     };
 
+
     const getLevelSearched = (level) => {
         setLevel(level)
         props.getLevelSearched(level) //data to parent
     };
+
+
+
+    useEffect(() => {
+        setSkierData(props.skierListData)
+    }, [props.skierListData])
 
     useEffect(() => {
         if (resort) {
@@ -46,6 +51,7 @@ function Search(props) {
         if (language) {
             props.getLanguageSearched(language)
         }
+
     }, [resort, language])
 
 
@@ -102,7 +108,11 @@ function Search(props) {
                             <SelectBox
                                 getSelection={getSportSearched} // send data to parent
                                 id="sport"
-                                options={["ski", "snowboard", "both"]}
+                                options={skierData.map(skier => {
+                                    return skier.sport
+                                })
+                                }
+
                                 label="Choose sport..."
                                 value={sport}
                             />
@@ -111,7 +121,10 @@ function Search(props) {
                             <SelectBox
                                 getSelection={getLevelSearched}
                                 id="level"
-                                options={["beginner", "medium", "advanced", "pro"]}
+                                options={skierData.map(skier => {
+                                    return skier.level
+                                })
+                                }
                                 label="Choose level..."
                                 value={level}
                             />
