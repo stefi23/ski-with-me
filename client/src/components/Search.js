@@ -108,9 +108,11 @@ function Search(props) {
                             <SelectBox
                                 getSelection={getSportSearched} // send data to parent
                                 id="sport"
-                                options={skierData.map(skier => {
-                                    return skier.sport
-                                })
+                                options={
+
+                                    skierData.map(skier => {
+                                        return skier.sport
+                                    })
                                 }
 
                                 label="Choose sport..."
@@ -134,7 +136,10 @@ function Search(props) {
                                 input="resort_name"
                                 setValue={setResort}
                                 placeholder={"Which resort?"}
-                                getListfromDB={getResortsListfromDB}
+                                getListfromDB={
+                                    skierData.resorts
+
+                                }
                                 getSuggestions={getResortsSuggestions} //move to Dropbox
                                 autoCompleteValues={resorts} //move to Dropbox
                                 setAutocompleteValues={setResorts} //move to Dropbox

@@ -78,5 +78,48 @@ con.connect(function (err) {
     console.log("Closing...");
   });
 
+  sql =
+    "DROP TABLE if exists level; CREATE TABLE level(id INT NOT NULL AUTO_INCREMENT, level_name varchar(255), PRIMARY KEY (id));";
+
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table creation `level` was successful!");
+
+    console.log("Closing...");
+  });
+
+  sql =
+    "DROP TABLE if exists sport; CREATE TABLE sport(id INT NOT NULL AUTO_INCREMENT, sport_name varchar(255), PRIMARY KEY (id));";
+
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table creation `sport` was successful!");
+
+    console.log("Closing...");
+  });
+
+  sql =
+    "DROP TABLE if exists level_user; CREATE TABLE level_user(id INT NOT NULL AUTO_INCREMENT, user_id INT NOT NULL, level_id INT NOT NULL, PRIMARY KEY (id));";
+
+
+
+
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table creation `level_users` was successful!");
+
+    console.log("Closing...");
+  });
+
+  sql =
+    "DROP TABLE if exists sport_users; CREATE TABLE sport_user(id INT NOT NULL AUTO_INCREMENT, user_id INT NOT NULL, sport_id INT NOT NULL, PRIMARY KEY (id));";
+
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table creation `sport_users` was successful!");
+
+    console.log("Closing...");
+  });
+
   con.end();
 });
