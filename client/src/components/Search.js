@@ -20,12 +20,20 @@ function Search(props) {
     //
     const [resort, setResort] = useState("")
     const [resorts, setResorts] = useState([])
+    const [resorts2, setResorts2] = useState([])
     const [showResorts, setShowResorts] = useState(false)
 
     // 
     const [language, setLanguage] = useState("")
     const [showLanguages, setShowLanguages] = useState(false)
     const [languages, setLanguages] = useState([])
+
+    //used to send filtered data to the checkbox
+
+    const [sports, setSports] = useState([])
+    const [levels, setLevels] = useState([])
+
+    //
 
     const getSportSearched = (sport) => {
         setSport(sport)
@@ -38,10 +46,37 @@ function Search(props) {
         props.getLevelSearched(level) //data to parent
     };
 
+    const sportsAvailable = (skierData) => {
+        const sportsArr = skierData.map(skier => {
+            return skier.sport
+        })
+        setSports([...new Set(sportsArr)])
+    };
+
+    const levelAvailable = (skierData) => {
+        const levelArr = skierData.map(skier => {
+            return skier.level
+        })
+        setLevels([...new Set(levelArr)])
+    };
+
+    const resortAvailable = (skierData) => {
+        let resortsArr = skierData.map(skier => {
+            return skier.resort.split(",")
+        })
+        // resortsArr = [].concat(...resortsArr) not using this because I only will have 
+        //1 level of nesting in the arry
+        setResorts2([...new Set(resortsArr.flat())])
+    };
+
+
 
 
     useEffect(() => {
-        setSkierData(props.skierListData)
+        setSkierData(props.skierListData);
+        sportsAvailable(props.skierListData)
+        levelAvailable(props.skierListData)
+        // resortAvailable(props.skierListData)
     }, [props.skierListData])
 
     useEffect(() => {
@@ -58,7 +93,7 @@ function Search(props) {
     const getResortsListfromDB = async () => {
         try {
             const resp = await axios.get('/AllResorts');
-            setResorts(resp.data)
+            setResorts([...new Set(resp.data)])
         } catch (err) {
             // Handle Error Here
             console.error(err);
@@ -69,6 +104,7 @@ function Search(props) {
         try {
             const resp = await axios.get('/AllLanguages');
             setLanguages(resp.data)
+            console.log("languages received:", resp.data)
         } catch (err) {
             // Handle Error Here
             console.error(err);
@@ -108,13 +144,7 @@ function Search(props) {
                             <SelectBox
                                 getSelection={getSportSearched} // send data to parent
                                 id="sport"
-                                options={
-
-                                    skierData.map(skier => {
-                                        return skier.sport
-                                    })
-                                }
-
+                                options={sports}
                                 label="Choose sport..."
                                 value={sport}
                             />
@@ -123,9 +153,7 @@ function Search(props) {
                             <SelectBox
                                 getSelection={getLevelSearched}
                                 id="level"
-                                options={skierData.map(skier => {
-                                    return skier.level
-                                })
+                                options={levels
                                 }
                                 label="Choose level..."
                                 value={level}
@@ -136,10 +164,7 @@ function Search(props) {
                                 input="resort_name"
                                 setValue={setResort}
                                 placeholder={"Which resort?"}
-                                getListfromDB={
-                                    skierData.resorts
-
-                                }
+                                getListfromDB={getResortsListfromDB}
                                 getSuggestions={getResortsSuggestions} //move to Dropbox
                                 autoCompleteValues={resorts} //move to Dropbox
                                 setAutocompleteValues={setResorts} //move to Dropbox

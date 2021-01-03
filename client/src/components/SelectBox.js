@@ -5,6 +5,10 @@ import { useState, useEffect } from "react"
 
 function SelectBox({ getSelection, label, options, value, id }) {
 
+    useEffect(() => {
+        options = [...new Set(options)]
+    }, [])
+
     function valueSelected(e) {
         getSelection(e.target.value)
     }
