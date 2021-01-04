@@ -18,6 +18,7 @@ function App() {
   const [isUserLoggedin, setUserLoggedIn] = useState(false);
   const [name, getName] = useState("");
   const [skierList, setSkierList] = useState([])
+  const [intialSkierList, setintialSkierList] = useState([])
   const [sport, setSport] = useState("")
   const [level, setLevel] = useState("")
   const [resort, setResort] = useState("")
@@ -40,12 +41,25 @@ function App() {
     }
   }
 
+
+  const getInitialSkierList = async () => {
+    try {
+      const resp = await axios.get(`/everything`);
+      setintialSkierList(resp.data)
+
+    } catch (err) {
+      // Handle Error Here
+      console.error(err);
+    }
+  };
+
   const getSkierListfromDB = async () => {
 
     try {
       // const resp = await axios.get('/everything');
       const resp = await axios.get(`/everything?language=${language}&sport=${sport}&level=${level}&resort=${resort}`);
       setSkierList(resp.data)
+
     } catch (err) {
       // Handle Error Here
       console.error(err);
@@ -55,6 +69,7 @@ function App() {
   useEffect(() => {
     getUserdatafromDB()
     getSkierListfromDB()
+    getInitialSkierList()
   }, [sport, level, language, resort]);
 
 
@@ -155,6 +170,7 @@ function App() {
             getResortSearched={getResortSearched}
             getLanguageSearched={getLanguageSearched}
             skierListData={skierList}
+            intialSkierList={intialSkierList}
           />
         </div>
         <div className="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">

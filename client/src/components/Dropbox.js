@@ -1,7 +1,7 @@
 import React from "react"
 
-function Dropbox({ placeholder, value, input, setValue, getListfromDB, setOpenSuggestions, autoCompleteValues, openSuggestions, getSuggestions }) {
-
+function Dropbox({ placeholder, value, setValue, getListfromDB, setOpenSuggestions, autoCompleteValues, openSuggestions, getSuggestions }) {
+    console.log("autoComplete", autoCompleteValues)
 
     const autocompleteSuggestions = () => {
         getSuggestions()
@@ -20,7 +20,7 @@ function Dropbox({ placeholder, value, input, setValue, getListfromDB, setOpenSu
                 name="resorts"
                 value={value}
                 onChange={((e) => setValue(e.target.value))}
-                onClick={getListfromDB}
+                // onClick={getListfromDB}
                 onFocus={() => setOpenSuggestions(true)}
                 onBlur={() => setOpenSuggestions(false)}
                 placeholder={placeholder}
@@ -35,10 +35,10 @@ function Dropbox({ placeholder, value, input, setValue, getListfromDB, setOpenSu
                             key={index}
                             className="autosuggestElement p-2 mb-0"
                             onMouseDown={() =>
-                                takeSuggestion(autoCompletevalue[input])}
-                            value={autoCompletevalue[input]}
+                                takeSuggestion(autoCompletevalue)}
+                            value={autoCompletevalue}
                         >
-                            {autoCompletevalue[input]}
+                            {autoCompletevalue}
                         </p>
                     ))) : null}
             </div>

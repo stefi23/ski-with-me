@@ -38,7 +38,7 @@ function MultipleComponent({ title, items, onAdd, onRemove, onEdit }) {
             className="btn btn-primary"
             onClick={() => onAdd("")}
           >
-            Add more resorts
+            Add more {title}
           </button>
         </div>
       </div>

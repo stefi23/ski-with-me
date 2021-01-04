@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SelectBox from "./SelectBox"
-import Dropbox from "./Dropbox"
 import styled from 'styled-components'
-import axios from "axios";
+
 
 
 const Title = styled.h1`
@@ -17,33 +16,38 @@ function Search(props) {
     const [sport, setSport] = useState("")
     const [level, setLevel] = useState("")
     const [skierData, setSkierData] = useState([])
-    //
-    const [resort, setResort] = useState("")
-    const [resorts, setResorts] = useState([])
-    const [resorts2, setResorts2] = useState([])
-    const [showResorts, setShowResorts] = useState(false)
+    const [intialSkierList, setIntialSkierList] = useState([])
 
-    // 
-    const [language, setLanguage] = useState("")
-    const [showLanguages, setShowLanguages] = useState(false)
-    const [languages, setLanguages] = useState([])
 
     //used to send filtered data to the checkbox
 
     const [sports, setSports] = useState([])
     const [levels, setLevels] = useState([])
 
-    //
 
     const getSportSearched = (sport) => {
-        setSport(sport)
-        props.getSportSearched(sport)
+        if (sport !== "Choose sport...") {
+            setSport(sport)
+            props.getSportSearched(sport)
+        }
+        else {
+            props.getSportSearched("")
+            setSport(sport)
+            sportsAvailable(intialSkierList)
+        }
     };
 
 
     const getLevelSearched = (level) => {
-        setLevel(level)
-        props.getLevelSearched(level) //data to parent
+        if (level !== "Choose level...") {
+            setLevel(level)
+            props.getLevelSearched(level) //data to parent
+        }
+        else {
+            props.getLevelSearched("")
+            setLevel(level)
+            levelAvailable(intialSkierList)
+        }
     };
 
     const sportsAvailable = (skierData) => {
@@ -60,14 +64,7 @@ function Search(props) {
         setLevels([...new Set(levelArr)])
     };
 
-    const resortAvailable = (skierData) => {
-        let resortsArr = skierData.map(skier => {
-            return skier.resort.split(",")
-        })
-        // resortsArr = [].concat(...resortsArr) not using this because I only will have 
-        //1 level of nesting in the arry
-        setResorts2([...new Set(resortsArr.flat())])
-    };
+
 
 
 
@@ -76,60 +73,13 @@ function Search(props) {
         setSkierData(props.skierListData);
         sportsAvailable(props.skierListData)
         levelAvailable(props.skierListData)
-        // resortAvailable(props.skierListData)
+        setIntialSkierList(props.intialSkierList)
     }, [props.skierListData])
 
-    useEffect(() => {
-        if (resort) {
-            props.getResortSearched(resort)
-        }
-        if (language) {
-            props.getLanguageSearched(language)
-        }
-
-    }, [resort, language])
 
 
-    const getResortsListfromDB = async () => {
-        try {
-            const resp = await axios.get('/AllResorts');
-            setResorts([...new Set(resp.data)])
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
-    };
 
-    const getLanguagesListfromDB = async () => {
-        try {
-            const resp = await axios.get('/AllLanguages');
-            setLanguages(resp.data)
-            console.log("languages received:", resp.data)
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
-    };
 
-    const getResortsSuggestions = async () => {
-        try {
-            const resp = await axios.get(`/AllResorts/${resort}`);
-            setResorts(resp.data)
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
-    };
-
-    const getLanguagesSuggestions = async () => {
-        try {
-            const resp = await axios.get(`/AllLanguages/${language}`);
-            setLanguages(resp.data)
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
-    };
 
 
     return (
@@ -147,42 +97,16 @@ function Search(props) {
                                 options={sports}
                                 label="Choose sport..."
                                 value={sport}
+                                initialData={intialSkierList}
                             />
                         </div>
                         <div className="col-md-12">
                             <SelectBox
                                 getSelection={getLevelSearched}
                                 id="level"
-                                options={levels
-                                }
+                                options={levels}
                                 label="Choose level..."
                                 value={level}
-                            />
-                        </div>
-                        <div className="col-12">
-                            <Dropbox value={resort}
-                                input="resort_name"
-                                setValue={setResort}
-                                placeholder={"Which resort?"}
-                                getListfromDB={getResortsListfromDB}
-                                getSuggestions={getResortsSuggestions} //move to Dropbox
-                                autoCompleteValues={resorts} //move to Dropbox
-                                setAutocompleteValues={setResorts} //move to Dropbox
-                                setOpenSuggestions={setShowResorts}
-                                openSuggestions={showResorts}
-                            />
-                        </div>
-                        <div className="col-12">
-                            <Dropbox value={language}
-                                input="language"
-                                setValue={setLanguage}
-                                placeholder={"Speaks?"}
-                                getListfromDB={getLanguagesListfromDB}
-                                getSuggestions={getLanguagesSuggestions} //move to Dropbox
-                                autoCompleteValues={languages} //move to Dropbox
-                                setAutocompleteValues={setLanguages} //move to Dropbox
-                                setOpenSuggestions={setShowLanguages}
-                                openSuggestions={showLanguages}
                             />
                         </div>
                     </div>
