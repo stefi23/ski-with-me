@@ -12,7 +12,7 @@ function SkiersList(props) {
                             <div className="col-sm-12 col-md-4 col-lg-3 col-xl-3 mb-3" key={index}>
                                 <SkierCard name={`${skier.first_name} ${skier.last_name}`}
                                     level={skier.level}
-                                    resorts={skier.resorts}
+                                    resorts={skier.resort}
                                     languages={skier.languages}
                                     sport={skier.sport}
                                     email={skier.email}

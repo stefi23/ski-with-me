@@ -2,7 +2,7 @@ import React from "react"
 
 function Dropbox({ placeholder, value, input, setValue, getListfromDB, setOpenSuggestions, autoCompleteValues, openSuggestions, getSuggestions }) {
 
-    console.log("here:", getListfromDB)
+
     const autocompleteSuggestions = () => {
         getSuggestions()
     }
