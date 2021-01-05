@@ -52,7 +52,7 @@ router.post("/login", async (req, res, next) => {
 
 router.get("/profile", userShouldBeLoggedIn, async function (req, res, next) {
   const { data } = await db(
-    `SELECT first_name from users WHERE id = ${req.user_id}`
+    'SELECT first_name from users WHERE id = ?;', [req.user_id]
   );
   const name = data[0].first_name;
   res.send({
@@ -109,7 +109,8 @@ router.post("/register", async (req, res, next) => {
     const hashedPassword = await cryptoPassword(password, email);
 
     let user = await db(
-      `INSERT INTO users (first_name, last_name, email, sport, level, password ) VALUES ("${first_name}", "${last_name}", "${email}", "${sport}", "${level}", "${hashedPassword}");`
+      'INSERT INTO users (first_name, last_name, email, sport, level, password ) VALUES (?, ?, ?, ?, ?, ?);',
+      [first_name, last_name, email, sport, level, hashedPassword]
     );
 
     let userData = await db(
@@ -163,13 +164,13 @@ router.post("/register", async (req, res, next) => {
 
 const valueExistsInDatabase = async (table_name, column_name, value) => {
   return await db(
-    `SELECT id FROM ${table_name} WHERE ${column_name} = "${value}";`
+    `SELECT id FROM ${table_name} WHERE ${column_name} = ?;`, [value]
   );
 };
 
 const insertValueIntoTable = async (table_name, table_column, value) => {
   return await db(
-    `INSERT INTO ${table_name} (${table_column}) VALUES ("${value}")`
+    `INSERT INTO ${table_name} (${table_column}) VALUES (?)`, [value]
   );
 };
 

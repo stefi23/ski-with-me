@@ -64,11 +64,6 @@ function Search(props) {
         setLevels([...new Set(levelArr)])
     };
 
-
-
-
-
-
     useEffect(() => {
         setSkierData(props.skierListData);
         sportsAvailable(props.skierListData)
