@@ -6,9 +6,11 @@ I want to go skiing but most of my friends who ski are in Romania.
 
 It would be great if I there would be a directory where I look up skies/snowboarders who go to/live close to a specific resort and message them to pair up for a few ski days.
 
-> **Main goal:** connect more advance skiers/snowboarders with each other soe they can go ski together.
+> **Main goal:** connect more advance skiers/snowboarders with each other soe they can go ski together.  
 
-#### How to install it and get started
+
+## How to install it and get started  
+
 
 ```
 git clone https://github.com/stefi23/ski-with-me
@@ -18,6 +20,7 @@ $ npm start
 ```
 
 Open another terminal window:
+```
 $ cd ski-with-me
 $ cd client
 $ npm start
