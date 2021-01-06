@@ -72,11 +72,6 @@ function Search(props) {
     }, [props.skierListData])
 
 
-
-
-
-
-
     return (
         <>
             <div className="row">
