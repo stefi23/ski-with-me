@@ -61,29 +61,6 @@ router.get("/profile", userShouldBeLoggedIn, async function (req, res, next) {
   });
 });
 
-// router.get("/profile2", (req, res, next) => {
-//   const token = req.headers[`x-access-token`];
-//   if (!token) {
-//     res.status(401).send({ message: "Please provide a token" });
-//   } else {
-//     jwt.verify(token, supersecret, async function(err, decoded) {
-//       if (err) {
-//         res.status(401).send({ message: err.message });
-//       } else {
-//         const { data } = await db(
-//           `SELECT first_name from users WHERE id = ${decoded.user_id}`
-//         );
-//         const name = data[0].first_name;
-
-//         res.send({
-//           message: "here is your protected data for user " + decoded.user_id,
-//           name,
-//         });
-//       }
-//     });
-//   }
-// });
-
 router.post("/register", async (req, res, next) => {
   try {
     let {
@@ -175,12 +152,12 @@ const insertValueIntoTable = async (table_name, table_column, value) => {
 };
 
 const getUserId = async (email) => {
-  return await db(`SELECT id FROM users WHERE email = "${email}"`);
+  return await db(`SELECT id FROM users WHERE email = ?;`, [email]);
 };
 
 const getValueId = async (table_name, table_column, value) => {
   return await db(
-    `SELECT id FROM ${table_name} WHERE ${table_column} = "${value}"`
+    `SELECT id FROM ${table_name} WHERE ${table_column} = ?;`, [value]
   );
 };
 
@@ -192,7 +169,7 @@ const insertValuesIntoIntermediateTable = async (
   value2
 ) => {
   return await db(
-    `INSERT INTO ${table_name} (${column_name1}, ${column_name2}) VALUES (${value1}, ${value2});`
+    `INSERT INTO ${table_name} (${column_name1}, ${column_name2}) VALUES (?, ?);`, [value1, value2]
   );
 };
 
