@@ -43,6 +43,18 @@ router.get("/AllLanguages", async (req, res) => {
 });
 
 //Serch resorts based on user input 
+// router.get("/AllResorts/:resort", async (req, res) => {
+//   const resort = req.params.resort;
+//   try {
+//     const response = await db(`
+//   SELECT resort_name FROM resorts WHERE resort_name LIKE "%${resort}%";`);
+//     res.status(200).send(response.data);
+//   } catch (err) {
+//     res.status(500).send(err);
+//   }
+// });
+
+//Serch resorts based on user input 
 router.get("/AllResorts/:resort", async (req, res) => {
   const resort = req.params.resort;
   try {
@@ -57,8 +69,7 @@ router.get("/AllResorts/:resort", async (req, res) => {
 router.get("/AllLanguages/:language", async (req, res) => {
   const language = req.params.language;
   try {
-    const response = await db(`
-   SELECT language FROM languages WHERE language LIKE "%${language}%";`);
+    const response = await db('SELECT language FROM languages WHERE language LIKE ?;', [`%${language}%`]);
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
@@ -76,8 +87,8 @@ router.get("/resort/:resort", async (req, res) => {
     LEFT JOIN resorts_user ON resorts_user.user_id = users.id
     LEFT JOIN languages lang ON languages_user.language_id = lang.id
     LEFT JOIN resorts resort ON resorts_user.id = resort.id
-    WHERE resort_name = "${resort}"
-    ;`);
+    WHERE resort_name = ?
+    ;`, [`${resort}`]);
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
@@ -95,9 +106,9 @@ router.get("/level/:level", async (req, res) => {
     LEFT JOIN resorts_user ON resorts_user.user_id = users.id
     LEFT JOIN languages lang ON languages_user.language_id = lang.id
     LEFT JOIN resorts resort ON resorts_user.id = resort.id
-    WHERE level = "${level}"
+    WHERE level = ?
     GROUP BY id, first_name, last_name
-    ;`);
+    ;`, [`${level}`]);
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
@@ -115,15 +126,17 @@ router.get("/sport/:sport", async (req, res) => {
     LEFT JOIN resorts_user ON resorts_user.user_id = users.id
     LEFT JOIN languages lang ON languages_user.language_id = lang.id 
     LEFT JOIN resorts resort ON resorts_user.id = resort.id
-    WHERE sport = "${sport}"
+    WHERE sport = ?
     GROUP BY id, first_name, last_name;
-`);
+`, [`${sport}`]);
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
   }
 });
 
+
+//TO BE CHECKED!
 router.get("/resorts", async (req, res) => {
   // accepts urls like http://localhost/resorts?resort=Molina&language=English&sport=ski
   const { resort, language, sport } = req.query;
@@ -167,6 +180,7 @@ router.get(`/everything`, async (req, res) => {
   if (sport) {
     conditions.push("users.sport = ?")
     params.push(sport);
+
   }
 
   if (language) {
