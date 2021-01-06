@@ -62,7 +62,7 @@ docker run -p 3306:3306 --name sky-with-me \
 -d mysql:latest
 ```
 
-Given [to this thread](https://github.com/mysqljs/mysql/issues/2046) we need to do one more thing to allow to connect unsafely to MySQL locally (just for development purposes).  
+Assuming [to this thread](https://github.com/mysqljs/mysql/issues/2046) we need to do one more thing to allow to connect unsafely to MySQL locally (just for development purposes).  
 The following commands connect us to the Docker container with MySQL instance running:
 
 ```bash
