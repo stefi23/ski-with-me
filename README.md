@@ -8,6 +8,21 @@ It would be great if I there would be a directory where I look up skies/snowboar
 
 > **Main goal:** connect more advance skiers/snowboarders with each other soe they can go ski together.
 
+#### How to install it and get started
+
+```
+git clone https://github.com/stefi23/ski-with-me
+$ cd ski-with-me
+$ npm run migrate  
+$ npm start
+```
+
+Open another terminal window:
+$ cd ski-with-me
+$ cd client
+$ npm start
+```
+
 ## When? (Situation)
 
 When you want to go skiing/snowboarding in a specific place but none of your friends cand join you or you are new in a town with no skier/boarder friends and would like some company.
