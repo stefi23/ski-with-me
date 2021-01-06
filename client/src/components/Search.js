@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import SelectBox from "./SelectBox"
 import styled from 'styled-components'
 
-
-
 const Title = styled.h1`
         color: #6989af;
         font-size: 30px;
@@ -70,11 +68,6 @@ function Search(props) {
         levelAvailable(props.skierListData)
         setIntialSkierList(props.intialSkierList)
     }, [props.skierListData])
-
-
-
-
-
 
 
     return (
