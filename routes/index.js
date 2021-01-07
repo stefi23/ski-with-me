@@ -147,14 +147,14 @@ router.get("/resorts", async (req, res) => {
   }
   try {
     const response = await db(`
-  SELECT resort_name
+  SELECT distinct resort_name
     FROM resorts
     LEFT JOIN resorts_user ON resorts_user.resort_id = resorts.id
     LEFT JOIN users ON users.id = resorts_user.user_id
     LEFT JOIN languages_user ON languages_user.user_id = users.id
     LEFT JOIN languages lang ON languages_user.language_id = lang.id
     WHERE resort_name = "${resort}"
-    ${language ? ` AND languages.language = "${language}"` : ""}
+    ${language ? ` AND lang.language = "${language}"` : ""}
     ${sport ? ` AND users.sport = "${sport}"` : ""}
     ;`); // Be careful here, as you will probably get lots of duplicated resorts
     res.status(200).send(response.data);
@@ -163,10 +163,36 @@ router.get("/resorts", async (req, res) => {
   }
 });
 
-router.get(`/everything`, async (req, res) => {
-  // accepts urls like http://localhost/everything?language=english&sport=ski&level=pro
+// User changes filter.
+// Fetch updated skier data from db based on filter.
+// Update select box contents based on skier data.
 
-  // http://localhost:5000/everything?sport=ski" GROUP BY first_name, last_name; update users set first_name = "Hacked" where id = 1; select id, first_name, last_name, count(*) from users where sport = "ski
+// User changes filter
+// Fetch updated skier data from db based on filter.
+// Fetch select box contents from db based on filter.
+
+router.get('/sports', async (req, res) => {
+  // accept urls http://localhost/sports?language=english&level=pro
+  let whereClause = getWhereClause(req);
+
+  let query = `SELECT distinct sport
+  FROM users
+  LEFT JOIN resorts_user ON resorts_user.user_id = users.id
+  LEFT JOIN resorts ON resorts.id = resorts_user.resort_id
+  LEFT JOIN languages_user ON languages_user.user_id = users.id
+  LEFT JOIN languages lang ON languages_user.language_id = lang.id
+  ${whereClause.clause}
+  `
+
+  try {
+    const response = await db(query, whereClause.params);
+    res.status(200).send(response.data);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+function getWhereClause(req) {
   const { level, language, sport, resort } = req.query;
 
   let conditions = [];
@@ -195,18 +221,28 @@ router.get(`/everything`, async (req, res) => {
 
   let whereClause = conditions.length > 0 ? "WHERE " + conditions.join(" AND ") : "";
 
+  return {clause: whereClause, params: params};
+}
+
+router.get(`/everything`, async (req, res) => {
+  // accepts urls like http://localhost/everything?language=english&sport=ski&level=pro
+
+  // http://localhost:5000/everything?sport=ski" GROUP BY first_name, last_name; update users set first_name = "Hacked" where id = 1; select id, first_name, last_name, count(*) from users where sport = "ski
+  
+  let whereClause = getWhereClause(req);
+  
   try {
     let query = `
     SELECT users.id, first_name, last_name, sport,level,GROUP_CONCAT(DISTINCT resort_name) AS resort, GROUP_CONCAT( DISTINCT language) AS languages, email
     FROM users
-    LEFT JOIN resorts_user ON resorts_user.user_id = users.id
-    LEFT JOIN resorts ON resorts.id = resorts_user.resort_id
-    LEFT JOIN languages_user ON languages_user.user_id = users.id
-    LEFT JOIN languages lang ON languages_user.language_id = lang.id
-    ${whereClause}
+    JOIN resorts_user ON resorts_user.user_id = users.id
+    JOIN resorts ON resorts.id = resorts_user.resort_id
+    JOIN languages_user ON languages_user.user_id = users.id
+    JOIN languages lang ON languages_user.language_id = lang.id
+    ${whereClause.clause}
     GROUP BY id, first_name, last_name;`;
     console.log(query);
-    const response = await db(query, params); // Again, you will probably will get duplicated entries for this query - fixed
+    const response = await db(query, whereClause.params); // Again, you will probably will get duplicated entries for this query - fixed
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);

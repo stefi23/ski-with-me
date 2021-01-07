@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SelectBox from "./SelectBox"
 import styled from 'styled-components'
+import axios from "axios";
 
 const Title = styled.h1`
         color: #6989af;
@@ -21,6 +22,13 @@ function Search(props) {
 
     const [sports, setSports] = useState([])
     const [levels, setLevels] = useState([])
+
+    const [resorts, setResorts] = useState(["Andorra", "La Molina"])
+    const [resort, setResort] = useState("")
+    const [resortSuggestions, setResortSuggestions] = useState([])
+    const [openSuggestions, setOpenSuggestions] = useState(false)
+
+
 
 
     const getSportSearched = (sport) => {
@@ -62,6 +70,33 @@ function Search(props) {
         setLevels([...new Set(levelArr)])
     };
 
+    const autocompleteResorts = async (queryText) => {
+        try {
+            const resp = await axios.get(`/AllResorts/${resort}`);
+            setResortSuggestions(resp.data)
+        } catch (err) {
+            // Handle Error Here
+            console.error(err);
+        }
+    }
+
+//   const getResortsSuggestions = async () => {
+//         try {
+//             const resp = await axios.get(`/AllResorts/${resort}`);
+//             setResorts(resp.data)
+//         } catch (err) {
+//             // Handle Error Here
+//             console.error(err);
+//         }
+//     };
+
+    const takeSuggestedResort = (resort) => {
+        setResort(resort);
+        if ((resortSuggestions.filter(x => x.resort_name === resort)).length > 0 || resort === "") {
+            props.getResortSearched(resort)
+        }
+    }
+
     useEffect(() => {
         setSkierData(props.skierListData);
         sportsAvailable(props.skierListData)
@@ -97,9 +132,43 @@ function Search(props) {
                                 value={level}
                             />
                         </div>
+                        <div className="col-md-12">
+                        <input
+                        className="form-control"
+                        type="name"
+                        name="resorts"
+                        value={resort}
+                        onChange={((e) => takeSuggestedResort(e.target.value))}
+                        onClick={((e) => autocompleteResorts(e.target.value))}
+                        onFocus={() => setOpenSuggestions(true)}
+                        onBlur={() => setOpenSuggestions(false)}
+                        placeholder={"Choose resorts"}
+                        onKeyUp={((e) => autocompleteResorts(e.target.value))} // autocomplete-> fetch data and update the 
+                        autoComplete="off"
+                        />
+                     <div className=" autocomplete rounded">
+                        {resortSuggestions.length > 0 && openSuggestions ? (
+
+                        resortSuggestions.map((resort, index) => (
+                        <p
+                            key={index}
+                            className="autosuggestElement p-2 mb-0"
+                             onMouseDown={() =>
+                                 takeSuggestedResort(resort.resort_name)}
+                            value={resort.resort_name}
+                        >
+                            {resort.resort_name}
+                        </p>
+                    ))) 
+                    
+                    : null
+                    } 
+                    </div>
+                    </div>
                     </div>
                 </div>
             </div>
+             
 
         </>
     )

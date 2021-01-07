@@ -11,7 +11,7 @@ It would be great if I there would be a directory where I look up skies/snowboar
 
 ## How to install it and get started  
 
-
+Create a database name skiBuddies locally.
 ```
 git clone https://github.com/stefi23/ski-with-me
 $ cd ski-with-me
