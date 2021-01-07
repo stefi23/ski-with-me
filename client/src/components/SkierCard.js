@@ -43,10 +43,10 @@ function SkierCard(props) {
 
     return (
         <SkierCardDiv>
-            <TextCenter>{props.sport === "ski" ? '⛷️' : props.sport === "snowboard" ? '🏂' : '⛷️/🏂'}</TextCenter>
+            <TextCenter>{props.sport === "ski" ? (<span role="img" aria-label="skier emoji">⛷️</span>) : (props.sport === "snowboard") ? (<span role="img" aria-label="snowboader emoji">🏂</span>)  : (<span role="img" aria-label="skier/snowboarder emoji">⛷️/🏂</span>)}</TextCenter>
             <Title>{props.name}</Title>
             <LightText>- {props.level} -</LightText>
-            <StyledP>🗣️ &nbsp;
+            <StyledP><span role="img" aria-label="speaking head emoji">🗣️</span> &nbsp;
                 {props.languages ? (
                     props.languages.split(",").map((language, index) => {
                         const lastElement = props.languages.split(',').length - 1
@@ -56,7 +56,7 @@ function SkierCard(props) {
                         )
                     })) : "No resort added"}
             </StyledP>
-            <StyledP>🏔️ &nbsp;
+            <StyledP><span role="img" aria-label="mountain emoji">🏔️</span> &nbsp;
                 {props.resorts ? (
                     props.resorts.split(",").map((resort, index) => {
                         const lastElement = props.resorts.split(',').length - 1
@@ -67,8 +67,8 @@ function SkierCard(props) {
                     })) : "No resort added"}
             </StyledP>
             {props.isUserLoggedin ?
-                (<StyledP>👋 &nbsp;{props.email}</StyledP>) :
-                (<><LinkLogin href="/login" >👋 Contact info</LinkLogin></>)
+                (<StyledP><span role="img" aria-label="waving hand emoji">👋 </span>&nbsp;{props.email}</StyledP>) :
+                (<><LinkLogin href="/login" ><span role="img" aria-label="waving hand emoji">👋 </span>Contact info</LinkLogin></>)
 
             }
         </SkierCardDiv>
