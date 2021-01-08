@@ -2,7 +2,7 @@ import React from "react"
 import SkierCard from "./SkierCard"
 
 
-function SkiersList(props) {
+function SkiersList(props) {  
     return (
         <>
             {
