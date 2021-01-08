@@ -26,6 +26,7 @@ router.post("/login", async (req, res, next) => {
       [email, hashedPassword]
     );
     const name = result.data[0].first_name;
+    const id = result.data[0].id;
 
     if (result.data[0] && result.data[0].id) {
       const token = await getToken(result.data[0].id);
@@ -39,6 +40,7 @@ router.post("/login", async (req, res, next) => {
         messsage: "Login successful",
         name,
         token,
+        id
       });
     } else {
       res
@@ -55,9 +57,11 @@ router.get("/profile", userShouldBeLoggedIn, async function (req, res, next) {
     'SELECT first_name from users WHERE id = ?;', [req.user_id]
   );
   const name = data[0].first_name;
+  const id = req.user_id
   res.send({
     message: "Yes the user is logged in " + req.user_id,
     name,
+    id
   });
 });
 
@@ -77,7 +81,11 @@ router.post("/register", async (req, res, next) => {
     try {
       const result = await isUserRegistered(email);
       if (!result) {
-        return res.status(200).send({ message: "user is already registered" });
+        return res.status(200).send(
+          {
+            message: "user is already registered"
+          }
+        );
       }
     } catch (err) {
       res.status(500).send(err);
@@ -94,8 +102,15 @@ router.post("/register", async (req, res, next) => {
       `SELECT id from users WHERE email = ? AND password = ?;`,
       [email, hashedPassword]
     );
-    console.log("userData:", userData, "data: ", userData.data[0].id);
-    //userData: { data: [ RowDataPacket { id: 18 } ], error: null }
+
+    const id = userData.data[0].id
+
+    //Thos data
+    const { data } = await db(
+      'SELECT first_name from users WHERE id = ?;', [id]
+    );
+    const name = data[0].first_name;
+
     if (userData.data[0] && userData.data[0].id) {
       token = await getToken(userData.data[0].id);
     }
@@ -132,7 +147,12 @@ router.post("/register", async (req, res, next) => {
     });
 
     if (user.data && user.data.length) {
-      res.status(200).send({ message: "user was added", token });
+      res.status(200).send({
+        message: "user was added",
+        token,
+        name,
+        id
+      });
     }
   } catch (err) {
     res.status(404).send({ message: "user not valid" });
@@ -181,7 +201,7 @@ const insertIntoDatabase = async (
   valueId
 ) => {
   result = await valueExistsInDatabase(table_name, table_column, value);
-  console.log("result data:", result.data[0])
+  // console.log("result data:", result.data[0])
   // result.data[0] && 
 
   console.log("Here:", isEqual(result.data[0], {}))

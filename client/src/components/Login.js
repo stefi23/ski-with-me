@@ -35,6 +35,7 @@ function Login(props) {
         localStorage.setItem("skiBuddyToken", results.data.token);
         props.updateLoggedIn(true);
         props.getName(results.data.name);
+        props.getUserId(results.data.id)
       })
       .catch((err) => console.log(err));
   };

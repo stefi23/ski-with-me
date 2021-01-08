@@ -85,6 +85,8 @@ function Register(props) {
       .then((results) => {
         localStorage.setItem("skiBuddyToken", results.data.token);
         props.updateLoggedIn(true);
+        props.getName(results.data.name);
+        props.getUserId(results.data.id)
         props.history.push("/");
       })
       .catch((err) => console.log(err));
