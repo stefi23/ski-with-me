@@ -23,16 +23,13 @@ function Search(props) {
     const [sports, setSports] = useState([])
     const [levels, setLevels] = useState([])
 
-    const [resorts, setResorts] = useState(["Andorra", "La Molina"])
     const [resort, setResort] = useState("")
     const [resortSuggestions, setResortSuggestions] = useState([])
     const [openSuggestions, setOpenSuggestions] = useState(false)
 
 
-
-
     const getSportSearched = (sport) => {
-        if (sport !== "Choose sport...") {
+        if (sport !== "All sports...") {
             setSport(sport)
             props.getSportSearched(sport)
         }
@@ -45,7 +42,7 @@ function Search(props) {
 
 
     const getLevelSearched = (level) => {
-        if (level !== "Choose level...") {
+        if (level !== "All levels...") {
             setLevel(level)
             props.getLevelSearched(level) //data to parent
         }
@@ -80,15 +77,15 @@ function Search(props) {
         }
     }
 
-//   const getResortsSuggestions = async () => {
-//         try {
-//             const resp = await axios.get(`/AllResorts/${resort}`);
-//             setResorts(resp.data)
-//         } catch (err) {
-//             // Handle Error Here
-//             console.error(err);
-//         }
-//     };
+    //   const getResortsSuggestions = async () => {
+    //         try {
+    //             const resp = await axios.get(`/AllResorts/${resort}`);
+    //             setResorts(resp.data)
+    //         } catch (err) {
+    //             // Handle Error Here
+    //             console.error(err);
+    //         }
+    //     };
 
     const takeSuggestedResort = (resort) => {
         setResort(resort);
@@ -118,7 +115,7 @@ function Search(props) {
                                 getSelection={getSportSearched} // send data to parent
                                 id="sport"
                                 options={sports}
-                                label="Choose sport..."
+                                label="All sports..."
                                 value={sport}
                                 initialData={intialSkierList}
                             />
@@ -128,47 +125,48 @@ function Search(props) {
                                 getSelection={getLevelSearched}
                                 id="level"
                                 options={levels}
-                                label="Choose level..."
+                                label="All levels..."
                                 value={level}
                             />
                         </div>
                         <div className="col-md-12">
-                        <input
-                        className="form-control"
-                        type="name"
-                        name="resorts"
-                        value={resort}
-                        onChange={((e) => takeSuggestedResort(e.target.value))}
-                        onClick={((e) => autocompleteResorts(e.target.value))}
-                        onFocus={() => setOpenSuggestions(true)}
-                        onBlur={() => setOpenSuggestions(false)}
-                        placeholder={"Choose resorts"}
-                        onKeyUp={((e) => autocompleteResorts(e.target.value))} // autocomplete-> fetch data and update the 
-                        autoComplete="off"
-                        />
-                     <div className=" autocomplete rounded">
-                        {resortSuggestions.length > 0 && openSuggestions ? (
+                            <label>Which resort?</label>
+                            <input
+                                className="form-control"
+                                type="name"
+                                name="resorts"
+                                value={resort}
+                                onChange={((e) => takeSuggestedResort(e.target.value))}
+                                onClick={((e) => autocompleteResorts(e.target.value))}
+                                onFocus={() => setOpenSuggestions(true)}
+                                onBlur={() => setOpenSuggestions(false)}
+                                placeholder={"Choose resorts"}
+                                onKeyUp={((e) => autocompleteResorts(e.target.value))} // autocomplete-> fetch data and update the 
+                                autoComplete="off"
+                            />
+                            <div className=" autocomplete rounded">
+                                {resortSuggestions.length > 0 && openSuggestions ? (
 
-                        resortSuggestions.map((resort, index) => (
-                        <p
-                            key={index}
-                            className="autosuggestElement p-2 mb-0"
-                             onMouseDown={() =>
-                                 takeSuggestedResort(resort.resort_name)}
-                            value={resort.resort_name}
-                        >
-                            {resort.resort_name}
-                        </p>
-                    ))) 
-                    
-                    : null
-                    } 
-                    </div>
-                    </div>
+                                    resortSuggestions.map((resort, index) => (
+                                        <p
+                                            key={index}
+                                            className="autosuggestElement p-2 mb-0"
+                                            onMouseDown={() =>
+                                                takeSuggestedResort(resort.resort_name)}
+                                            value={resort.resort_name}
+                                        >
+                                            {resort.resort_name}
+                                        </p>
+                                    )))
+
+                                    : null
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-             
+
 
         </>
     )

@@ -204,7 +204,7 @@ const insertIntoDatabase = async (
   // console.log("result data:", result.data[0])
   // result.data[0] && 
 
-  console.log("Here:", isEqual(result.data[0], {}))
+  // console.log("Here:", isEqual(result.data[0], {}))
   if (isEqual(result.data[0], {})) {
     await insertValueIntoTable(table_name, table_column, value);
   }
