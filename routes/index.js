@@ -221,16 +221,16 @@ function getWhereClause(req) {
 
   let whereClause = conditions.length > 0 ? "WHERE " + conditions.join(" AND ") : "";
 
-  return {clause: whereClause, params: params};
+  return { clause: whereClause, params: params };
 }
 
 router.get(`/everything`, async (req, res) => {
   // accepts urls like http://localhost/everything?language=english&sport=ski&level=pro
 
   // http://localhost:5000/everything?sport=ski" GROUP BY first_name, last_name; update users set first_name = "Hacked" where id = 1; select id, first_name, last_name, count(*) from users where sport = "ski
-  
+
   let whereClause = getWhereClause(req);
-  
+
   try {
     let query = `
     SELECT users.id, first_name, last_name, sport,level,GROUP_CONCAT(DISTINCT resort_name) AS resort, GROUP_CONCAT( DISTINCT language) AS languages, email
@@ -241,7 +241,6 @@ router.get(`/everything`, async (req, res) => {
     JOIN languages lang ON languages_user.language_id = lang.id
     ${whereClause.clause}
     GROUP BY id, first_name, last_name;`;
-    console.log(query);
     const response = await db(query, whereClause.params); // Again, you will probably will get duplicated entries for this query - fixed
     res.status(200).send(response.data);
   } catch (err) {

@@ -13,6 +13,7 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import { Navbar } from "react-bootstrap";
+// import { identity } from "lodash";
 
 function App() {
   const [isUserLoggedin, setUserLoggedIn] = useState(false);
@@ -23,7 +24,7 @@ function App() {
   const [level, setLevel] = useState("")
   const [resort, setResort] = useState("")
   const [language, setLanguage] = useState("")
-
+  const [userId, getUserId] = useState()
 
   const getUserdatafromDB = async () => {
     try {
@@ -33,6 +34,8 @@ function App() {
         }
       }
       );
+      console.log("data from DB", resp.data)
+      getUserId(resp.data.id)
       getName(resp.data.name);
       setUserLoggedIn(true);
     } catch (err) {
@@ -45,7 +48,8 @@ function App() {
   const getInitialSkierList = async () => {
     try {
       const resp = await axios.get(`/everything`);
-      setintialSkierList(resp.data)
+      // setintialSkierList(resp.data)
+      setintialSkierList(resp.data.filter((skier, index) => skier.id !== userId))
 
     } catch (err) {
       // Handle Error Here
@@ -58,7 +62,7 @@ function App() {
     try {
       // const resp = await axios.get('/everything');
       const resp = await axios.get(`/everything?language=${language}&sport=${sport}&level=${level}&resort=${resort}`);
-      setSkierList(resp.data)
+      setSkierList(resp.data.filter((skier, index) => skier.id !== userId))
 
     } catch (err) {
       // Handle Error Here
@@ -70,7 +74,7 @@ function App() {
     getUserdatafromDB()
     getSkierListfromDB()
     getInitialSkierList()
-  }, [sport, level, language, resort]);
+  }, [sport, level, language, resort, userId]);
 
 
   const getSportSearched = (sportSearched) => {
@@ -92,6 +96,8 @@ function App() {
 
   function handleLogout() {
     setUserLoggedIn(false);
+    getName("")
+    getUserId(null)
     window.localStorage.removeItem('skiBuddyToken');
   }
 
@@ -151,11 +157,11 @@ function App() {
                 {isUserLoggedin ? (
                   <Redirect to="/" />
                 ) : (
-                    <Login updateLoggedIn={setUserLoggedIn} getName={getName} />
+                    <Login updateLoggedIn={setUserLoggedIn} getName={getName} getUserId={getUserId} />
                   )}
               </Route>
               <Route path="/register">
-                {<Register updateLoggedIn={setUserLoggedIn} />}
+                {<Register updateLoggedIn={setUserLoggedIn} getName={getName} getUserId={getUserId} />}
               </Route>
               <Route path="/"></Route>
             </Switch>
