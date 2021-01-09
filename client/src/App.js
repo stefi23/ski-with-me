@@ -34,7 +34,7 @@ function App() {
         }
       }
       );
-      console.log("data from DB", resp.data)
+      // console.log("data from DB", resp.data)
       getUserId(resp.data.id)
       getName(resp.data.name);
       setUserLoggedIn(true);
@@ -163,28 +163,30 @@ function App() {
               <Route path="/register">
                 {<Register updateLoggedIn={setUserLoggedIn} getName={getName} getUserId={getUserId} />}
               </Route>
-              <Route path="/"></Route>
+              <Route path="/">
+                <div className="row">
+                  <div className="col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-12">
+                    <Search getSportSearched={getSportSearched}
+                      getLevelSearched={getLevelSearched}
+                      getResortSearched={getResortSearched}
+                      getLanguageSearched={getLanguageSearched}
+                      skierListData={skierList}
+                      intialSkierList={intialSkierList}
+                    />
+                  </div>
+                  <div className="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">
+                    <div className="row">
+                      <SkiersList isUserLoggedin={isUserLoggedin} skierListData={skierList} />
+                    </div>
+                  </div>
+                </div>
+              </Route>
             </Switch>
 
           </Router>
         </div>
       </div>
-      <div className="row">
-        <div className="col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-12">
-          <Search getSportSearched={getSportSearched}
-            getLevelSearched={getLevelSearched}
-            getResortSearched={getResortSearched}
-            getLanguageSearched={getLanguageSearched}
-            skierListData={skierList}
-            intialSkierList={intialSkierList}
-          />
-        </div>
-        <div className="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">
-          <div className="row">
-            <SkiersList isUserLoggedin={isUserLoggedin} skierListData={skierList} />
-          </div>
-        </div>
-      </div>
+
     </div>
   );
 }

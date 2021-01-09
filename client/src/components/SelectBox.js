@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 
 
 
-function SelectBox({ getSelection, label, options, value, id }) {
+function SelectBox({ getSelection, options, value, id, label, autoFocus }) {
 
 
     useEffect(() => {
@@ -15,12 +15,12 @@ function SelectBox({ getSelection, label, options, value, id }) {
     }
     return (
         <>
-            <label>{label}</label>
+            <label>{label.text}</label>
             <select id={id}
+                autoFocus={autoFocus}
                 className="form-select"
                 onChange={valueSelected} value={value}>
-                {/* <option>{label}</option> */}
-                <option defaultValue={value} >{label}</option>
+                <option value={label.value}>{label.text}</option>
                 {options.map((option, index) =>
                     <option value={option} key={index}>{option}</option>
                 )}

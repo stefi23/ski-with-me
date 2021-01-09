@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import SelectBox from "./SelectBox"
 import styled from 'styled-components'
-import axios from "axios";
+import Dropbox from "./Dropbox"
+import { useLocation, useHistory } from "react-router-dom"
 
 const Title = styled.h1`
         color: #6989af;
@@ -17,7 +18,6 @@ function Search(props) {
     const [skierData, setSkierData] = useState([])
     const [intialSkierList, setIntialSkierList] = useState([])
 
-
     //used to send filtered data to the checkbox
 
     const [sports, setSports] = useState([])
@@ -25,33 +25,51 @@ function Search(props) {
 
     const [resort, setResort] = useState("")
     const [resortSuggestions, setResortSuggestions] = useState([])
-    const [openSuggestions, setOpenSuggestions] = useState(false)
 
-    //Test
-    const [resorts2, setResorts2] = useState([])
+    let location = useLocation();
+    let history = useHistory();
+
+    React.useEffect(() => {
+        const parameters = new URLSearchParams(location.search);
+        const sportFilter = parameters.get('sport');
+        const levelFilter = parameters.get('level');
+        const resortFilter = parameters.get('resort');
+        if (sportFilter) {
+            setSport(sportFilter)
+        }
+        if (levelFilter) {
+            setLevel(levelFilter)
+        }
+        if (resortFilter) {
+            setResort(resortFilter)
+        }
+    }, [location]);
+
+    useEffect(() => {
+        const searchQuery = {
+            sport,
+            resort,
+            level
+        }
+
+        const queryString = Object.keys(searchQuery).filter(key => searchQuery[key]).map(key => key + '=' + searchQuery[key]).join('&');
+        history.push(`/?${queryString}`);
+    }, [sport, resort, level])
 
 
     const getSportSearched = (sport) => {
-        if (sport !== "All sports...") {
-            setSport(sport)
-            props.getSportSearched(sport)
-        }
-        else {
-            props.getSportSearched("")
-            setSport(sport)
+        setSport(sport)
+        props.getSportSearched(sport)
+        if (sport === "") {
             sportsAvailable(intialSkierList)
         }
     };
 
 
     const getLevelSearched = (level) => {
-        if (level !== "All levels...") {
-            setLevel(level)
-            props.getLevelSearched(level) //data to parent
-        }
-        else {
-            props.getLevelSearched("")
-            setLevel(level)
+        setLevel(level)
+        props.getLevelSearched(level)
+        if (level === "") {
             levelAvailable(intialSkierList)
         }
     };
@@ -62,6 +80,7 @@ function Search(props) {
         })
         setSports([...new Set(sportsArr)])
     };
+
 
     const levelAvailable = (skierData) => {
         const levelArr = skierData.map(skier => {
@@ -74,34 +93,12 @@ function Search(props) {
         const resortsArr = skierData.map(skier => {
             return skier.resort.split(",")
         })
-        console.log(skierData)
         setResortSuggestions([...new Set(resortsArr.flat())])
-        // resortsArr = [].concat(...resortsArr) not using this because I only will have 
-        //1 level of nesting in the arry
-
-        // console.log(resortSuggestions)
-
-        // try {
-        //     const resp = await axios.get(`/AllResorts/${resort}`);
-        //     setResortSuggestions(resp.data)
-        // } catch (err) {
-        //     // Handle Error Here
-        //     console.error(err);
-        // }
     }
 
-    //   const getResortsSuggestions = async () => {
-    //         try {
-    //             const resp = await axios.get(`/AllResorts/${resort}`);
-    //             setResorts(resp.data)
-    //         } catch (err) {
-    //             // Handle Error Here
-    //             console.error(err);
-    //         }
-    //     };
 
     const filterSuggestions = (resort) => {
-        setResortSuggestions(resortSuggestions.filter(x => x.includes(resort)))
+        setResortSuggestions(resortSuggestions.filter(x => x.toLowerCase().includes(resort.toLowerCase())))
         if (((resortSuggestions.filter(resortToFilter => {
             return resortToFilter === resort
         })).length > 0 || resort === "")) {
@@ -114,14 +111,6 @@ function Search(props) {
         setResort(resort)
     }
 
-    const takeSuggestedResort = (resort) => {
-        if (resort !== "") {
-            setResort(resort);
-        }
-        if ((resortSuggestions.filter(x => x.resort_name === resort)).length > 0 || resort === "") {
-            props.getResortSearched(resort)
-        }
-    }
 
     useEffect(() => {
         setSkierData(props.skierListData);
@@ -129,6 +118,7 @@ function Search(props) {
         levelAvailable(props.skierListData)
         setIntialSkierList(props.intialSkierList)
     }, [props.skierListData])
+
 
 
     return (
@@ -141,10 +131,14 @@ function Search(props) {
                         </div>
                         <div className="col-md-12">
                             <SelectBox
+                                autoFocus
                                 getSelection={getSportSearched} // send data to parent
                                 id="sport"
                                 options={sports}
-                                label="All sports..."
+                                label={{
+                                    text: "All sports..",
+                                    value: ""
+                                }}
                                 value={sport}
                                 initialData={intialSkierList}
                             />
@@ -154,45 +148,20 @@ function Search(props) {
                                 getSelection={getLevelSearched}
                                 id="level"
                                 options={levels}
-                                label="All levels..."
+                                label={{
+                                    text: "All levels..",
+                                    value: ""
+                                }}
                                 value={level}
                             />
                         </div>
                         <div className="col-md-12">
-                            <label>Which resort?</label>
-                            <input
-                                className="form-control"
-                                type="name"
-                                name="resorts"
-                                value={resort}
-                                onChange={((e) => filterSuggestions(e.target.value))}
+                            <Dropbox
+                                onFilter={(resort) => filterSuggestions(resort)}
                                 onClick={((e) => autocompleteResorts(skierData))}
-                                onFocus={() => setOpenSuggestions(true)}
-                                onBlur={() => setOpenSuggestions(false)}
-                                placeholder={"Choose resorts"}
-                                onKeyUp={((e) => filterSuggestions(e.target.value))} // autocomplete-> fetch data and update the 
-                                autoComplete="off"
-                            />
-                            <div className=" autocomplete rounded">
-                                {resortSuggestions.length > 0 && openSuggestions ? (
-
-                                    resortSuggestions.map((resort, index) => (
-                                        <p
-                                            key={index}
-                                            className="autosuggestElement p-2 mb-0"
-                                            onMouseDown={() =>
-                                                filterSuggestions(resort)
-                                                // takeSuggestedResort(resort)
-                                            }
-                                            value={resort}
-                                        >
-                                            {resort}
-                                        </p>
-                                    )))
-
-                                    : null
-                                }
-                            </div>
+                                value={resort}
+                                placeholder="Choose resorts"
+                                data={resortSuggestions} />
                         </div>
                     </div>
                 </div>

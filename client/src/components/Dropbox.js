@@ -1,47 +1,51 @@
-import React from "react"
+import React, { useState } from "react"
+import propTypes from 'prop-types';
 
-function Dropbox({ placeholder, value, setValue, getListfromDB, setOpenSuggestions, autoCompleteValues, openSuggestions, getSuggestions }) {
-    console.log("autoComplete", autoCompleteValues)
+Dropbox.propTypes = {
+    value: propTypes.string.isRequired
+}
 
-    const autocompleteSuggestions = () => {
-        getSuggestions()
-    }
-
-    const takeSuggestion = (suggestion) => {
-        setValue(suggestion)
-    }
+function Dropbox({ onFilter, onClick, placeholder, data, value }) {
+    const [openSuggestions, setOpenSuggestions] = useState(false)
 
     return (
 
         <>
+            <label>Which resort?</label>
             <input
                 className="form-control"
                 type="name"
                 name="resorts"
                 value={value}
-                onChange={((e) => setValue(e.target.value))}
-                // onClick={getListfromDB}
+                onChange={(e) => onFilter(e.target.value)}
+                onClick={onClick}
                 onFocus={() => setOpenSuggestions(true)}
                 onBlur={() => setOpenSuggestions(false)}
                 placeholder={placeholder}
-                onKeyUp={autocompleteSuggestions} // autocomplete-> fetch data and update the 
+                onKeyUp={(e) => onFilter(e.target.value)}
                 autoComplete="off"
+
             />
             <div className=" autocomplete rounded">
-                {autoCompleteValues.length > 0 && openSuggestions ? (
+                {data.length > 0 && openSuggestions ? (
 
-                    autoCompleteValues.map((autoCompletevalue, index) => (
+                    data.map((resort, index) => (
                         <p
                             key={index}
                             className="autosuggestElement p-2 mb-0"
                             onMouseDown={() =>
-                                takeSuggestion(autoCompletevalue)}
-                            value={autoCompletevalue}
+                                onFilter(resort)
+                            }
+                            value={resort}
                         >
-                            {autoCompletevalue}
+                            {resort}
                         </p>
-                    ))) : null}
+                    )))
+
+                    : null
+                }
             </div>
+
         </>
     )
 }
