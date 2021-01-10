@@ -29,7 +29,8 @@ function Search(props) {
     let location = useLocation();
     let history = useHistory();
 
-    React.useEffect(() => {
+    useEffect(() => {
+
         const parameters = new URLSearchParams(location.search);
         const sportFilter = parameters.get('sport');
         const levelFilter = parameters.get('level');
@@ -48,13 +49,14 @@ function Search(props) {
     useEffect(() => {
         const searchQuery = {
             sport,
-            resort,
-            level
+            level,
+            resort
         }
 
         const queryString = Object.keys(searchQuery).filter(key => searchQuery[key]).map(key => key + '=' + searchQuery[key]).join('&');
+        console.log(encodeURIComponent("La Molina"))
         history.push(`/?${queryString}`);
-    }, [sport, resort, level])
+    }, [sport, level, resort])
 
 
     const getSportSearched = (sport) => {
