@@ -1,3 +1,7 @@
+:root {
+    --light-blue:#649CCC;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -5,7 +9,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #edf0f5;
+  background-color:  #edf0f5; 
 }
 
 code {
@@ -14,11 +18,14 @@ code {
 }
 
 .bg-dark {
-  background-color: #6989af !important;
+  background-color: var(--light-blue)!important;
   border-radius: 10px;
 }
 
 .autocomplete {
+  display:absolute!important;
+  z-index: 1;
+  top:10px;
   background-color: aquamarine;
   color:blueviolet;
   overflow: auto;
@@ -31,3 +38,48 @@ code {
   color: #eeeeff !important;
   margin-bottom: 0px!important;
 }
+
+.btn-blue{
+  background-color: var(--light-blue);;
+  color:#FFFFF2
+}
+.text-blue {
+  color: #649CCC;
+  font-weight: bold;
+}
+
+.text-blue:hover {
+  color: #AF7595;
+  font-weight: bold;
+}
+
+
+.btn-blue:hover {
+  color:#FFFFF2;
+  background-color: var(--light-blue);
+}
+
+.text-bordo {
+  color: #AF7595!important;
+}
+
+.title-modal {
+  font-family: "Roboto",
+    sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.text-gray{
+  color: #6D757D
+}
+
+.width-complete {
+  width: 100%;
+}
+
+.btn:active{
+transform: scale(.98);
+color: #FFFFF2;
+}
+

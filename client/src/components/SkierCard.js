@@ -9,7 +9,7 @@ const SkierCardDiv = styled.div`
         boxShadow: 0px 4px 8px 0px hsla(0, 0%, 0%, 0.2);
     `
 const Title = styled.h1`
-        color: #6989af;
+        color: #649CCC;
         font-size: 20px;
         font-weight: bold;
         margin-bottom: 5px;
@@ -24,16 +24,16 @@ const LightText = styled.p`
 
 const StyledP = styled.p`
         font-size: 14px;
-        color: #001c00;
+        color: #443850
     `
-
+// #001c00;
 const TextCenter = styled.h1`
         text-align:center;
     `
 const LinkLogin = styled.a`
         text-align : center;
         display:block;
-        color: #6989af;
+        color: #649CCC;
         font-weight:bold;
     
     `
@@ -43,7 +43,7 @@ function SkierCard(props) {
 
     return (
         <SkierCardDiv>
-            <TextCenter>{props.sport === "ski" ? (<span role="img" aria-label="skier emoji">⛷️</span>) : (props.sport === "snowboard") ? (<span role="img" aria-label="snowboader emoji">🏂</span>)  : (<span role="img" aria-label="skier/snowboarder emoji">⛷️/🏂</span>)}</TextCenter>
+            <TextCenter>{props.sport === "ski" ? (<span role="img" aria-label="skier emoji">⛷️</span>) : (props.sport === "snowboard") ? (<span role="img" aria-label="snowboader emoji">🏂</span>) : (<span role="img" aria-label="skier/snowboarder emoji">⛷️/🏂</span>)}</TextCenter>
             <Title>{props.name}</Title>
             <LightText>- {props.level} -</LightText>
             <StyledP><span role="img" aria-label="speaking head emoji">🗣️</span> &nbsp;

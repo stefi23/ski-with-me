@@ -44,13 +44,13 @@ function Login(props) {
     <>
       <Modal
         show={true}
-        size="lg"
+        dialogClassName="modal-40w"
         aria-labelledby="contained-modal-title-vcenter"
         centered
         onHide={handleClose}
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
+          <Modal.Title class="text-bordo title-modal" id="contained-modal-title-vcenter ">
             Welcome Back
           </Modal.Title>
         </Modal.Header>
@@ -59,7 +59,7 @@ function Login(props) {
             name="email"
             onChange={handleEmail}
             value={email}
-            className="form-control m-2"
+            className="form-control mb-2"
             placeholder="Enter email"
           />
           <input
@@ -67,27 +67,29 @@ function Login(props) {
             name="password"
             onChange={handlePassword}
             value={password}
-            className="form-control m-2"
+            className="form-control mb-2"
             placeholder="Enter password"
           />
-          <button className="btn btn-primary m-2" onClick={attemptLogin}>
-            Login NOW
+          <button className="btn btn-blue mb-2 mt-3 width-complete" onClick={attemptLogin} onKeyUp={(e) => {
+            if (e.keyCode === 13) { return attemptLogin }
+          }}>
+            Login
           </button>
-          <div className="m-2">
-            <p>
+          <div className="">
+            <p class="text-gray mt-2 mb-1 text-center">
               Don't have an account?
               <span>
                 {" "}
-                <Link to="/register" className="">
+                <Link to="/register" className="text-blue">
                   Sign Up
                 </Link>
               </span>
             </p>
           </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={handleClose}>Close</Button>
-        </Modal.Footer>
+        {/* <Modal.Footer>
+          <Button onClick={handleClose} variant="secondary">Close</Button>
+        </Modal.Footer> */}
       </Modal>
     </>
   );
