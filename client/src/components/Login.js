@@ -55,20 +55,22 @@ function Login(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <label className="text-gray">Email:</label>
           <input
             name="email"
             onChange={handleEmail}
             value={email}
             className="form-control mb-2"
-            placeholder="Enter email"
+          // placeholder="Enter email"
           />
+          <label className="text-gray text-center">Password:</label>
           <input
             type="password"
             name="password"
             onChange={handlePassword}
             value={password}
             className="form-control mb-2"
-            placeholder="Enter password"
+          // placeholder="Enter password"
           />
           <button className="btn btn-blue mb-2 mt-3 width-complete" onClick={attemptLogin} onKeyUp={(e) => {
             if (e.keyCode === 13) { return attemptLogin }

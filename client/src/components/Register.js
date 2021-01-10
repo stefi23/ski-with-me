@@ -97,17 +97,18 @@ function Register(props) {
     <>
       <Modal
         show={true}
-        size="lg"
+        dialogClassName="modal-90w"
         aria-labelledby="contained-modal-title-vcenter"
         centered
         onHide={handleClose}
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
+          <Modal.Title id="contained-modal-title-vcenter"
+            class="text-bordo title-modal">
             Sign up
             </Modal.Title>
         </Modal.Header>
-        <Modal.Body className="px-4 py-5">
+        <Modal.Body className="px-4 py-4">
           <div className="form-row">
             <div className="form-group col-md-6">
               <InputBox
@@ -146,10 +147,10 @@ function Register(props) {
           </div>
           <div className="form-row">
             <div className="form-group col-md-6 mb-0">
-              <label>Sport</label>
+              <label class="text-gray">Sport</label>
             </div>
             <div className="form-group col-md-6 mb-0">
-              <label>Level</label>
+              <label class="text-gray">Level</label>
             </div>
           </div>
           <div className="form-row">
@@ -224,20 +225,28 @@ function Register(props) {
               </div>
             </div>
           </div>
-          <MultipleComponent
-            title="Resorts"
-            items={resorts}
-            onAdd={addResort}
-            onRemove={removeResort}
-            onEdit={editResort}
-          />
-          <MultipleComponent
-            title="Languages"
-            items={languages}
-            onAdd={addLanguage}
-            onRemove={removeLanguage}
-            onEdit={editLanguage}
-          />
+          <div className="form-row">
+            <div className="form-group col-md-12">
+              <MultipleComponent
+                title="Resorts"
+                items={resorts}
+                onAdd={addResort}
+                onRemove={removeResort}
+                onEdit={editResort}
+              />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group col-md-12">
+              <MultipleComponent
+                title="Languages"
+                items={languages}
+                onAdd={addLanguage}
+                onRemove={removeLanguage}
+                onEdit={editLanguage}
+              />
+            </div>
+          </div>
           <div className="form-group">
             <div className="form-check">
               <input
@@ -252,7 +261,7 @@ function Register(props) {
           </div>
           <button
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-blue width-complete"
             onClick={() => addUser()}
           // onSubmit={() => {
           //   if (window.confirm("Register was succesful!"));
@@ -260,21 +269,21 @@ function Register(props) {
           >
             Submit
             </button>
-          <button className="btn"
+          {/* <button className="btn btn-blue"
           >
             <Link to="/" className="">
               Back to homepage
               </Link>
-          </button>
+          </button> */}
         </Modal.Body>
-        <Modal.Footer>
+        {/* <Modal.Footer>
           <Button
             onClick={handleClose}
           >
             Close
             </Button>
 
-        </Modal.Footer>
+        </Modal.Footer> */}
       </Modal>
     </>
   );

@@ -3,25 +3,25 @@ import React from "react";
 function MultipleComponent({ title, items, onAdd, onRemove, onEdit }) {
   return (
     <div>
-      <div className="form-row">
-        <div className="form-group col-md-6">
-          <label>{title}</label>
-        </div>
-      </div>
+      {/* <div className="form-row">
+        <div className="form-group col-md-6"> */}
+      <label class="text-gray">{title}</label>
+      {/* </div>
+      </div> */}
       {items.map((item, index) => {
         return (
-          <div className="form-row" key={index}>
-            <div className="form-group col-md-6">
+          <div key={index}>
+            <div >
               <input
                 value={item}
                 className="form-control mb-2"
                 onChange={(e) => onEdit(e.target.value, index)}
               />
             </div>
-            <div className="form-group col-md-6">
+            <div className="">
               {items.length < 2 ? null : (
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-blue"
                   onClick={() => { onRemove(index) }}
                 >
                   Remove
@@ -32,10 +32,10 @@ function MultipleComponent({ title, items, onAdd, onRemove, onEdit }) {
         );
       })}
 
-      <div className="form-row">
-        <div className="form-group col-md-12">
+      <div className="mt-2">
+        <div className="form-group">
           <button
-            className="btn btn-primary"
+            className="btn btn-blue"
             onClick={() => onAdd("")}
           >
             Add more {title}

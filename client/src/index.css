@@ -71,7 +71,7 @@ code {
 }
 
 .text-gray{
-  color: #6D757D
+  color: #515151
 }
 
 .width-complete {
@@ -83,3 +83,10 @@ transform: scale(.98);
 color: #FFFFF2;
 }
 
+
+
+
+.form-check-input:checked {
+    background-color: var(--light-blue);
+    border-color: #5190c6;
+}
