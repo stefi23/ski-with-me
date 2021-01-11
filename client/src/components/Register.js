@@ -116,6 +116,7 @@ function Register(props) {
                 label="First name"
                 value={firstName}
                 onChange={handleFirstNameChange}
+                required
               />
             </div>
             <div className="form-group col-md-6">

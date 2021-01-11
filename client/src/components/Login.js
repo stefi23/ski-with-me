@@ -7,6 +7,7 @@ import { Modal, Button } from "react-bootstrap";
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showAlert, setShowAlert] = useState(false)
 
   const history = useHistory();
 
@@ -22,7 +23,8 @@ function Login(props) {
     history.push("/");
   };
 
-  const attemptLogin = () => {
+  const attemptLogin = (e) => {
+    e.preventDefault()
     axios("/users/login", {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -37,14 +39,18 @@ function Login(props) {
         props.getName(results.data.name);
         props.getUserId(results.data.id)
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status === 400) {
+          setShowAlert(true)
+        }
+      })
   };
 
   return (
     <>
       <Modal
         show={true}
-        dialogClassName="modal-40w"
+        // dialogClassName="modal-40w"
         aria-labelledby="contained-modal-title-vcenter"
         centered
         onHide={handleClose}
@@ -55,28 +61,44 @@ function Login(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <label className="text-gray">Email:</label>
-          <input
-            name="email"
-            onChange={handleEmail}
-            value={email}
-            className="form-control mb-2"
-          // placeholder="Enter email"
-          />
-          <label className="text-gray text-center">Password:</label>
-          <input
-            type="password"
-            name="password"
-            onChange={handlePassword}
-            value={password}
-            className="form-control mb-2"
-          // placeholder="Enter password"
-          />
-          <button className="btn btn-blue mb-2 mt-3 width-complete" onClick={attemptLogin} onKeyUp={(e) => {
-            if (e.keyCode === 13) { return attemptLogin }
-          }}>
-            Login
+          {showAlert ?
+
+            (<div>
+              <p className="alert-box mb-4">username or password incorrect</p>
+            </div>) : null
+          }
+          <form>
+            <label className="text-gray">Email:</label>
+            <input
+              name="email"
+              onChange={handleEmail}
+              value={email}
+              className="form-control mb-2"
+              // id="validationDefault01"
+              required
+            />
+
+            <label className="text-gray text-center">Password:</label>
+            <input
+              type="password"
+              name="password"
+              onChange={handlePassword}
+              value={password}
+              className="form-control mb-2"
+              required
+            />
+
+            <button
+              className="btn btn-blue mb-2 mt-3 width-complete"
+              onClick={(e) => email || password ? attemptLogin(e) : null}
+              onKeyUp={(e) => {
+                if (e.keyCode === 13) { return email || password ? attemptLogin(e) : null }
+              }}
+            >
+              Login
           </button>
+          </form>
+
           <div className="">
             <p class="text-gray mt-2 mb-1 text-center">
               Don't have an account?

@@ -49,7 +49,7 @@ code {
 }
 
 .text-blue:hover {
-  color: #AF7595;
+  color: #7F055F;
   font-weight: bold;
 }
 
@@ -60,7 +60,8 @@ code {
 }
 
 .text-bordo {
-  color: #AF7595!important;
+  color: #7F055F!important;
+  /* #AF7595!important; */
 }
 
 .title-modal {
@@ -83,10 +84,16 @@ transform: scale(.98);
 color: #FFFFF2;
 }
 
-
-
-
 .form-check-input:checked {
     background-color: var(--light-blue);
     border-color: #5190c6;
+}
+
+.alert-box {
+  border: 1px solid #7F055F;
+  background-color: #fee7f8;
+  color: #7F055F;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
 }
