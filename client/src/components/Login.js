@@ -38,13 +38,11 @@ function Login(props) {
         props.updateLoggedIn(true);
         props.getName(results.data.name);
         props.getUserId(results.data.id)
-        console.log(results.data)
       })
       .catch((err) => {
-        if (err.response.data.message === "Login not successful") {
+        if (err.response.status === 400) {
           setShowAlert(true)
         }
-        console.log("er", err.response.data)
       })
   };
 
@@ -94,9 +92,8 @@ function Login(props) {
               className="btn btn-blue mb-2 mt-3 width-complete"
               onClick={(e) => email || password ? attemptLogin(e) : null}
               onKeyUp={(e) => {
-                if (e.keyCode === 13) { return attemptLogin }
+                if (e.keyCode === 13) { return email || password ? attemptLogin(e) : null }
               }}
-            // disabled={email === "" || password === ""}
             >
               Login
           </button>
