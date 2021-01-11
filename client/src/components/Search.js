@@ -45,6 +45,7 @@ function Search(props) {
         const sportFilter = parameters.get('sport');
         const levelFilter = parameters.get('level');
         const resortFilter = parameters.get('resort');
+        const languageFilter = parameters.get('language');
         if (sportFilter) {
             setSport(sportFilter)
         }
@@ -54,17 +55,21 @@ function Search(props) {
         if (resortFilter) {
             setResort(resortFilter)
         }
+        if (languageFilter) {
+            setLanguage(languageFilter)
+        }
     }, [location]);
 
     useEffect(() => {
         const searchQuery = {
             sport,
             level,
-            resort
+            resort,
+            language
         }
         const queryString = Object.keys(searchQuery).filter(key => searchQuery[key]).map(key => key + '=' + searchQuery[key]).join('&');
         history.push(`/?${queryString}`);
-    }, [sport, level, resort])
+    }, [sport, level, resort, language])
 
 
     const getSportSearched = (sport) => {
