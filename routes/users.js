@@ -45,7 +45,7 @@ router.post("/login", async (req, res, next) => {
     } else {
       res
         .status(400)
-        .send({ message: "Login not successful", error: "user not found" });
+        .send({ message: "Login not successful", error: "email or password incorrect" });
     }
   } catch (err) {
     res.status(500).send(err);

@@ -7,6 +7,7 @@ import { Modal, Button } from "react-bootstrap";
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showAlert, setShowAlert] = useState(false)
 
   const history = useHistory();
 
@@ -22,7 +23,8 @@ function Login(props) {
     history.push("/");
   };
 
-  const attemptLogin = () => {
+  const attemptLogin = (e) => {
+    e.preventDefault()
     axios("/users/login", {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -36,8 +38,14 @@ function Login(props) {
         props.updateLoggedIn(true);
         props.getName(results.data.name);
         props.getUserId(results.data.id)
+        console.log(results.data)
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.data.message === "Login not successful") {
+          setShowAlert(true)
+        }
+        console.log("er", err.response.data)
+      })
   };
 
   return (
@@ -55,7 +63,13 @@ function Login(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form class="needs-validation" novalidate>
+          {showAlert ?
+
+            (<div>
+              <p className="alert-box mb-4">username or password incorrect</p>
+            </div>) : null
+          }
+          <form>
             <label className="text-gray">Email:</label>
             <input
               name="email"
@@ -78,7 +92,7 @@ function Login(props) {
 
             <button
               className="btn btn-blue mb-2 mt-3 width-complete"
-              onClick={email && password ? attemptLogin : null}
+              onClick={(e) => email || password ? attemptLogin(e) : null}
               onKeyUp={(e) => {
                 if (e.keyCode === 13) { return attemptLogin }
               }}
@@ -87,6 +101,7 @@ function Login(props) {
               Login
           </button>
           </form>
+
           <div className="">
             <p class="text-gray mt-2 mb-1 text-center">
               Don't have an account?
