@@ -44,7 +44,7 @@ function Login(props) {
     <>
       <Modal
         show={true}
-        dialogClassName="modal-40w"
+        // dialogClassName="modal-40w"
         aria-labelledby="contained-modal-title-vcenter"
         centered
         onHide={handleClose}
@@ -55,28 +55,38 @@ function Login(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <label className="text-gray">Email:</label>
-          <input
-            name="email"
-            onChange={handleEmail}
-            value={email}
-            className="form-control mb-2"
-          // placeholder="Enter email"
-          />
-          <label className="text-gray text-center">Password:</label>
-          <input
-            type="password"
-            name="password"
-            onChange={handlePassword}
-            value={password}
-            className="form-control mb-2"
-          // placeholder="Enter password"
-          />
-          <button className="btn btn-blue mb-2 mt-3 width-complete" onClick={attemptLogin} onKeyUp={(e) => {
-            if (e.keyCode === 13) { return attemptLogin }
-          }}>
-            Login
+          <form class="needs-validation" novalidate>
+            <label className="text-gray">Email:</label>
+            <input
+              name="email"
+              onChange={handleEmail}
+              value={email}
+              className="form-control mb-2"
+              // id="validationDefault01"
+              required
+            />
+
+            <label className="text-gray text-center">Password:</label>
+            <input
+              type="password"
+              name="password"
+              onChange={handlePassword}
+              value={password}
+              className="form-control mb-2"
+              required
+            />
+
+            <button
+              className="btn btn-blue mb-2 mt-3 width-complete"
+              onClick={email && password ? attemptLogin : null}
+              onKeyUp={(e) => {
+                if (e.keyCode === 13) { return attemptLogin }
+              }}
+            // disabled={email === "" || password === ""}
+            >
+              Login
           </button>
+          </form>
           <div className="">
             <p class="text-gray mt-2 mb-1 text-center">
               Don't have an account?
