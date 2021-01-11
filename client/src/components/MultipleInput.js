@@ -37,6 +37,9 @@ function MultipleComponent({ title, items, onAdd, onRemove, onEdit }) {
           <button
             className="btn btn-blue"
             onClick={() => onAdd("")}
+          // onKeyDown={(e) => {
+          //   if (e.keyCode === 13) { }
+          // }}
           >
             Add more {title}
           </button>
