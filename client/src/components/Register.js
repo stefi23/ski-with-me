@@ -263,6 +263,9 @@ function Register(props) {
             type="submit"
             className="btn btn-blue width-complete"
             onClick={() => addUser()}
+            onKeyUp={(e) => {
+              if (e.keyCode === 13) { return addUser }
+            }}
           // onSubmit={() => {
           //   if (window.confirm("Register was succesful!"));
           // }}

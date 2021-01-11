@@ -26,8 +26,18 @@ function Search(props) {
     const [resort, setResort] = useState("")
     const [resortSuggestions, setResortSuggestions] = useState([])
 
+    const [language, setLanguage] = useState("")
+    const [languageSuggestions, setLanguageSuggestions] = useState([])
+
     let location = useLocation();
     let history = useHistory();
+
+    useEffect(() => {
+        setSkierData(props.skierListData);
+        sportsAvailable(props.skierListData)
+        levelAvailable(props.skierListData)
+        setIntialSkierList(props.intialSkierList)
+    }, [props.skierListData])
 
     useEffect(() => {
 
@@ -52,9 +62,7 @@ function Search(props) {
             level,
             resort
         }
-
         const queryString = Object.keys(searchQuery).filter(key => searchQuery[key]).map(key => key + '=' + searchQuery[key]).join('&');
-        console.log(encodeURIComponent("La Molina"))
         history.push(`/?${queryString}`);
     }, [sport, level, resort])
 
@@ -98,8 +106,15 @@ function Search(props) {
         setResortSuggestions([...new Set(resortsArr.flat())])
     }
 
+    const autocompleteLanguages = async (skierData) => {
+        const languagesArr = skierData.map(skier => {
+            return skier.languages.split(",")
+        })
+        setLanguageSuggestions([...new Set(languagesArr.flat())])
+    }
 
-    const filterSuggestions = (resort) => {
+
+    const resortsSuggestions = (resort) => {
         setResortSuggestions(resortSuggestions.filter(x => x.toLowerCase().includes(resort.toLowerCase())))
         if (((resortSuggestions.filter(resortToFilter => {
             return resortToFilter === resort
@@ -113,13 +128,20 @@ function Search(props) {
         setResort(resort)
     }
 
+    const languagesSuggestions = (language) => {
+        setLanguageSuggestions(languageSuggestions.filter(x => x.toLowerCase().includes(language.toLowerCase())))
+        if (((languageSuggestions.filter(languageToFilter => {
+            return languageToFilter === language
+        })).length > 0 || language === "")) {
+            props.getLanguageSearched(language)
 
-    useEffect(() => {
-        setSkierData(props.skierListData);
-        sportsAvailable(props.skierListData)
-        levelAvailable(props.skierListData)
-        setIntialSkierList(props.intialSkierList)
-    }, [props.skierListData])
+        }
+        if (language === "") {
+            autocompleteLanguages(skierData)
+        }
+        setLanguage(language)
+    }
+
 
 
 
@@ -159,11 +181,19 @@ function Search(props) {
                         </div>
                         <div className="col-md-12">
                             <Dropbox
-                                onFilter={(resort) => filterSuggestions(resort)}
+                                onFilter={(resort) => resortsSuggestions(resort)}
                                 onClick={((e) => autocompleteResorts(skierData))}
                                 value={resort}
-                                placeholder="Choose resorts"
+                                placeholder="Choose resort"
                                 data={resortSuggestions} />
+                        </div>
+                        <div className="col-md-12">
+                            <Dropbox
+                                onFilter={(language) => languagesSuggestions(language)}
+                                onClick={((e) => autocompleteLanguages(skierData))}
+                                value={language}
+                                placeholder="Choose language"
+                                data={languageSuggestions} />
                         </div>
                     </div>
                 </div>
