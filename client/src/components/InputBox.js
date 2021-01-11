@@ -1,7 +1,6 @@
 import React from "react";
 
 function InputBox({ label, type, value, onChange, required }) {
-    console.log("req", required)
     return (
 
         <>

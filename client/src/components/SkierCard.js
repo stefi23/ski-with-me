@@ -7,6 +7,7 @@ const SkierCardDiv = styled.div`
         padding : 30px 15px;
         border-radius: 10px;
         boxShadow: 0px 4px 8px 0px hsla(0, 0%, 0%, 0.2);
+      
     `
 const Title = styled.h1`
         color: #649CCC;
