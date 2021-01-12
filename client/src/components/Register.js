@@ -64,34 +64,31 @@ function Register(props) {
     history.push("/");
   };
 
-  const addUser = () => {
-
-    axios("/users/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
-        password: password,
-        sport: sport,
-        level: level,
-        resorts: resorts,
-        languages: languages,
-      },
-    })
-      .then((results) => {
-        localStorage.setItem("skiBuddyToken", results.data.token);
-        props.updateLoggedIn(true);
-        props.getName(results.data.name);
-        props.getUserId(results.data.id)
-        props.history.push("/");
-      })
-      .catch((err) => console.log(err));
+  const userData = {
+    first_name: firstName,
+    last_name: lastName,
+    email: email,
+    password: password,
+    sport: sport,
+    level: level,
+    resorts: resorts,
+    languages: languages,
   }
 
+  const addUser = async () => {
+    // e.preventDefault()
+    try {
+      const resp = await axios.post('/users/register', userData);
+      localStorage.setItem("skiBuddyToken", resp.data.token);
+      props.updateLoggedIn(true);
+      props.getName(resp.data.name);
+      props.getUserId(resp.data.id)
+      props.history.push("/");
+    }
+    catch (err) {
+      console.log(err)
+    }
+  };
 
   return (
     <>

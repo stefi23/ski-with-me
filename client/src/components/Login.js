@@ -23,27 +23,26 @@ function Login(props) {
     history.push("/");
   };
 
-  const attemptLogin = (e) => {
+
+  const loginData = {
+    email,
+    password
+  }
+
+  const attemptLogin = async (e) => {
     e.preventDefault()
-    axios("/users/login", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      data: {
-        email: email,
-        password: password,
-      },
-    })
-      .then((results) => {
-        localStorage.setItem("skiBuddyToken", results.data.token);
-        props.updateLoggedIn(true);
-        props.getName(results.data.name);
-        props.getUserId(results.data.id)
-      })
-      .catch((err) => {
-        if (err.response.status === 400) {
-          setShowAlert(true)
-        }
-      })
+    try {
+      const resp = await axios.post('/users/login', loginData);
+      localStorage.setItem("skiBuddyToken", resp.data.token);
+      props.updateLoggedIn(true);
+      props.getName(resp.data.name);
+      props.getUserId(resp.data.id)
+    }
+    catch (err) {
+      if (err.response.status === 400) {
+        setShowAlert(true)
+      }
+    }
   };
 
   return (
