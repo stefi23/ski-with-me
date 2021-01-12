@@ -161,7 +161,11 @@ function App() {
                   )}
               </Route>
               <Route path="/register">
-                {<Register updateLoggedIn={setUserLoggedIn} getName={getName} getUserId={getUserId} />}
+                {<Register
+                  updateLoggedIn={setUserLoggedIn}
+                  getName={getName}
+                  getUserId={getUserId}
+                  intialSkierList={intialSkierList} />}
               </Route>
               <Route path="/">
                 <div className="row">

@@ -256,6 +256,7 @@ router.get(`/everything`, async (req, res) => {
 
 module.exports = router;
 
+
 // `select users.id, users.first_name, GROUP_CONCAT(DISTINCT resorts.resort_name), GROUP_CONCAT(DISTINCT languages.language)
 // from users
 // join resorts_user on resorts_user.user_id = users.id

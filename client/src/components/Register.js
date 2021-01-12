@@ -49,16 +49,31 @@ const useArrayState = (initialState) => {
 function Register(props) {
   const [firstName, handleFirstNameChange] = useInput()
   const [lastName, handleLastNameChange] = useInput("");
-  const [email, handleEmailChange] = useInput("");
+
+  const [email, setEmail] = useState("");
+
   const [password, handlePasswordChange] = useInput("");
   const [sport, handleSportChange] = useInput("ski");
   const [level, handleLevelChange] = useInput("medium");
   const [resorts, addResort, removeResort, editResort] = useArrayState([""]);
   const [languages, addLanguage, removeLanguage, editLanguage] = useArrayState([""]);
 
+  const [showAlert, setShowAlert] = useState(false)
+
   const history = useHistory();
 
 
+  const handleEmailChange = (e) => {
+
+    const userEmails = props.intialSkierList.map(user => user.email)
+    if (userEmails.includes(e.target.value)) {
+      setShowAlert(true)
+    } else {
+      setShowAlert(false)
+    }
+    setEmail(e.target.value)
+    //Check if this  email is already registered
+  }
 
   const handleClose = () => {
     history.push("/");
@@ -128,6 +143,7 @@ function Register(props) {
           <div className="form-row">
             <div className="form-group col-md-6">
               <InputBox
+                showAlert={showAlert}
                 type="email"
                 label="Email"
                 value={email}
@@ -142,6 +158,9 @@ function Register(props) {
                 onChange={handlePasswordChange}
               />
             </div>
+            {/* <div className="form-group col-md-6">
+              <p>Email is already registered</p>
+            </div> */}
           </div>
           <div className="form-row">
             <div className="form-group col-md-6 mb-0">
@@ -258,6 +277,7 @@ function Register(props) {
             </div>
           </div>
           <button
+            disabled={showAlert ? true : false}
             type="submit"
             className="btn btn-blue width-complete"
             onClick={() => addUser()}
