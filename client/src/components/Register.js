@@ -72,7 +72,7 @@ function Register(props) {
       setShowAlert(false)
     }
     setEmail(e.target.value)
-    //Check if this  email is already registered
+
   }
 
   const handleClose = () => {

@@ -186,7 +186,22 @@ function App() {
                 </div>
               </Route>
             </Switch>
-
+            {/* <div className="row">
+              <div className="col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-12">
+                <Search getSportSearched={getSportSearched}
+                  getLevelSearched={getLevelSearched}
+                  getResortSearched={getResortSearched}
+                  getLanguageSearched={getLanguageSearched}
+                  skierListData={skierList}
+                  intialSkierList={intialSkierList}
+                />
+              </div>
+              <div className="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">
+                <div className="row">
+                  <SkiersList isUserLoggedin={isUserLoggedin} skierListData={skierList} />
+                </div>
+              </div>
+            </div> */}
           </Router>
         </div>
       </div>
