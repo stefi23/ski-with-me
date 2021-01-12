@@ -16,6 +16,7 @@ function MultipleComponent({ title, items, onAdd, onRemove, onEdit }) {
                 value={item}
                 className="form-control mb-2"
                 onChange={(e) => onEdit(e.target.value, index)}
+
               />
             </div>
             <div className="">
