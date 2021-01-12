@@ -22,14 +22,18 @@ code {
   border-radius: 10px;
 }
 
+.parent {
+  position: relative;
+}
 .autocomplete {
-  display:absolute!important;
+  position: absolute;
+  top:0px;
   z-index: 1;
-  top:10px;
   background-color: aquamarine;
   color:blueviolet;
   overflow: auto;
   max-height: 120px;
+  width: 100%;
 }
 
 .autosuggestElement:hover {
@@ -97,3 +101,8 @@ color: #FFFFF2;
   text-align: center;
   border-radius: 5px;
 }
+
+.input {
+  position: relative;
+}
+

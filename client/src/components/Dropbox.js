@@ -12,8 +12,9 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
 
         <>
             <label>Which resort?</label>
+
             <input
-                className="form-control"
+                className="form-control input"
                 type="name"
                 name="resorts"
                 value={value}
@@ -26,28 +27,28 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
                 autoComplete="off"
 
             />
-            <div className=" autocomplete rounded">
-                {data.length > 0 && openSuggestions ? (
+            <div class="parent">
+                <div className="autocomplete rounded">
+                    {data.length > 0 && openSuggestions ? (
 
-                    data.map((resort, index) => (
-                        <p
-                            key={index}
-                            className="autosuggestElement p-2 mb-0"
-                            onMouseDown={() =>
-                                onFilter(resort)
-                            }
-                            value={resort}
-                        >
-                            {resort}
-                        </p>
-                    )))
+                        data.map((resort, index) => (
+                            <p
+                                key={index}
+                                className="autosuggestElement p-2 mb-0"
+                                onMouseDown={() =>
+                                    onFilter(resort)
+                                }
+                                value={resort}
+                            >
+                                {resort}
+                            </p>
+                        )))
 
-                    : null
-                }
+                        : null
+                    }
+                </div>
             </div>
-
         </>
     )
 }
-
 export default Dropbox
