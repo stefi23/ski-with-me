@@ -150,6 +150,15 @@ function Register(props) {
                   label="Email"
                   value={email}
                   onChange={handleEmailChange}
+                  message={
+                    <div className={showAlert ? "alert-box-absolute" : null}>
+                      <p className="mb-0">Email address already registered.</p>
+                      <p className="mb-0">Please <Link to="/login" className="text-bordo">
+                        <b>login</b>
+                      </Link>.</p>
+                    </div>
+                  }
+
                   required
                 />
               </div>

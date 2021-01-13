@@ -29,6 +29,8 @@ function Search(props) {
     const [language, setLanguage] = useState("")
     const [languageSuggestions, setLanguageSuggestions] = useState([])
 
+
+
     let location = useLocation();
     let history = useHistory();
 
@@ -146,6 +148,8 @@ function Search(props) {
         }
         setLanguage(language)
     }
+
+
 
 
 

@@ -36,6 +36,7 @@ code {
   width: 100%;
 }
 
+.autosuggestElement-active,
 .autosuggestElement:hover {
   background-color: #4c4f5b;
   cursor: pointer;
