@@ -9,8 +9,15 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
     const [openSuggestions, setOpenSuggestions] = useState(false)
     const [activeSuggestion, setActiveSuggestion] = useState(-1)
 
-    const onKeyDown = (e) => {
+    const autocompleteRef = React.useRef([]);
 
+
+    // console.log("a", autocompleteRef)
+
+
+
+    const onKeyDown = (e) => {
+        autocompleteRef.current[activeSuggestion + 1].focus();
         if (e.keyCode === 13) {
             //13 = ENTER KEY
             onFilter(data[activeSuggestion])
@@ -23,6 +30,8 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
                 return
             }
             setActiveSuggestion(activeSuggestion - 1)
+
+
         }
         else if (e.keyCode === 40) {
             // 40 = ARROW DOWN
@@ -31,6 +40,7 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
                 return
             }
             setActiveSuggestion(activeSuggestion + 1)
+
 
         }
         else if (e.keyCode === 8 && e.target.value === "") {
@@ -54,7 +64,7 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
                 value={value}
                 onChange={(e) => onFilter(e.target.value)}
                 onClick={onClick}
-                onFocus={() => setOpenSuggestions(true)}
+                onFocus={() => { setOpenSuggestions(true) }}
                 onBlur={() => setOpenSuggestions(false)}
                 placeholder={placeholder}
                 onKeyUp={(e) => onFilter(e.target.value)}
@@ -63,11 +73,16 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
 
             />
             <div class="parent">
-                <div className="autocomplete rounded">
+                <div className="autocomplete rounded"  >
+
                     {data.length > 0 && openSuggestions ? (
 
                         data.map((resort, index) => (
                             <p
+
+                                // ref={autocompleteRef}
+                                ref={ref => autocompleteRef.current.push(ref)}
+                                tabIndex="0"
                                 key={index}
                                 className={index === activeSuggestion ? "autosuggestElement-active p-2 mb-0" : "autosuggestElement p-2 mb-0"}
                                 onMouseDown={() =>

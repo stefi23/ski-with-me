@@ -197,12 +197,12 @@ function Search(props) {
                                 data={resortSuggestions} />
                         </div>
                         <div className="col-md-12">
-                            <Dropbox
+                            {/* <Dropbox
                                 onFilter={(language) => languagesSuggestions(language)}
                                 onClick={((e) => autocompleteLanguages(skierData))}
                                 value={language}
                                 placeholder="Choose language"
-                                data={languageSuggestions} />
+                                data={languageSuggestions} />*/}
                         </div>
                     </div>
                 </div>
