@@ -10,34 +10,6 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
     const [activeSuggestion, setActiveSuggestion] = useState(-1)
 
     const onKeyDown = (e) => {
-        // ["Andorra", "La molina", "Azuga", "Poiana brasov", "Predeal", "Sinaia", ""]
-        //activeSuggestion = 0
-
-
-        //     if (e.keyCode === 13) {
-        //         this.setState({
-        //             activeSuggestion: 0,
-        //             showSuggestions: false,
-        //             userInput: filteredSuggestions[activeSuggestion]
-        //         });
-        //     }
-        //     // User pressed the up arrow
-        //     else if (e.keyCode === 38) {
-        //         if (activeSuggestion === 0) {
-        //             return;
-        //         }
-
-        //         this.setState({ activeSuggestion: activeSuggestion - 1 });
-        //     }
-        //     // User pressed the down arrow
-        //     else if (e.keyCode === 40) {
-        //         if (activeSuggestion - 1 === filteredSuggestions.length) {
-        //             return;
-        //         }
-
-        //         this.setState({ activeSuggestion: activeSuggestion + 1 });
-        //     }
-        // };
 
         if (e.keyCode === 13) {
             //13 = ENTER KEY
