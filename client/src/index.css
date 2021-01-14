@@ -32,12 +32,12 @@ code {
   background-color: aquamarine;
   color:blueviolet;
   overflow: auto;
-  max-height: 120px;
+  max-height: 140px;
   width: 100%;
 }
 
-.autosuggestElement-active,
-.autosuggestElement:hover {
+.autosuggestElement-active
+ {
   background-color: #4c4f5b;
   cursor: pointer;
   color: #eeeeff !important;

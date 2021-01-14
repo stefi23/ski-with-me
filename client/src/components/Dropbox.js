@@ -7,7 +7,7 @@ Dropbox.propTypes = {
 
 function Dropbox({ onFilter, onClick, placeholder, data, value }) {
     const [openSuggestions, setOpenSuggestions] = useState(false)
-    const [activeSuggestion, setActiveSuggestion] = useState(0)
+    const [activeSuggestion, setActiveSuggestion] = useState(-1)
 
     const onKeyDown = (e) => {
         // ["Andorra", "La molina", "Azuga", "Poiana brasov", "Predeal", "Sinaia", ""]
@@ -101,7 +101,7 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
                                 onMouseDown={() =>
                                     onFilter(resort)
                                 }
-
+                                onMouseMove={() => setActiveSuggestion(index)}
                                 value={resort}
                             >
                                 {resort}
