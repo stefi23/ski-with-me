@@ -31,7 +31,8 @@ code {
   z-index: 1;
   background-color: aquamarine;
   color:blueviolet;
-  overflow: auto;
+  overflow:auto;
+  /* overflow-y: scroll; */
   max-height: 140px;
   width: 100%;
 }
@@ -43,6 +44,7 @@ code {
   color: #eeeeff !important;
   margin-bottom: 0px!important;
 }
+
 
 .btn-blue{
   background-color: var(--light-blue);;

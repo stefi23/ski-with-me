@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import propTypes from 'prop-types';
 
 Dropbox.propTypes = {
@@ -9,8 +9,9 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
     const [openSuggestions, setOpenSuggestions] = useState(false)
     const [activeSuggestion, setActiveSuggestion] = useState(-1)
 
-    const onKeyDown = (e) => {
+    const containerRef = useRef(null);
 
+    const onKeyDown = (e) => {
         if (e.keyCode === 13) {
             //13 = ENTER KEY
             onFilter(data[activeSuggestion])
@@ -23,6 +24,9 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
                 return
             }
             setActiveSuggestion(activeSuggestion - 1)
+
+            containerRef.current.children.length &&
+                containerRef.current.children[activeSuggestion - 1].scrollIntoView(false);;
         }
         else if (e.keyCode === 40) {
             // 40 = ARROW DOWN
@@ -30,16 +34,21 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
             if (activeSuggestion === data.length - 1) {
                 return
             }
-            setActiveSuggestion(activeSuggestion + 1)
+            setActiveSuggestion(activeSuggestion + 2)
+            setActiveSuggestion(activeSuggestion + 1);
+            containerRef.current.children.length &&
+                containerRef.current.children[activeSuggestion + 1].scrollIntoView(false);
 
         }
-        else if (e.keyCode === 8 && e.target.value === "") {
+        else if ((e.keyCode === 8 && e.target.value === "") || e.keyCode === 27) {
             setOpenSuggestions(false)
         }
+        else {
+            setActiveSuggestion(0);
+            containerRef.current.children.length &&
+                containerRef.current.children[0].scrollIntoView(false);
+        }
     }
-
-
-
 
 
     return (
@@ -54,7 +63,7 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
                 value={value}
                 onChange={(e) => onFilter(e.target.value)}
                 onClick={onClick}
-                onFocus={() => setOpenSuggestions(true)}
+                onFocus={() => { setOpenSuggestions(true) }}
                 onBlur={() => setOpenSuggestions(false)}
                 placeholder={placeholder}
                 onKeyUp={(e) => onFilter(e.target.value)}
@@ -62,26 +71,30 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
                 onKeyDown={((e) => onKeyDown(e))}
 
             />
-            <div class="parent">
-                <div className="autocomplete rounded">
-                    {data.length > 0 && openSuggestions ? (
+            <div>
+                <div className="parent">
+                    <div className="autocomplete rounded" ref={containerRef}   >
 
-                        data.map((resort, index) => (
-                            <p
-                                key={index}
-                                className={index === activeSuggestion ? "autosuggestElement-active p-2 mb-0" : "autosuggestElement p-2 mb-0"}
-                                onMouseDown={() =>
-                                    onFilter(resort)
-                                }
-                                onMouseMove={() => setActiveSuggestion(index)}
-                                value={resort}
-                            >
-                                {resort}
-                            </p>
-                        )))
+                        {data.length > 0 && openSuggestions ? (
 
-                        : null
-                    }
+                            data.map((resort, index) => (
+                                <p
+                                    tabIndex="0"
+                                    key={index}
+                                    className={index === activeSuggestion ? "autosuggestElement-active p-2 mb-0" : "autosuggestElement p-2 mb-0"}
+                                    onMouseDown={() =>
+                                        onFilter(resort)
+                                    }
+                                    onMouseMove={() => setActiveSuggestion(index)}
+                                    value={resort}
+                                >
+                                    {resort}
+                                </p>
+                            )))
+
+                            : null
+                        }
+                    </div>
                 </div>
             </div>
         </>
