@@ -11,7 +11,7 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
 
     const autocompleteRef = React.useRef([]);
 
-
+    console.log("A", activeSuggestion)
     // console.log("a", autocompleteRef)
 
 
@@ -79,10 +79,9 @@ function Dropbox({ onFilter, onClick, placeholder, data, value }) {
 
                         data.map((resort, index) => (
                             <p
-
                                 // ref={autocompleteRef}
-                                ref={ref => autocompleteRef.current.push(ref)}
                                 tabIndex="0"
+                                ref={ref => autocompleteRef.current.push(ref)}
                                 key={index}
                                 className={index === activeSuggestion ? "autosuggestElement-active p-2 mb-0" : "autosuggestElement p-2 mb-0"}
                                 onMouseDown={() =>
