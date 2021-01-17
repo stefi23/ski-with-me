@@ -66,7 +66,8 @@ function Login(props) {
               <p className="alert-box mb-4">username or password incorrect</p>
             </div>) : null
           }
-          <form class="needs-validation" novalidate >
+          <form class="needs-validation"
+            onSubmit={(e) => email && password ? attemptLogin(e) : null} >
             <label className="text-gray">Email:</label>
             <input
               name="email"
@@ -88,10 +89,10 @@ function Login(props) {
 
             <button
               className="btn btn-blue mb-2 mt-3 width-complete"
-              onClick={(e) => email && password ? attemptLogin(e) : null}
-              onKeyUp={(e) => {
-                if (e.keyCode === 13) { return email && password ? attemptLogin(e) : null }
-              }}
+
+            // onKeyUp={(e) => {
+            //   if (e.keyCode === 13) { return email && password ? attemptLogin(e) : null }
+            // }}
             >
               Login
           </button>

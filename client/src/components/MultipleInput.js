@@ -1,6 +1,8 @@
 import React from "react";
 
+
 function MultipleComponent({ title, items, onAdd, onRemove, onEdit }) {
+
   return (
     <div>
       {/* <div className="form-row">
@@ -22,6 +24,7 @@ function MultipleComponent({ title, items, onAdd, onRemove, onEdit }) {
             <div className="">
               {items.length < 2 ? null : (
                 <button
+                  type="button"
                   className="btn btn-blue"
                   onClick={() => { onRemove(index) }}
                 >
@@ -36,6 +39,7 @@ function MultipleComponent({ title, items, onAdd, onRemove, onEdit }) {
       <div className="mt-2">
         <div className="form-group">
           <button
+            type="button"
             className="btn btn-blue"
             onClick={() => onAdd("")}
           // onKeyDown={(e) => {

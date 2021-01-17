@@ -151,9 +151,6 @@ function Search(props) {
 
 
 
-
-
-
     return (
         <>
             <div className="row">

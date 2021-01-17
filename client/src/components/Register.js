@@ -47,7 +47,7 @@ const useArrayState = (initialState) => {
 
 
 function Register(props) {
-  const [firstName, handleFirstNameChange] = useInput()
+  const [firstName, handleFirstNameChange] = useInput("")
   const [lastName, handleLastNameChange] = useInput("");
 
   const [email, setEmail] = useState("");
@@ -121,7 +121,12 @@ function Register(props) {
             </Modal.Title>
         </Modal.Header>
         <Modal.Body className="px-4 py-4">
-          <form>
+          <form onSubmit={(e) => {
+            addUser(e)
+            // e.preventDefault();
+            // console.log(e)
+            // if (window.confirm("Register was succesful!"));
+          }}>
             <div className="form-row">
               <div className="form-group col-md-6">
                 <InputBox
@@ -256,6 +261,9 @@ function Register(props) {
             <div className="form-row">
               <div className="form-group col-md-12">
                 <MultipleComponent
+                  // onClick={autocompleteResorts}
+                  // onFilter={filterSuggestions}
+                  // data={resortSuggestions}
                   title="Resorts"
                   items={resorts}
                   onAdd={addResort}
@@ -293,13 +301,11 @@ function Register(props) {
               disabled={showAlert ? true : false}
               type="submit"
               className="btn btn-blue width-complete"
-              onClick={(e) => addUser(e)}
+              // onClick={(e) => addUser(e)}
               onKeyUp={(e) => {
                 if (e.keyCode === 13) { return addUser(e) }
               }}
-            // onSubmit={() => {
-            //   if (window.confirm("Register was succesful!"));
-            // }}
+
             >
               Submit
             </button>
