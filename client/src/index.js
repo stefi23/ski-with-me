@@ -2,11 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { ResortsProvider } from './hooks/useResorts'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ResortsProvider>
+      <App />
+    </ResortsProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

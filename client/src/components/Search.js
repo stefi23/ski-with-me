@@ -106,51 +106,6 @@ function Search(props) {
         setLevels([...new Set(levelArr)])
     };
 
-    const autocompleteResorts = async (skierData) => {
-        const resortsArr = skierData.map(skier => {
-            return skier.resort.split(",")
-        })
-        setResortSuggestions([...new Set(resortsArr.flat())])
-    }
-
-    const autocompleteLanguages = async (skierData) => {
-        const languagesArr = skierData.map(skier => {
-            return skier.languages.split(",")
-        })
-        setLanguageSuggestions([...new Set(languagesArr.flat())])
-    }
-
-
-    const resortsSuggestions = (resort) => {
-        setResortSuggestions(resortSuggestions.filter(x => x.toLowerCase().includes(resort.toLowerCase())))
-        if (((resortSuggestions.filter(resortToFilter => {
-            return resortToFilter === resort
-        })).length > 0 || resort === "")) {
-            props.getResortSearched(resort)
-
-        }
-        if (resort === "") {
-            autocompleteResorts(skierData)
-        }
-        setResort(resort)
-    }
-
-    const languagesSuggestions = (language) => {
-        setLanguageSuggestions(languageSuggestions.filter(x => x.toLowerCase().includes(language.toLowerCase())))
-        if (((languageSuggestions.filter(languageToFilter => {
-            return languageToFilter === language
-        })).length > 0 || language === "")) {
-            props.getLanguageSearched(language)
-
-        }
-        if (language === "") {
-            autocompleteLanguages(skierData)
-        }
-        setLanguage(language)
-    }
-
-
-
     return (
         <>
             <div className="row">
@@ -187,16 +142,18 @@ function Search(props) {
                         </div>
                         <div className="col-md-12">
                             <Dropbox
-                                onFilter={(resort) => resortsSuggestions(resort)}
-                                onClick={((e) => autocompleteResorts(skierData))}
+                                onChange={(value) => {
+                                    setResort(value);
+                                }}
                                 value={resort}
                                 placeholder="Choose resort"
                                 data={resortSuggestions} />
                         </div>
                         <div className="col-md-12">
                             <Dropbox
-                                onFilter={(language) => languagesSuggestions(language)}
-                                onClick={((e) => autocompleteLanguages(skierData))}
+                                onChange={(value) => {
+                                    setLanguage(value);
+                                }}
                                 value={language}
                                 placeholder="Choose language"
                                 data={languageSuggestions} />

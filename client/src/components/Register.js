@@ -1,10 +1,11 @@
 import React, { useState, useDebugValue } from "react";
 import axios from "axios";
 import { Link, withRouter, useHistory } from "react-router-dom";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import InputBox from "./InputBox"
 import RadioBox from "./RadioBox"
 import MultipleComponent from "./MultipleInput";
+import { useResorts } from "../hooks/useResorts";
 
 
 
@@ -55,24 +56,21 @@ function Register(props) {
   const [password, handlePasswordChange] = useInput("");
   const [sport, handleSportChange] = useInput("ski");
   const [level, handleLevelChange] = useInput("medium");
-  const [resorts, addResort, removeResort, editResort] = useArrayState([""]);
+  
+  const { resorts } = useResorts(); // Resorts available server side
+  const [selectedResorts, setSelectedResorts] = useState(['']); // Resorts coming from the form
+
   const [languages, addLanguage, removeLanguage, editLanguage] = useArrayState([""]);
 
   const [showAlert, setShowAlert] = useState(false)
 
   const history = useHistory();
 
-
   const handleEmailChange = (e) => {
-
     const userEmails = props.intialSkierList.map(user => user.email)
-    if (userEmails.includes(e.target.value)) {
-      setShowAlert(true)
-    } else {
-      setShowAlert(false)
-    }
+    
+    setShowAlert(userEmails.includes(e.target.value))
     setEmail(e.target.value)
-
   }
 
   const handleClose = () => {
@@ -116,7 +114,7 @@ function Register(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter"
-            class="text-bordo title-modal">
+            className="text-bordo title-modal">
             Sign up
             </Modal.Title>
         </Modal.Header>
@@ -180,10 +178,10 @@ function Register(props) {
             </div>
             <div className="form-row">
               <div className="form-group col-md-6 mb-0">
-                <label class="text-gray">Sport</label>
+                <label className="text-gray">Sport</label>
               </div>
               <div className="form-group col-md-6 mb-0">
-                <label class="text-gray">Level</label>
+                <label className="text-gray">Level</label>
               </div>
             </div>
             <div className="form-row">
@@ -261,14 +259,27 @@ function Register(props) {
             <div className="form-row">
               <div className="form-group col-md-12">
                 <MultipleComponent
-                  // onClick={autocompleteResorts}
-                  // onFilter={filterSuggestions}
-                  // data={resortSuggestions}
+                  data={['Giordano', 'Franco', 'Moreno', 'Bimba']}
+                  selectedValues={selectedResorts}
                   title="Resorts"
-                  items={resorts}
-                  onAdd={addResort}
-                  onRemove={removeResort}
-                  onEdit={editResort}
+                  onAdd={() => {
+                    setSelectedResorts(['', ...selectedResorts])
+                  }}
+                  onRemove={(index) => {
+                    const nextUserResorts = [
+                      ...selectedResorts.slice(0, index),
+                      ...selectedResorts.slice(index + 1),
+                    ];
+
+                    setSelectedResorts(nextUserResorts);
+                  }}
+                  onChange={(value, index) => {
+                    const nextUserResorts = selectedResorts.slice();
+
+                    nextUserResorts[index] = value
+
+                    setSelectedResorts(nextUserResorts)
+                  }}
                   required
                 />
               </div>
@@ -277,7 +288,7 @@ function Register(props) {
               <div className="form-group col-md-12">
                 <MultipleComponent
                   title="Languages"
-                  items={languages}
+                  selectedValues={languages}
                   onAdd={addLanguage}
                   onRemove={removeLanguage}
                   onEdit={editLanguage}

@@ -139,7 +139,7 @@ class CopyRegister extends React.Component {
                     onChange={this.handleInput}
                     defaultChecked={this.state.sport === "ski"}
                   />
-                  <label className="form-check-label" for="inlineRadio1">
+                  <label className="form-check-label" htmlFor="inlineRadio1">
                     ski
                   </label>
                 </div>
@@ -154,7 +154,7 @@ class CopyRegister extends React.Component {
                     onChange={this.handleInput}
                     defaultChecked={this.state.sport === "snowboard"}
                   />
-                  <label className="form-check-label" for="inlineRadio2">
+                  <label className="form-check-label" htmlFor="inlineRadio2">
                     snowboard
                   </label>
                 </div>
@@ -168,7 +168,7 @@ class CopyRegister extends React.Component {
                     defaultChecked={this.state.sport === "both"}
                     onChange={this.handleInput}
                   />
-                  <label className="form-check-label" for="inlineRadio3">
+                  <label className="form-check-label" htmlFor="inlineRadio3">
                     both
                   </label>
                 </div>
@@ -184,7 +184,7 @@ class CopyRegister extends React.Component {
                     value="beginner"
                     onChange={this.handleInput}
                   />
-                  <label className="form-check-label" for="inlineRadio1">
+                  <label className="form-check-label" htmlFor="inlineRadio1">
                     beginner
                   </label>
                 </div>
@@ -197,7 +197,7 @@ class CopyRegister extends React.Component {
                     value="medium"
                     onChange={this.handleInput}
                   />
-                  <label className="form-check-label" for="inlineRadio1">
+                  <label className="form-check-label" htmlFor="inlineRadio1">
                     medium
                   </label>
                 </div>
@@ -210,7 +210,7 @@ class CopyRegister extends React.Component {
                     value="advanced"
                     onChange={this.handleInput}
                   />
-                  <label className="form-check-label" for="inlineRadio2">
+                  <label className="form-check-label" htmlFor="inlineRadio2">
                     advanced
                   </label>
                 </div>
@@ -223,7 +223,7 @@ class CopyRegister extends React.Component {
                     value="pro"
                     onChange={this.handleInput}
                   />
-                  <label className="form-check-label" for="inlineRadio3">
+                  <label className="form-check-label" htmlFor="inlineRadio3">
                     pro
                   </label>
                 </div>

@@ -11,9 +11,8 @@ function RadioBox({ label, value, onChange, defaultChecked, id, name }) {
                 value={value}
                 onChange={onChange}
                 defaultChecked={defaultChecked}
-                id={id}
             />
-            <label className="text-gray form-check-label" for={id}>
+            <label className="text-gray form-check-label" htmlFor={id}>
                 {label}
             </label>
         </>

@@ -55,7 +55,7 @@ function Login(props) {
         onHide={handleClose}
       >
         <Modal.Header closeButton>
-          <Modal.Title class="text-bordo title-modal" id="contained-modal-title-vcenter ">
+          <Modal.Title className="text-bordo title-modal" id="contained-modal-title-vcenter ">
             Welcome Back
           </Modal.Title>
         </Modal.Header>
@@ -66,7 +66,7 @@ function Login(props) {
               <p className="alert-box mb-4">username or password incorrect</p>
             </div>) : null
           }
-          <form class="needs-validation"
+          <form className="needs-validation"
             onSubmit={(e) => email && password ? attemptLogin(e) : null} >
             <label className="text-gray">Email:</label>
             <input
@@ -99,7 +99,7 @@ function Login(props) {
           </form>
 
           <div className="">
-            <p class="text-gray mt-2 mb-1 text-center">
+            <p className="text-gray mt-2 mb-1 text-center">
               Don't have an account?
               <span>
                 {" "}
