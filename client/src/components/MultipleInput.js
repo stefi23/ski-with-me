@@ -44,7 +44,7 @@ function MultipleComponent({
                   }}
                   value={value}
                   placeholder={`Choose ${title}`}
-                  data={data}
+                  suggestions={data}
                 />
               ) : (
                 <input

@@ -147,7 +147,7 @@ function Search(props) {
                                 }}
                                 value={resort}
                                 placeholder="Choose resort"
-                                data={resortSuggestions} />
+                                suggestions={resortSuggestions} />
                         </div>
                         <div className="col-md-12">
                             <Dropbox
@@ -156,7 +156,7 @@ function Search(props) {
                                 }}
                                 value={language}
                                 placeholder="Choose language"
-                                data={languageSuggestions} />
+                                suggestions={languageSuggestions} />
                         </div>
                     </div>
                 </div>

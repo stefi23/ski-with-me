@@ -2,9 +2,10 @@ import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 
 Dropbox.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.string).isRequired,
+  suggestions: PropTypes.arrayOf(PropTypes.string).isRequired,
   title: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
 };
 
 const KEYS = {
@@ -21,17 +22,15 @@ const KEYS = {
  * @param Dropbox.title A title for the field
  * @param Dropbox.onChange Function called when the written value changes
  * @param Dropbox.value Current selected value
- * @param Dropbox.data Array of strings for suggestions
+ * @param Dropbox.suggestions Array of strings for suggestions
  */
-function Dropbox({ onChange, placeholder, data, title, value }) {
+function Dropbox({ onChange, placeholder, suggestions, title, value }) {
   const [openSuggestions, setOpenSuggestions] = useState(false);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
   const containerRef = useRef(null);
 
-  console.log(`Dropbox ${title}`, { data });
-
   // Filters suggestions based on the current value
-  const filteredSuggestions = data.filter((filterValue) => {
+  const filteredSuggestions = suggestions.filter((filterValue) => {
     return filterValue.toLowerCase().includes(value.toLowerCase());
   });
 
@@ -39,7 +38,7 @@ function Dropbox({ onChange, placeholder, data, title, value }) {
       e.preventDefault();
     switch (e.keyCode) {
       case KEYS.ENTER:
-        onChange(data[activeSuggestionIndex]);
+        onChange(suggestions[activeSuggestionIndex]);
         setOpenSuggestions(false);
         setActiveSuggestionIndex(0);
         break;
@@ -56,7 +55,7 @@ function Dropbox({ onChange, placeholder, data, title, value }) {
         break;
       case KEYS.ARROW_DOWN:
         setOpenSuggestions(true);
-        if (activeSuggestionIndex === data.length - 1) {
+        if (activeSuggestionIndex === suggestions.length - 1) {
           return;
         }
         setActiveSuggestionIndex(activeSuggestionIndex + 2);
