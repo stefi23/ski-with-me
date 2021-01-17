@@ -30,6 +30,7 @@ function Dropbox({ onChange, placeholder, data, title, value }) {
 
   console.log(`Dropbox ${title}`, { data });
 
+  // Filters suggestions based on the current value
   const filteredSuggestions = data.filter((filterValue) => {
     return filterValue.toLowerCase().includes(value.toLowerCase());
   });
@@ -98,7 +99,7 @@ function Dropbox({ onChange, placeholder, data, title, value }) {
       <div>
         <div className="parent">
           <div className="autocomplete rounded" ref={containerRef}>
-            {data.length > 0 && openSuggestions
+            {filteredSuggestions.length > 0 && openSuggestions
               ? filteredSuggestions.map((suggestion, index) => (
                   <p
                     tabIndex="0"
