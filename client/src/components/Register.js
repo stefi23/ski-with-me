@@ -1,7 +1,7 @@
 import React, { useState, useDebugValue } from "react";
 import axios from "axios";
 import { Link, withRouter, useHistory } from "react-router-dom";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import InputBox from "./InputBox"
 import RadioBox from "./RadioBox"
 import MultipleComponent from "./MultipleInput";
@@ -116,7 +116,7 @@ function Register(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter"
-            class="text-bordo title-modal">
+            className="text-bordo title-modal">
             Sign up
             </Modal.Title>
         </Modal.Header>
@@ -180,10 +180,10 @@ function Register(props) {
             </div>
             <div className="form-row">
               <div className="form-group col-md-6 mb-0">
-                <label class="text-gray">Sport</label>
+                <label className="text-gray">Sport</label>
               </div>
               <div className="form-group col-md-6 mb-0">
-                <label class="text-gray">Level</label>
+                <label className="text-gray">Level</label>
               </div>
             </div>
             <div className="form-row">

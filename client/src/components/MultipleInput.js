@@ -7,7 +7,7 @@ function MultipleComponent({ title, items, onAdd, onRemove, onEdit }) {
     <div>
       {/* <div className="form-row">
         <div className="form-group col-md-6"> */}
-      <label class="text-gray">{title}</label>
+      <label className="text-gray">{title}</label>
       {/* </div>
       </div> */}
       {items.map((item, index) => {
