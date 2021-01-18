@@ -187,19 +187,21 @@ function Search(props) {
                         </div>
                         <div className="col-md-12">
                             <Dropbox
+                                title="resort"
                                 onFilter={(resort) => resortsSuggestions(resort)}
                                 onClick={((e) => autocompleteResorts(skierData))}
                                 value={resort}
                                 placeholder="Choose resort"
-                                data={resortSuggestions} />
+                                suggestions={resortSuggestions} />
                         </div>
                         <div className="col-md-12">
                             <Dropbox
+                                title="language"
                                 onFilter={(language) => languagesSuggestions(language)}
                                 onClick={((e) => autocompleteLanguages(skierData))}
                                 value={language}
                                 placeholder="Choose language"
-                                data={languageSuggestions} />
+                                suggestions={languageSuggestions} />
                         </div>
                     </div>
                 </div>
