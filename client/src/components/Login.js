@@ -2,22 +2,24 @@ import React, { useState } from "react";
 import "../App.css";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import InputBox from "./InputBox"
+
+const useInput = (input) => {
+  const [value, setValue] = useState(input)
+  function handleInputChange(event) {
+    setValue(event.target.value)
+  }
+  return [value, handleInputChange]
+}
+
 
 function Login(props) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, handleEmailChange] = useInput("");
+  const [password, handlePasswordChange] = useInput("");
   const [showAlert, setShowAlert] = useState(false)
 
   const history = useHistory();
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  };
 
   const handleClose = () => {
     history.push("/");
@@ -68,32 +70,29 @@ function Login(props) {
           }
           <form className="needs-validation"
             onSubmit={(e) => email && password ? attemptLogin(e) : null} >
-            <label className="text-gray">Email:</label>
-            <input
-              name="email"
-              onChange={handleEmail}
-              value={email}
-              className="form-control mb-2"
-              required
-            />
-
-            <label className="text-gray text-center">Password:</label>
-            <input
-              type="password"
-              name="password"
-              onChange={handlePassword}
-              value={password}
-              className="form-control mb-2"
-              required
-            />
-
-            <button
-              className="btn btn-blue mb-2 mt-3 width-complete"
-
-            // onKeyUp={(e) => {
-            //   if (e.keyCode === 13) { return email && password ? attemptLogin(e) : null }
-            // }}
-            >
+            <div className="form-row">
+              <div className="form-group col-md-12">
+                <InputBox
+                  type="text"
+                  label="Email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group col-md-12">
+                <InputBox
+                  type="password"
+                  label="Password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  required
+                />
+              </div>
+            </div>
+            <button className="btn btn-blue mb-2 mt-3 width-complete">
               Login
           </button>
           </form>
@@ -117,5 +116,6 @@ function Login(props) {
     </>
   );
 }
+
 
 export default Login;
