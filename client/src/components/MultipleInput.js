@@ -1,5 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types"
 
+MultipleComponent.propTypes = {
+  title: PropTypes.string.isRequired,
+  items: PropTypes.array.isRequired,
+  onAdd: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired
+}
 
 function MultipleComponent({ title, items, onAdd, onRemove, onEdit }) {
 

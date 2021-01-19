@@ -14,7 +14,7 @@ const useInput = (input) => {
 }
 
 
-function Login(props) {
+function Login({ updateLoggedIn, getName, getUserId }) {
   const [email, handleEmailChange] = useInput("");
   const [password, handlePasswordChange] = useInput("");
   const [showAlert, setShowAlert] = useState(false)
@@ -36,9 +36,9 @@ function Login(props) {
     try {
       const resp = await axios.post('/users/login', loginData);
       localStorage.setItem("skiBuddyToken", resp.data.token);
-      props.updateLoggedIn(true);
-      props.getName(resp.data.name);
-      props.getUserId(resp.data.id)
+      updateLoggedIn(true);
+      getName(resp.data.name);
+      getUserId(resp.data.id)
     }
     catch (err) {
       if (err.response.status === 400) {

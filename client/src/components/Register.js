@@ -5,6 +5,11 @@ import { Modal } from "react-bootstrap";
 import InputBox from "./InputBox"
 import RadioBox from "./RadioBox"
 import MultipleComponent from "./MultipleInput";
+import PropTypes from "prop-types"
+
+Register.propTypes = {
+  intialSkierList: PropTypes.array.isRequired,
+}
 
 
 
@@ -46,7 +51,7 @@ const useArrayState = (initialState) => {
 }
 
 
-function Register(props) {
+function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const [firstName, handleFirstNameChange] = useInput("")
   const [lastName, handleLastNameChange] = useInput("");
 
@@ -62,10 +67,11 @@ function Register(props) {
 
   const history = useHistory();
 
+  console.log("I", intialSkierList)
 
   const handleEmailChange = (e) => {
 
-    const userEmails = props.intialSkierList.map(user => user.email)
+    const userEmails = intialSkierList.map(user => user.email)
     if (userEmails.includes(e.target.value)) {
       setShowAlert(true)
     } else {
@@ -95,10 +101,10 @@ function Register(props) {
     try {
       const resp = await axios.post('/users/register', userData);
       localStorage.setItem("skiBuddyToken", resp.data.token);
-      props.updateLoggedIn(true);
-      props.getName(resp.data.name);
-      props.getUserId(resp.data.id)
-      props.history.push("/");
+      updateLoggedIn(true);
+      getName(resp.data.name);
+      getUserId(resp.data.id)
+      history.push("/");
     }
     catch (err) {
       console.log(err)

@@ -3,6 +3,12 @@ import SelectBox from "./SelectBox"
 import styled from 'styled-components'
 import Dropbox from "./Dropbox"
 import { useLocation, useHistory } from "react-router-dom"
+import PropTypes from "prop-types"
+
+Search.propTypes = {
+    intialSkierList: PropTypes.array.isRequired,
+    skierListData: PropTypes.array.isRequired
+}
 
 const Title = styled.h1`
         color: #6989af;
@@ -193,6 +199,7 @@ function Search(props) {
                                 value={resort}
                                 placeholder="Choose resort"
                                 suggestions={resortSuggestions} />
+
                         </div>
                         <div className="col-md-12">
                             <Dropbox
