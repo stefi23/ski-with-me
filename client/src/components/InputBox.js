@@ -1,5 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
+
+
+InputBox.propTypes = {
+    label: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    required: PropTypes.bool,
+    showAlert: PropTypes.bool
+}
 
 function InputBox({ label, type, value, onChange, required, showAlert }) {
     return (
