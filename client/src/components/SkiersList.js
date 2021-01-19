@@ -1,13 +1,18 @@
 import React from "react"
 import SkierCard from "./SkierCard"
+import PropTypes from "prop-types"
+
+SkiersList.propTypes = {
+    skierListData: PropTypes.array.isRequired,
+}
 
 
-function SkiersList(props) {
+function SkiersList({ skierListData, isUserLoggedin }) {
     return (
         <>
             {
-                props.skierListData.length > 0 ?
-                    (props.skierListData.map((skier, index) => {
+                skierListData.length > 0 ?
+                    (skierListData.map((skier, index) => {
                         return (
                             <div className="col-sm-12 col-md-4 col-lg-3 col-xl-3 mb-3" key={index}>
                                 <SkierCard name={`${skier.first_name} ${skier.last_name}`}
@@ -16,7 +21,7 @@ function SkiersList(props) {
                                     languages={skier.languages}
                                     sport={skier.sport}
                                     email={skier.email}
-                                    isUserLoggedin={props.isUserLoggedin}
+                                    isUserLoggedin={isUserLoggedin}
                                 />
                             </div>
                         )

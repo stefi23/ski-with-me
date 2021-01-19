@@ -1,4 +1,15 @@
 import React from "react";
+import PropTypes from "prop-types"
+
+RadioBox.propTypes = {
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    defaultChecked: PropTypes.bool.isRequired,
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+
+}
 
 function RadioBox({ label, value, onChange, defaultChecked, id, name }) {
     return (

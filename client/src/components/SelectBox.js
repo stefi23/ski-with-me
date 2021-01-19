@@ -1,6 +1,15 @@
 import React from 'react'
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
+import PropTypes from "prop-types"
 
+SelectBox.propTypes = {
+    options: PropTypes.array.isRequired,
+    value: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    label: PropTypes.object.isRequired,
+    autoFocus: PropTypes.bool
+
+}
 
 
 function SelectBox({ getSelection, options, value, id, label, autoFocus }) {

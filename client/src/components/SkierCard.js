@@ -1,5 +1,14 @@
 import React from "react"
 import styled from 'styled-components'
+import PropTypes from "prop-types"
+
+SkierCard.propTypes = {
+    sport: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    level: PropTypes.string.isRequired,
+    resorts: PropTypes.string.isRequired,
+
+}
 
 
 const SkierCardDiv = styled.div`
