@@ -80,6 +80,9 @@ function Search(props) {
     }, [sport, level, resort, language])
 
 
+    //Maybe getSportSearch and getLevel Searched should be in 
+    // the SelectBox component or a custom Hook? 
+
     const getSportSearched = (sport) => {
         setSport(sport)
         props.getSportSearched(sport)
@@ -97,6 +100,7 @@ function Search(props) {
         }
     };
 
+    //get all available sport
     const sportsAvailable = (skierData) => {
         const sportsArr = skierData.map(skier => {
             return skier.sport
@@ -104,7 +108,7 @@ function Search(props) {
         setSports([...new Set(sportsArr)])
     };
 
-
+    //get all available levels
     const levelAvailable = (skierData) => {
         const levelArr = skierData.map(skier => {
             return skier.level
@@ -112,21 +116,25 @@ function Search(props) {
         setLevels([...new Set(levelArr)])
     };
 
-    const autocompleteResorts = async (skierData) => {
+    //get all available Resorts
+    const resortsAvailable = async (skierData) => {
         const resortsArr = skierData.map(skier => {
             return skier.resort.split(",")
         })
         setResortSuggestions([...new Set(resortsArr.flat())])
     }
 
-    const autocompleteLanguages = async (skierData) => {
+    //get all available languages
+    const languagesAvailable = async (skierData) => {
         const languagesArr = skierData.map(skier => {
             return skier.languages.split(",")
         })
         setLanguageSuggestions([...new Set(languagesArr.flat())])
     }
 
+    //filter sugestion once the user starts typing.
 
+    /* Functions moved to Dropbox
     const resortsSuggestions = (resort) => {
         setResortSuggestions(resortSuggestions.filter(x => x.toLowerCase().includes(resort.toLowerCase())))
         if (((resortSuggestions.filter(resortToFilter => {
@@ -136,7 +144,7 @@ function Search(props) {
 
         }
         if (resort === "") {
-            autocompleteResorts(skierData)
+            resortsAvailable(skierData)
         }
         setResort(resort)
     }
@@ -154,7 +162,7 @@ function Search(props) {
         }
         setLanguage(language)
     }
-
+*/
 
 
     return (
@@ -194,21 +202,30 @@ function Search(props) {
                         <div className="col-md-12">
                             <Dropbox
                                 title="resort"
-                                onFilter={(resort) => resortsSuggestions(resort)}
-                                onClick={((e) => autocompleteResorts(skierData))}
+                                // onFilter={(resort) => resortsSuggestions(resort)}
+                                onClick={((e) => resortsAvailable(skierData))}
                                 value={resort}
                                 placeholder="Choose resort"
-                                suggestions={resortSuggestions} />
+                                suggestions={resortSuggestions}
+                                setSuggestions={setResortSuggestions}
+                                setValue={setResort}
+                                setValueSearched={props.getResortSearched}
+                                refreshData={((e) => resortsAvailable(skierData))}
+                            />
 
                         </div>
                         <div className="col-md-12">
                             <Dropbox
                                 title="language"
-                                onFilter={(language) => languagesSuggestions(language)}
-                                onClick={((e) => autocompleteLanguages(skierData))}
+                                // onFilter={(language) => languagesSuggestions(language)}
+                                onClick={((e) => languagesAvailable(skierData))}
                                 value={language}
                                 placeholder="Choose language"
-                                suggestions={languageSuggestions} />
+                                suggestions={languageSuggestions}
+                                setSuggestions={setLanguageSuggestions}
+                                setValue={setLanguage}
+                                setValueSearched={props.getLanguageSearched}
+                                refreshData={((e) => languagesAvailable(skierData))} />
                         </div>
                     </div>
                 </div>

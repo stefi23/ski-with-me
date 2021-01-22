@@ -8,7 +8,10 @@ Dropbox.propTypes = {
     title: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
-    onFilter: PropTypes.func.isRequired
+    setSuggestions: PropTypes.func.isRequired,
+    setValue: PropTypes.func.isRequired,
+    setValueSearched: PropTypes.func.isRequired,
+    refreshData: PropTypes.func.isRequired
 }
 
 const KEYS = {
@@ -20,7 +23,7 @@ const KEYS = {
 }
 
 
-function Dropbox({ onFilter, onClick, placeholder, suggestions, value, title }) {
+function Dropbox({ onClick, placeholder, suggestions, value, title, setSuggestions, setValue, setValueSearched, refreshData }) {
     const [openSuggestions, setOpenSuggestions] = useState(false)
     const [activeSuggestionIndex, setactiveSuggestionIndex] = useState(-1)
 
@@ -28,7 +31,7 @@ function Dropbox({ onFilter, onClick, placeholder, suggestions, value, title }) 
 
     const handleKeyDown = (e) => {
         if (e.keyCode === KEYS.ENTER) {
-            onFilter(suggestions[activeSuggestionIndex])
+            filterDataSuggestions(suggestions[activeSuggestionIndex])
             setOpenSuggestions(false)
             setactiveSuggestionIndex(0)
 
@@ -46,7 +49,7 @@ function Dropbox({ onFilter, onClick, placeholder, suggestions, value, title }) 
             if (activeSuggestionIndex === suggestions.length - 1) {
                 return
             }
-            // setactiveSuggestionIndex(activeSuggestionIndex + 2)
+
             setactiveSuggestionIndex(activeSuggestionIndex + 1);
             containerRef.current.children.length &&
                 containerRef.current.children[activeSuggestionIndex + 1].scrollIntoView(false);
@@ -62,25 +65,43 @@ function Dropbox({ onFilter, onClick, placeholder, suggestions, value, title }) 
         }
     }
 
+    const filterDataSuggestions = (value) => {
+        setSuggestions(suggestions.filter(x => x.toLowerCase().includes(value.toLowerCase())))
+        if (((suggestions.filter(valueToFilter => {
+            return valueToFilter === value
+        })).length > 0 || value === "")) {
+            setValueSearched(value)
+
+        }
+        if (value === "") {
+            refreshData()
+        }
+        setValue(value)
+
+    }
+
 
     return (
 
         <>
             <label>Which {title}?</label>
-
             <input
                 className="form-control input"
                 type="name"
                 name="resorts"
                 value={value}
-                onChange={(e) => onFilter(e.target.value)}
+                // onChange={(e) => onFilter(e.target.value)}
+                onChange={(e) => filterDataSuggestions(e.target.value)}
                 onClick={onClick}
                 onFocus={() => { setOpenSuggestions(true) }}
                 onBlur={() => setOpenSuggestions(false)}
                 placeholder={placeholder}
-                onKeyUp={(e) => onFilter(e.target.value)}
+                // onKeyUp={(e) => onFilter(e.target.value)}
+                onKeyUp={(e) => filterDataSuggestions(e.target.value)}
+
                 autoComplete="off"
                 onKeyDown={((e) => handleKeyDown(e))}
+
 
             />
             <div>
@@ -89,18 +110,18 @@ function Dropbox({ onFilter, onClick, placeholder, suggestions, value, title }) 
 
                         {suggestions.length > 0 && openSuggestions ? (
 
-                            suggestions.map((resort, index) => (
+                            suggestions.map((value, index) => (
                                 <p
                                     tabIndex="0"
                                     key={index}
                                     className={index === activeSuggestionIndex ? "autosuggestElement-active p-2 mb-0" : "autosuggestElement p-2 mb-0"}
                                     onMouseDown={() =>
-                                        onFilter(resort)
+                                        filterDataSuggestions(value)
                                     }
                                     onMouseMove={() => setactiveSuggestionIndex(index)}
-                                    value={resort}
+                                    value={value}
                                 >
-                                    {resort}
+                                    {value}
                                 </p>
                             )))
 
