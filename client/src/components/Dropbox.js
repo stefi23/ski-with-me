@@ -11,6 +11,13 @@ Dropbox.propTypes = {
     onFilter: PropTypes.func.isRequired
 }
 
+const KEYS = {
+    ENTER: 13,
+    ARROW_UP: 38,
+    ARROW_DOWN: 40,
+    ESCAPE: 27,
+    BACKSPACE: 8
+}
 
 
 function Dropbox({ onFilter, onClick, placeholder, suggestions, value, title }) {
@@ -19,15 +26,13 @@ function Dropbox({ onFilter, onClick, placeholder, suggestions, value, title }) 
 
     const containerRef = useRef(null);
 
-    const onKeyDown = (e) => {
-        if (e.keyCode === 13) {
-            //13 = ENTER KEY
+    const handleKeyDown = (e) => {
+        if (e.keyCode === KEYS.ENTER) {
             onFilter(suggestions[activeSuggestionIndex])
             setOpenSuggestions(false)
             setactiveSuggestionIndex(0)
 
-        } else if (e.keyCode === 38) {
-            // 38 = ARROW UP
+        } else if (e.keyCode === KEYS.ARROW_UP) {
             if (activeSuggestionIndex === 0) {
                 return
             }
@@ -36,8 +41,7 @@ function Dropbox({ onFilter, onClick, placeholder, suggestions, value, title }) 
             containerRef.current.children.length &&
                 containerRef.current.children[activeSuggestionIndex - 1].scrollIntoView(false);;
         }
-        else if (e.keyCode === 40) {
-            // 40 = ARROW DOWN
+        else if (e.keyCode === KEYS.ARROW_DOWN) {
             setOpenSuggestions(true)
             if (activeSuggestionIndex === suggestions.length - 1) {
                 return
@@ -48,7 +52,7 @@ function Dropbox({ onFilter, onClick, placeholder, suggestions, value, title }) 
                 containerRef.current.children[activeSuggestionIndex + 1].scrollIntoView(false);
 
         }
-        else if ((e.keyCode === 8 && e.target.value === "") || e.keyCode === 27) {
+        else if ((e.keyCode === KEYS.BACKSPACE && e.target.value === "") || e.keyCode === KEYS.ESCAPE) {
             setOpenSuggestions(false)
         }
         else {
@@ -76,7 +80,7 @@ function Dropbox({ onFilter, onClick, placeholder, suggestions, value, title }) 
                 placeholder={placeholder}
                 onKeyUp={(e) => onFilter(e.target.value)}
                 autoComplete="off"
-                onKeyDown={((e) => onKeyDown(e))}
+                onKeyDown={((e) => handleKeyDown(e))}
 
             />
             <div>
