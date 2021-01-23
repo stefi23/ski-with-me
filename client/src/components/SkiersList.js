@@ -14,7 +14,7 @@ function SkiersList({ skierListData, isUserLoggedin }) {
                 skierListData.length > 0 ?
                     (skierListData.map((skier, index) => {
                         return (
-                            <div className="col-sm-12 col-md-4 col-lg-3 col-xl-3 mb-3" key={index}>
+                            <div className="col-sm-12 col-md-4 col-lg-3 col-xl-3 mb-4" key={index}>
                                 <SkierCard name={`${skier.first_name} ${skier.last_name}`}
                                     level={skier.level}
                                     resorts={skier.resort}
