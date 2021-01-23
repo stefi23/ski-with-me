@@ -12,16 +12,34 @@ SelectBox.propTypes = {
 }
 
 
-function SelectBox({ getSelection, options, value, id, label, autoFocus }) {
+function SelectBox({ setValue, getValueSelected, options, value, id, label, autoFocus }) {
 
 
     useEffect(() => {
         options = [...new Set(options)]
+
     }, [])
 
     function valueSelected(e) {
         getSelection(e.target.value)
     }
+
+    const getSelection = (value) => {
+        //pass value to parent component(Search)
+        setValue(value)
+        //pass the selected value all the way up to parent(App)
+        getValueSelected(value)
+        // if (value === "") {
+        //     //sent to Search to update - via maybe
+        //     // refreshData()
+        //     // sportsAvailable(intialSkierList)
+        // }
+    };
+
+
+
+
+
     return (
         <>
             <label>{label.text}</label>

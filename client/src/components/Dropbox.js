@@ -57,6 +57,7 @@ function Dropbox({ onClick, placeholder, suggestions, value, title, setSuggestio
         }
         else if ((e.keyCode === KEYS.BACKSPACE && e.target.value === "") || e.keyCode === KEYS.ESCAPE) {
             setOpenSuggestions(false)
+            console.log(value)
         }
         else {
             setactiveSuggestionIndex(0);
@@ -71,7 +72,6 @@ function Dropbox({ onClick, placeholder, suggestions, value, title, setSuggestio
             return valueToFilter === value
         })).length > 0 || value === "")) {
             setValueSearched(value)
-
         }
         if (value === "") {
             refreshData()
