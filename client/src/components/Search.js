@@ -75,7 +75,15 @@ function Search(props) {
             resort,
             language
         }
-        const queryString = Object.keys(searchQuery).filter(key => searchQuery[key]).map(key => key + '=' + searchQuery[key]).join('&');
+        const queryString = new URLSearchParams()
+
+        for (const [key, value] of Object.entries(searchQuery)) {
+            if (value) {
+                queryString.append(key, value)
+            }
+        }
+        // const queryString = Object.keys(searchQuery).filter(key => searchQuery[key]).map(key => key + '=' + searchQuery[key].replace(/ /g, "+")).join('&');
+
         history.push(`/?${queryString}`);
     }, [sport, level, resort, language])
 

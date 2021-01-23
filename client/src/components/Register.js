@@ -67,8 +67,6 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
 
   const history = useHistory();
 
-  console.log("I", intialSkierList)
-
   const handleEmailChange = (e) => {
 
     const userEmails = intialSkierList.map(user => user.email)
