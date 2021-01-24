@@ -5,6 +5,9 @@ import { Link, useHistory } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import InputBox from "./InputBox"
 
+import { useInput } from "../hooks/useInput"
+
+/*
 const useInput = (input) => {
   const [value, setValue] = useState(input)
   function handleInputChange(event) {
@@ -12,7 +15,7 @@ const useInput = (input) => {
   }
   return [value, handleInputChange]
 }
-
+*/
 
 function Login({ updateLoggedIn, getName, getUserId }) {
   const [email, handleEmailChange] = useInput("");
@@ -112,7 +115,7 @@ function Login({ updateLoggedIn, getName, getUserId }) {
         {/* <Modal.Footer>
           <Button onClick={handleClose} variant="secondary">Close</Button>
         </Modal.Footer> */}
-      </Modal>
+      </Modal >
     </>
   );
 }

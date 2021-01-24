@@ -7,12 +7,13 @@ import RadioBox from "./RadioBox"
 import MultipleComponent from "./MultipleInput";
 import PropTypes from "prop-types"
 
+import { useInput } from "../hooks/useInput"
+
 Register.propTypes = {
   intialSkierList: PropTypes.array.isRequired,
 }
 
-
-
+/*
 const useInput = (input) => {
   const [value, setValue] = useState(input)
   function handleInputChange(event) {
@@ -20,6 +21,7 @@ const useInput = (input) => {
   }
   return [value, handleInputChange]
 }
+*/
 
 const useArrayState = (initialState) => {
   const [array, setArray] = useState(initialState)
