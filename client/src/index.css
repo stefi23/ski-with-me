@@ -29,8 +29,8 @@ code {
   position: absolute;
   top:0px;
   z-index: 1;
-  background-color: aquamarine;
-  color:blueviolet;
+  background-color: white;
+  color:#212121;
   overflow:auto;
   /* overflow-y: scroll; */
   max-height: 140px;
@@ -39,9 +39,9 @@ code {
 
 .autosuggestElement-active
  {
-  background-color: #4c4f5b;
+  background-color: #f5f5f5;
   cursor: pointer;
-  color: #eeeeff !important;
+  color: #323232 !important;
   margin-bottom: 0px!important;
 }
 
@@ -126,5 +126,9 @@ color: #FFFFF2;
 }
 
 .form-control:hover {
+  border: 1px solid #659CCC!important
+}
+
+.form-select:hover {
   border: 1px solid #659CCC!important
 }
