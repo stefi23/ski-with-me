@@ -3,6 +3,8 @@ import PropTypes from "prop-types"
 
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { makeStyles } from '@material-ui/core/styles';
+
 
 
 MultipleComponent.propTypes = {
@@ -13,8 +15,65 @@ MultipleComponent.propTypes = {
   onEdit: PropTypes.func.isRequired
 }
 
+const useStyles = makeStyles({
+
+  root: {
+    "& label.Mui-focused": {
+      color: "red",
+      // borderSize: "1px"
+      // boxShadow: `0 0 0 0.2rem rgba(0,123,255,.25)`,
+      // outline: `1`
+      // box- shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+    },
+    // "& .MuiInput-underline:after": {
+    //   borderBottomColor: "#659CCC"
+    // },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#ced4da",
+        height: `2.5em`,
+        // border: 1px solid #ced4da;
+      },
+      "&:hover fieldset": {
+        borderColor: "#659CCC"
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: `#659CCC`,
+        borderWidth: `1px`,
+        outline: `none!important`,
+        boxShadow: `0 0 0 0.25rem rgba(13,110,253,.25)`
+      },
+
+    }
+  },
+});
+
+
+// const useStyles = makeStyles({
+//   root: {
+//     "& label.Mui-focused": {
+//       color: "#659CCC"
+//     },
+//     // "& .MuiInput-underline:after": {
+//     //   borderBottomColor: "#659CCC"
+//     // },
+//     "& .MuiOutlinedInput-root": {
+//       "& fieldset": {
+//         borderColor: "#659CCC"
+//       },
+//       "&:hover fieldset": {
+//         borderColor: "#659CCC"
+//       },
+//       "&.Mui-focused fieldset": {
+//         borderColor: "#659CCC"
+//       }
+//     }
+//   }
+// })(TextField);
+
 
 function MultipleComponent({ title, items, onAdd, onRemove, onEdit, data }) {
+  const classes = useStyles();
 
   return (
     <div>
@@ -41,7 +100,7 @@ function MultipleComponent({ title, items, onAdd, onRemove, onEdit, data }) {
                   renderInput={(params) => (
                     <TextField {...params}
                       // label={title}
-
+                      className={classes.root}
                       variant="outlined"
                       size="small"
                       margin="normal"
