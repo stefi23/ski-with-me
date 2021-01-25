@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
+
 MultipleComponent.propTypes = {
   title: PropTypes.string.isRequired,
   items: PropTypes.array.isRequired,
@@ -25,8 +26,12 @@ function MultipleComponent({ title, items, onAdd, onRemove, onEdit, data }) {
             <div>
               {data?.length ? ( // We use <Dropbox /> only if we have suggestions data
                 <Autocomplete
-                  classes={{ outline: 'my-class-name' }}
-                  onChange={(e, value) => onEdit(value, index)}
+                  onChange={(e, value) => {
+                    onEdit(value, index)
+                  }}
+                  onInputChange={(e, value) => {
+                    onEdit(value, index)
+                  }}
                   fullWidth
                   freeSolo
                   // id="combo-box-demo"
@@ -40,16 +45,22 @@ function MultipleComponent({ title, items, onAdd, onRemove, onEdit, data }) {
                       variant="outlined"
                       size="small"
                       margin="normal"
+                      required
                     />
 
                   )}
+                  ListboxProps={{
+                    style: {
+                      maxHeight: "160px",
+                    }
+                  }}
                 />
               ) : (
                   <input
                     value={item}
                     className="form-control mb-2"
                     onChange={(e) => onEdit(e.target.value, index)}
-
+                    required
                   />
                 )}
             </div>
