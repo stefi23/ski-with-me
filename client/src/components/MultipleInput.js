@@ -12,7 +12,8 @@ MultipleComponent.propTypes = {
   items: PropTypes.array.isRequired,
   onAdd: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired
+  onEdit: PropTypes.func.isRequired,
+  data: PropTypes.array
 }
 
 const useStyles = makeStyles({
@@ -20,14 +21,7 @@ const useStyles = makeStyles({
   root: {
     "& label.Mui-focused": {
       color: "red",
-      // borderSize: "1px"
-      // boxShadow: `0 0 0 0.2rem rgba(0,123,255,.25)`,
-      // outline: `1`
-      // box- shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
     },
-    // "& .MuiInput-underline:after": {
-    //   borderBottomColor: "#659CCC"
-    // },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
         borderColor: "#ced4da",
@@ -49,28 +43,6 @@ const useStyles = makeStyles({
 });
 
 
-// const useStyles = makeStyles({
-//   root: {
-//     "& label.Mui-focused": {
-//       color: "#659CCC"
-//     },
-//     // "& .MuiInput-underline:after": {
-//     //   borderBottomColor: "#659CCC"
-//     // },
-//     "& .MuiOutlinedInput-root": {
-//       "& fieldset": {
-//         borderColor: "#659CCC"
-//       },
-//       "&:hover fieldset": {
-//         borderColor: "#659CCC"
-//       },
-//       "&.Mui-focused fieldset": {
-//         borderColor: "#659CCC"
-//       }
-//     }
-//   }
-// })(TextField);
-
 
 function MultipleComponent({ title, items, onAdd, onRemove, onEdit, data }) {
   const classes = useStyles();
@@ -83,7 +55,7 @@ function MultipleComponent({ title, items, onAdd, onRemove, onEdit, data }) {
           <div key={index}>
 
             <div>
-              {data?.length ? ( // We use <Dropbox /> only if we have suggestions data
+              {data?.length ? ( // We use <Autocomple /> only if we have suggestions data
                 <Autocomplete
                   onChange={(e, value) => {
                     onEdit(value, index)
