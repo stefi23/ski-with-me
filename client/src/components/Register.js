@@ -1,4 +1,4 @@
-import React, { useState, useDebugValue } from "react";
+import React, { useState, useDebugValue, useEffect } from "react";
 import axios from "axios";
 import { Link, withRouter, useHistory } from "react-router-dom";
 import { Modal } from "react-bootstrap";
@@ -48,7 +48,6 @@ const useArrayState = (initialState) => {
     setArray(updateArray)
   }
 
-
   return [array, handleAdd, handleRemove, handleEdit]
 }
 
@@ -64,6 +63,9 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const [level, handleLevelChange] = useInput("medium");
   const [resorts, addResort, removeResort, editResort] = useArrayState([""]);
   const [languages, addLanguage, removeLanguage, editLanguage] = useArrayState([""]);
+
+  const [resortsDb, setResortsDb] = useState([])
+  const [languagesDb, setLanguagesDb] = useState([])
 
   const [showAlert, setShowAlert] = useState(false)
 
@@ -110,6 +112,40 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
       console.log(err)
     }
   };
+
+
+  const getResortsListfromDB = async () => {
+    try {
+      const resp = await axios.get('/AllResorts');
+      const resortsArr = resp.data.map(resorts => {
+        return resorts.resort_name
+      })
+      setResortsDb(resortsArr)
+    } catch (err) {
+      // Handle Error Here
+      console.error(err);
+    }
+  };
+
+  const getLanguagesListfromDB = async () => {
+    try {
+      const resp = await axios.get('/AllLanguages');
+      const languagesArr = resp.data.map(languages => {
+        return languages.language
+      })
+      setLanguagesDb(languagesArr)
+    } catch (err) {
+      // Handle Error Here
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    getResortsListfromDB()
+    getLanguagesListfromDB()
+    //Update resorts array with data from db
+  }, [])
+
 
   return (
     <>
@@ -270,6 +306,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                   // onClick={autocompleteResorts}
                   // onFilter={filterSuggestions}
                   // data={resortSuggestions}
+                  data={resortsDb}
                   title="Resorts"
                   items={resorts}
                   onAdd={addResort}
@@ -282,6 +319,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
             <div className="form-row">
               <div className="form-group col-md-12">
                 <MultipleComponent
+                  data={languagesDb}
                   title="Languages"
                   items={languages}
                   onAdd={addLanguage}
