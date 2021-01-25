@@ -11,13 +11,9 @@ MultipleComponent.propTypes = {
   onRemove: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired
 }
-const data = ["Andorra", "Sinaia", "Predeal", "Azuga", "Poiana Brasov"]
-
-// const data = []
 
 
-
-function MultipleComponent({ title, items, onAdd, onRemove, onEdit }) {
+function MultipleComponent({ title, items, onAdd, onRemove, onEdit, data }) {
 
   return (
     <div>

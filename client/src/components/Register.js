@@ -270,6 +270,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                   // onClick={autocompleteResorts}
                   // onFilter={filterSuggestions}
                   // data={resortSuggestions}
+                  data={["Andorra", "Sinaia", "Predeal", "Azuga", "Poiana Brasov"]}
                   title="Resorts"
                   items={resorts}
                   onAdd={addResort}
@@ -282,6 +283,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
             <div className="form-row">
               <div className="form-group col-md-12">
                 <MultipleComponent
+                  data={["English", "German", "Spanish", "Italian"]}
                   title="Languages"
                   items={languages}
                   onAdd={addLanguage}
