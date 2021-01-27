@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 
 SkiersList.propTypes = {
     skierListData: PropTypes.array.isRequired,
+    isUserLoggedin: PropTypes.bool.isRequired
 }
 
 

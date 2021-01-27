@@ -11,6 +11,9 @@ import { useInput } from "../hooks/useInput"
 
 Register.propTypes = {
   intialSkierList: PropTypes.array.isRequired,
+  updateLoggedIn: PropTypes.func.isRequired, 
+  getName: PropTypes.func.isRequired,
+  getUserId:PropTypes.func.isRequired,
 }
 
 /*
@@ -75,13 +78,6 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
 
     const userEmails = intialSkierList.map(user => user.email)
     setShowAlert(userEmails.includes(e.target.value))
-    /*
-    if (userEmails.includes(e.target.value)) {
-      setShowAlert(true)
-    } else {
-      setShowAlert(false)
-    }
-    */
     setEmail(e.target.value)
 
   }

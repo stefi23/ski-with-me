@@ -7,7 +7,11 @@ import PropTypes from "prop-types"
 
 Search.propTypes = {
     intialSkierList: PropTypes.array.isRequired,
-    skierListData: PropTypes.array.isRequired
+    skierListData: PropTypes.array.isRequired,
+    getLanguageSearched: PropTypes.func.isRequired,
+    getLevelSearched: PropTypes.func.isRequired,
+    getResortSearched:  PropTypes.func.isRequired,
+    getSportSearched: PropTypes.func.isRequired,
 }
 
 const Title = styled.h1`
@@ -180,8 +184,6 @@ function Search(props) {
         setLanguage(language)
     }
 */
-
-
     return (
         <>
             <div className="row">
