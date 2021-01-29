@@ -18,6 +18,8 @@ con.connect(function (err) {
   if (err) throw err;
   console.log("Connected!");
 
+
+  //ALTER TABLE users ADD CONSTRAINT CHECK sport in ('ski', 'snowboard', 'both');
   let sql =
     "DROP TABLE if exists user; CREATE TABLE users(id INT NOT NULL AUTO_INCREMENT, first_name VARCHAR(40) NOT NULL, last_name VARCHAR(40)  NOT NULL, sport VARCHAR(40) NOT NULL, level varchar(255) NOT NULL, password TEXT NOT NULL, email VARCHAR(255) NOT NULL, PRIMARY KEY (id));";
 
