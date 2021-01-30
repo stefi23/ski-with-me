@@ -8,7 +8,7 @@ const crypto = require("crypto");
 const isEqual = require('lodash/isEmpty')
 const capitalize = require('lodash/capitalize')
 
-const {getIdandName} = require('../model/users')
+const {getIdandName, getId, insertData, getName} = require('../model/users')
 
 const supersecret = process.env.SUPER_SECRET;
 
@@ -138,22 +138,25 @@ router.post("/register", async (req, res, next) => {
 
     const hashedPassword = await cryptoPassword(password, email);
 
-    let user = await db(
-      'INSERT INTO users (first_name, last_name, email, sport, level, password ) VALUES (?, ?, ?, ?, ?, ?);',
-      [first_name, last_name, email, sport, level, hashedPassword]
-    );
+    let user = await insertData(first_name, last_name, email, sport, level, hashedPassword)
+    // db(
+    //   'INSERT INTO users (first_name, last_name, email, sport, level, password ) VALUES (?, ?, ?, ?, ?, ?);',
+    //   [first_name, last_name, email, sport, level, hashedPassword]
+    // );
 
-    let userData = await db(
-      `SELECT id from users WHERE email = ? AND password = ?;`,
-      [email, hashedPassword]
-    );
+    let userData = await getId(email, hashedPassword)
+    // db(
+    //   `SELECT id from users WHERE email = ? AND password = ?;`,
+    //   [email, hashedPassword]
+    // );
 
     const id = userData.data[0].id
 
     //Thos data
-    const { data } = await db(
-      'SELECT first_name from users WHERE id = ?;', [id]
-    );
+    const { data } = await getName(id)
+    // db(
+    //   'SELECT first_name from users WHERE id = ?;', [id]
+    // );
     const name = data[0].first_name;
 
     if (userData.data[0] && userData.data[0].id) {
@@ -216,6 +219,7 @@ const insertValueIntoTable = async (table_name, table_column, value) => {
   );
 };
 
+//TO MOVE TO MODELS -> HOW TO NAME IT VS getID?
 const getUserId = async (email) => {
   return await db(`SELECT id FROM users WHERE email = ?;`, [email]);
 };

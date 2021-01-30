@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router();
 const db = require("../model/helper");
+const { getAllResorts } = require('../model/resorts')
+const { getAllLanguages } = require('../model/languages')
 
 // /* GET home page. */
 router.get("/", async (req, res, next) => {
@@ -23,8 +25,8 @@ router.get("/", async (req, res, next) => {
 //All resorts available in the db 
 router.get("/AllResorts", async (req, res) => {
   try {
-    const response = await db(`
-  SELECT resort_name FROM resorts;`);
+    const response = await getAllResorts()
+    // db(`SELECT resort_name FROM resorts;`);
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
@@ -34,8 +36,8 @@ router.get("/AllResorts", async (req, res) => {
 //All languages available in the db 
 router.get("/AllLanguages", async (req, res) => {
   try {
-    const response = await db(`
-  SELECT language FROM languages;`);
+    const response = await getAllLanguages()
+    // db(`SELECT language FROM languages;`);
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
@@ -54,7 +56,7 @@ router.get("/AllLanguages", async (req, res) => {
 //   }
 // });
 
-//Serch resorts based on user input 
+//Serch resorts based on user input - NOT USED
 router.get("/AllResorts/:resort", async (req, res) => {
   const resort = req.params.resort;
   try {
@@ -65,7 +67,7 @@ router.get("/AllResorts/:resort", async (req, res) => {
   }
 });
 
-//Serch language based on user input 
+//Serch language based on user input - NOT USED
 router.get("/AllLanguages/:language", async (req, res) => {
   const language = req.params.language;
   try {
@@ -76,7 +78,7 @@ router.get("/AllLanguages/:language", async (req, res) => {
   }
 });
 
-//All users from a specific resort
+//All users from a specific resort - NOT USED
 router.get("/resort/:resort", async (req, res) => {
   const resort = req.params.resort;
   try {
@@ -95,7 +97,7 @@ router.get("/resort/:resort", async (req, res) => {
   }
 });
 
-//All users with a specific level
+//All users with a specific level - NOT USED
 router.get("/level/:level", async (req, res) => {
   const level = req.params.level;
   try {
@@ -115,7 +117,7 @@ router.get("/level/:level", async (req, res) => {
   }
 });
 
-//All users doing a specific sport
+//All users doing a specific sport - NOT USED
 router.get("/sport/:sport", async (req, res) => {
   const sport = req.params.sport;
   try {
@@ -171,6 +173,7 @@ router.get("/resorts", async (req, res) => {
 // Fetch updated skier data from db based on filter.
 // Fetch select box contents from db based on filter.
 
+//- NOT SURE IF IT'S USED
 router.get('/sports', async (req, res) => {
   // accept urls http://localhost/sports?language=english&level=pro
   let whereClause = getWhereClause(req);
