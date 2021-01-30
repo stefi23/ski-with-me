@@ -48,7 +48,7 @@ function Search(props) {
         sportsAvailable(props.skierListData)
         levelAvailable(props.skierListData)
         // setIntialSkierList(props.intialSkierList)
-        // resortsAvailable(props.skierListData)
+        resortsAvailable(props.skierListData)
         // languagesAvailable(props.skierListData)
     }, [props.skierListData])
 
@@ -58,6 +58,17 @@ function Search(props) {
         const levelFilter = parameters.get('level');
         const resortFilter = parameters.get('resort');
         const languageFilter = parameters.get('language');
+
+        // console.log("THIS",resortsAvailable(skierData))
+
+        // async function fetchData() {
+        // console.log(props.skierListData)
+        // const list = await resortSuggestions.then(console.log(res))
+        // console.log("list",resortSuggestions)
+        // } 
+        // fetchData();
+        // // console.log(data)
+    
         if (sportFilter) {
             setSport(sportFilter)
             props.getSportSearched(sportFilter)
@@ -69,16 +80,16 @@ function Search(props) {
         }
         if (resortFilter) {
             setResort(resortFilter)
-            // if (resortSuggestions.includes(resortFilter)) {
-            // props.getResortSearched(resortFilter)
-            // }
+            if (resortSuggestions.includes(resortFilter)) {
+             props.getResortSearched(resortFilter)
+            }
         }
         if (languageFilter) {
             //not working proprely - to check
             setLanguage(languageFilter)
-            // if (languageSuggestions.includes(languageFilter)) {
-            //     props.getLanguageSearched(languageFilter)
-            // }
+            if (languageSuggestions.includes(languageFilter)) {
+                props.getLanguageSearched(languageFilter)
+            }
         }
     }, [location]);
 
@@ -138,7 +149,7 @@ function Search(props) {
     };
 
     //get all available resorts
-    const resortsAvailable = async (skierData) => {
+    const resortsAvailable =  (skierData) => {
         const resortsArr = skierData.map(skier => {
             return skier.resort.split(",")
         })
