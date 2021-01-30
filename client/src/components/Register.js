@@ -76,6 +76,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
 
   const handleEmailChange = (e) => {
 
+
     const userEmails = intialSkierList.map(user => user.email)
     setShowAlert(userEmails.includes(e.target.value))
     setEmail(e.target.value)
@@ -83,7 +84,8 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   }
 
   const handleClose = () => {
-    history.push("/");
+    history.goBack()
+    // history.push("/");
   };
 
   const userData = {
