@@ -26,7 +26,6 @@ function Login({ updateLoggedIn, getName, getUserId }) {
 
   const handleClose = () => {
      history.goBack()
-    // history.push("/");
   };
 
 

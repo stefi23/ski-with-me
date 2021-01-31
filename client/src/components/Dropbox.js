@@ -23,15 +23,21 @@ const KEYS = {
 }
 
 
-function Dropbox({ onClick, placeholder, suggestions, value, title, setSuggestions, setValue, setValueSearched, refreshData }) {
+function Dropbox({ onClick, placeholder, suggestions, value, title, setValue, setValueSearched, refreshData }) {
     const [openSuggestions, setOpenSuggestions] = useState(false)
     const [activeSuggestionIndex, setactiveSuggestionIndex] = useState(-1)
 
     const containerRef = useRef(null);
+    const filteredSuggestions = suggestions.filter(suggestion => {
+        return suggestion.toLowerCase().includes(value.toLowerCase())
+    })
 
     const handleKeyDown = (e) => {
+        console.log({
+            activeSuggestionIndex
+        })
         if (e.keyCode === KEYS.ENTER) {
-            filterDataSuggestions(suggestions[activeSuggestionIndex])
+            filterDataSuggestions(filteredSuggestions[activeSuggestionIndex])
             setOpenSuggestions(false)
             setactiveSuggestionIndex(0)
 
@@ -46,7 +52,7 @@ function Dropbox({ onClick, placeholder, suggestions, value, title, setSuggestio
         }
         else if (e.keyCode === KEYS.ARROW_DOWN) {
             setOpenSuggestions(true)
-            if (activeSuggestionIndex === suggestions.length - 1) {
+            if (activeSuggestionIndex === filteredSuggestions.length - 1) {
                 return
             }
 
@@ -64,21 +70,28 @@ function Dropbox({ onClick, placeholder, suggestions, value, title, setSuggestio
             containerRef.current.children.length &&
                 containerRef.current.children[0].scrollIntoView(false);
         }
+        
     }
 
     const filterDataSuggestions = (value) => {
-        setSuggestions(suggestions.filter(x => x.toLowerCase().includes(value.toLowerCase())))
+        // setSuggestions(suggestions.filter(x => x.toLowerCase().includes(value.toLowerCase())))
+        /*
         if (((suggestions.filter(valueToFilter => {
             return valueToFilter === value
         })).length > 0 || value === "")) {
             setValueSearched(value)
         }
+        
+        */
+        /*
         if (value === "") {
             refreshData()
         }
+        */
         setValue(value)
-
     }
+
+
 
 
     return (
@@ -92,7 +105,7 @@ function Dropbox({ onClick, placeholder, suggestions, value, title, setSuggestio
                 value={value}
                 // onChange={(e) => onFilter(e.target.value)}
                 onChange={(e) => filterDataSuggestions(e.target.value)}
-                onClick={onClick}
+                onClick={() => setOpenSuggestions(true)}
                 onFocus={() => { setOpenSuggestions(true) }}
                 onBlur={() => setOpenSuggestions(false)}
                 placeholder={placeholder}
@@ -108,9 +121,8 @@ function Dropbox({ onClick, placeholder, suggestions, value, title, setSuggestio
                 <div className="parent">
                     <div className="autocomplete rounded" ref={containerRef}   >
 
-                        {suggestions.length > 0 && openSuggestions ? (
-
-                            suggestions.map((value, index) => (
+                        {filteredSuggestions.length > 0 && openSuggestions ? (
+                            filteredSuggestions.map((value, index) => (
                                 <p
                                     tabIndex="0"
                                     key={index}

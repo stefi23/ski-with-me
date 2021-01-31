@@ -85,7 +85,6 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
 
   const handleClose = () => {
     history.goBack()
-    // history.push("/");
   };
 
   const userData = {

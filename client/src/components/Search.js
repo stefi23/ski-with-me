@@ -22,10 +22,47 @@ const Title = styled.h1`
         text-align : left;
 `;
 
+const getResortSuggestions = (skierList = [], selectedResort) => {
+    if (!skierList) {
+        return []
+    }
+
+    const resortsArr = skierList.map(skier => {
+        return skier.resort.split(",")
+    })
+
+    const allResorts = [...new Set(resortsArr.flat())]
+
+    if (selectedResort === '') {
+        return allResorts
+    }
+
+    return allResorts.filter(item => item.toLowerCase().includes(selectedResort.toLowerCase()))
+}
+
+const getLanguagesSuggestions = (skierList =[], selectedLanguage) => {
+    console.log("Selected language",selectedLanguage )
+    if (!skierList) {
+        return []
+    }
+        const languagesArr = skierList.map(skier => {
+        return skier.languages.split(",")
+    })
+
+    const allLanguages = [...new Set(languagesArr.flat())]
+
+    if (selectedLanguage === '') {
+        return allLanguages
+    }
+
+    return allLanguages.filter(item => item.toLowerCase().includes(selectedLanguage.toLowerCase()))
+    
+}
+
 function Search(props) {
     const [sport, setSport] = useState("")
     const [level, setLevel] = useState("")
-    const [skierData, setSkierData] = useState([])
+    // const [skierData, setSkierData] = useState([])
     // const [intialSkierList, setIntialSkierList] = useState([])
 
 
@@ -33,22 +70,27 @@ function Search(props) {
     const [levels, setLevels] = useState([])
 
     const [resort, setResort] = useState("")
-    const [resortSuggestions, setResortSuggestions] = useState([])
+    // const [resortSuggestions, setResortSuggestions] = useState([])
 
     const [language, setLanguage] = useState("")
-    const [languageSuggestions, setLanguageSuggestions] = useState([])
-
-
+    // const [languageSuggestions, setLanguageSuggestions] = useState([])
+    
+    // allResorts
+    // resortsSuggestion
 
     let location = useLocation();
     let history = useHistory();
 
+    const resortSuggestions = getResortSuggestions(props.skierListData, resort);
+    const languageSuggestions = getLanguagesSuggestions(props.skierListData, language)
+    
+
     useEffect(() => {
-        setSkierData(props.skierListData);
+        // setSkierData(props.skierListData);
         sportsAvailable(props.skierListData)
         levelAvailable(props.skierListData)
         // setIntialSkierList(props.intialSkierList)
-        resortsAvailable(props.skierListData)
+        // resortsAvailable(props.skierListData)
         // languagesAvailable(props.skierListData)
     }, [props.skierListData])
 
@@ -59,16 +101,10 @@ function Search(props) {
         const resortFilter = parameters.get('resort');
         const languageFilter = parameters.get('language');
 
-        // console.log("THIS",resortsAvailable(skierData))
-
-        // async function fetchData() {
-        // console.log(props.skierListData)
-        // const list = await resortSuggestions.then(console.log(res))
-        // console.log("list",resortSuggestions)
-        // } 
-        // fetchData();
-        // // console.log(data)
-    
+        //if the filters have been reset - reset also the filters in the app
+        props.getResortSearched("")
+        props.getLanguageSearched("")
+   
         if (sportFilter) {
             setSport(sportFilter)
             props.getSportSearched(sportFilter)
@@ -76,12 +112,14 @@ function Search(props) {
         if (levelFilter) {
             setLevel(levelFilter)
             props.getLevelSearched(levelFilter)
-
         }
         if (resortFilter) {
             setResort(resortFilter)
-            if (resortSuggestions.includes(resortFilter)) {
-             props.getResortSearched(resortFilter)
+            
+            if(props.skierListData.length > 0) {
+                if (resortSuggestions.includes(resortFilter)) {
+                    props.getResortSearched(resortFilter)
+                } 
             }
         }
         if (languageFilter) {
@@ -91,7 +129,9 @@ function Search(props) {
                 props.getLanguageSearched(languageFilter)
             }
         }
-    }, [location]);
+    
+    
+    }, [location, props.skierListData]);
 
     useEffect(() => {
         const searchQuery = {
@@ -112,26 +152,6 @@ function Search(props) {
         history.push(`/?${queryString}`);
     }, [history, sport, level, resort, language])
 
-
-    //Moved to the SelectBox
-    /*
-    const getSportSearched = (sport) => {
-        setSport(sport)
-        props.getSportSearched(sport)
-        if (sport === "") {
-            sportsAvailable(intialSkierList)
-        }
-    };
-
-    const getLevelSearched = (level) => {
-        setLevel(level)
-        props.getLevelSearched(level)
-        if (level === "") {
-            levelAvailable(intialSkierList)
-        }
-    };
-    */
-
     //get all available sports
     const sportsAvailable = (skierData) => {
         const sportsArr = skierData.map(skier => {
@@ -149,20 +169,20 @@ function Search(props) {
     };
 
     //get all available resorts
-    const resortsAvailable =  (skierData) => {
-        const resortsArr = skierData.map(skier => {
-            return skier.resort.split(",")
-        })
-        setResortSuggestions([...new Set(resortsArr.flat())])
-    }
+    // const resortsAvailable =  (skierData) => {
+    //     const resortsArr = skierData.map(skier => {
+    //         return skier.resort.split(",")
+    //     })
+    //     setResortSuggestions([...new Set(resortsArr.flat())])
+    // }
 
-    //get all available languages
-    const languagesAvailable = async (skierData) => {
-        const languagesArr = skierData.map(skier => {
-            return skier.languages.split(",")
-        })
-        setLanguageSuggestions([...new Set(languagesArr.flat())])
-    }
+    //get all available languagres
+    // const languagesAvailable = async (skierData) => {
+    //     const languagesArr = skierData.map(skier => {
+    //         return skier.languages.split(",")
+    //     })
+    //     setLanguageSuggestions([...new Set(languagesArr.flat())])
+    // }
 
 
     //filter sugestion once the user starts typing.
@@ -195,6 +215,8 @@ function Search(props) {
         setLanguage(language)
     }
 */
+
+
     return (
         <>
             <div className="row">
@@ -235,30 +257,27 @@ function Search(props) {
                         <div className="col-md-12">
                             <Dropbox
                                 title="resort"
-                                // onFilter={(resort) => resortsSuggestions(resort)}
-                                onClick={((e) => resortsAvailable(skierData))}
+                                // onClick={((e) => resortsAvailable(props.skierListData))}
                                 value={resort}
                                 placeholder="Choose resort"
                                 suggestions={resortSuggestions}
-                                setSuggestions={setResortSuggestions}
                                 setValue={setResort}
                                 setValueSearched={props.getResortSearched}
-                                refreshData={((e) => resortsAvailable(skierData))}
+                                // refreshData={((e) => resortsAvailable(props.intialSkierList))}
                             />
 
                         </div>
                         <div className="col-md-12">
                             <Dropbox
                                 title="language"
-                                // onFilter={(language) => languagesSuggestions(language)}
-                                onClick={((e) => languagesAvailable(skierData))}
+                                // onClick={((e) => languagesAvailable(props.skierListData))}
                                 value={language}
                                 placeholder="Choose language"
                                 suggestions={languageSuggestions}
-                                setSuggestions={setLanguageSuggestions}
                                 setValue={setLanguage}
                                 setValueSearched={props.getLanguageSearched}
-                                refreshData={((e) => languagesAvailable(skierData))} />
+                                // refreshData={((e) => languagesAvailable(props.intialSkierList))} 
+                                />
                         </div>
                     </div>
                 </div>

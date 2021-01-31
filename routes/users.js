@@ -220,6 +220,7 @@ const insertValueIntoTable = async (table_name, table_column, value) => {
 };
 
 //TO MOVE TO MODELS -> HOW TO NAME IT VS getID?
+//getUserByEmail(fields)
 const getUserId = async (email) => {
   return await db(`SELECT id FROM users WHERE email = ?;`, [email]);
 };
