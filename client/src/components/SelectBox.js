@@ -7,13 +7,13 @@ SelectBox.propTypes = {
     value: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     label: PropTypes.object.isRequired,
-    autoFocus: PropTypes.bool
+    autoFocus: PropTypes.bool,
+    setValue: PropTypes.func.isRequired,
 
 }
 
 
-function SelectBox({ setValue, getValueSelected, options, value, id, label, autoFocus }) {
-
+function SelectBox({ setValue, options, value, id, label, autoFocus }) {
 
     useEffect(() => {
         options = [...new Set(options)]
@@ -21,27 +21,24 @@ function SelectBox({ setValue, getValueSelected, options, value, id, label, auto
     }, [])
 
     function valueSelected(e) {
-        getSelection(e.target.value)
+        setValue(e.target.value)
+        // getSelection(e.target.value)
     }
 
-    const getSelection = (value) => {
-        //pass value to parent component(Search)
-        setValue(value)
-        //pass the selected value all the way up to parent(App)
-        // getValueSelected(value)
-    };
-
-
-
+    // const getSelection = (value) => {
+    //     setValue(value)
+    // };
 
 
     return (
         <>
-            <label>{label.text}</label>
+            <label>{`Which ${id}?`}</label>
             <select id={id}
                 autoFocus={autoFocus}
                 className="form-select"
-                onChange={valueSelected} value={value}>
+                onChange={valueSelected} 
+                value={value}
+                >
                 <option value={label.value}>{label.text}</option>
                 {options.map((option, index) =>
                     <option value={option} key={index}>{option}</option>

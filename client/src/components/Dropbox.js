@@ -30,11 +30,8 @@ function Dropbox({ placeholder, suggestions, value, title, setValue }) {
     })
 
     const handleKeyDown = (e) => {
-        console.log({
-            activeSuggestionIndex
-        })
         if (e.keyCode === KEYS.ENTER) {
-            filterDataSuggestions(filteredSuggestions[activeSuggestionIndex])
+            setValue(filteredSuggestions[activeSuggestionIndex])
             setOpenSuggestions(false)
             setactiveSuggestionIndex(0)
 
@@ -70,23 +67,9 @@ function Dropbox({ placeholder, suggestions, value, title, setValue }) {
         
     }
 
-    const filterDataSuggestions = (value) => {
-        // setSuggestions(suggestions.filter(x => x.toLowerCase().includes(value.toLowerCase())))
-        /*
-        if (((suggestions.filter(valueToFilter => {
-            return valueToFilter === value
-        })).length > 0 || value === "")) {
-            setValueSearched(value)
-        }
-        
-        */
-        /*
-        if (value === "") {
-            refreshData()
-        }
-        */
-        setValue(value)
-    }
+    // const filterDataSuggestions = (value) => {
+    //     setValue(value)
+    // }
 
 
     return (
@@ -98,12 +81,12 @@ function Dropbox({ placeholder, suggestions, value, title, setValue }) {
                 type="name"
                 name="resorts"
                 value={value}
-                onChange={(e) => filterDataSuggestions(e.target.value)}
+                onChange={(e) => setValue(e.target.value)}
                 onClick={() => setOpenSuggestions(true)}
                 onFocus={() => { setOpenSuggestions(true) }}
                 onBlur={() => setOpenSuggestions(false)}
                 placeholder={placeholder}
-                onKeyUp={(e) => filterDataSuggestions(e.target.value)}
+                onKeyUp={(e) => setValue(e.target.value)}
 
                 autoComplete="off"
                 onKeyDown={((e) => handleKeyDown(e))}
@@ -120,9 +103,7 @@ function Dropbox({ placeholder, suggestions, value, title, setValue }) {
                                     tabIndex="0"
                                     key={index}
                                     className={index === activeSuggestionIndex ? "autosuggestElement-active p-2 mb-0" : "autosuggestElement p-2 mb-0"}
-                                    onMouseDown={() =>
-                                        filterDataSuggestions(value)
-                                    }
+                                    onMouseDown={() => setValue(value)}
                                     onMouseMove={() => setactiveSuggestionIndex(index)}
                                     value={value}
                                 >

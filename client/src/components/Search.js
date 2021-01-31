@@ -22,32 +22,12 @@ const Title = styled.h1`
         text-align : left;
 `;
 
-const getResortSuggestions = (skierList = [], selectedResort) => {
-    if (skierList.length === 0) {
-        return []
-    }
-
-    const resortsArr = skierList.map(skier => {
-        return skier.resort.split(",")
-    })
-
-    const allResorts = [...new Set(resortsArr.flat())]
-
-    if (selectedResort === '') {
-        return allResorts
-    }
-
-    return allResorts.filter(item => item.toLowerCase().includes(selectedResort.toLowerCase()))
-}
-
-
-const getSuggestions = (skierList = [], selectedValue, title) => {
+const getSuggestionsDropbox = (skierList = [], selectedValue, title) => {
     if (skierList.flat().length === 0) {
         return []
     }
-  
-        const suggestionsArr = skierList.map(skier => {
-        return skier[title].split(",")
+    const suggestionsArr = skierList.map(skier => {
+    return skier[title].split(",")
     })
 
     const allSuggestions = [...new Set(suggestionsArr.flat())]
@@ -71,44 +51,21 @@ const getSuggestions = (skierList = [], selectedValue, title) => {
     return allSuggestions
 };
 
-// const getLanguagesSuggestions = (skierList =[], selectedLanguage) => {
-//     if (skierList.length === 0) {
-//         return []
-//     }
-//         const languagesArr = skierList.map(skier => {
-//         return skier.languages.split(",")
-//     })
-
-//     const allLanguages = [...new Set(languagesArr.flat())]
-
-//     if (selectedLanguage === '') {
-//         return allLanguages
-//     }
-
-//     return allLanguages.filter(item => item.toLowerCase().includes(selectedLanguage.toLowerCase()))
-    
-// }
 
 function Search(props) {
     const [sport, setSport] = useState("")
     const [level, setLevel] = useState("")
-
-    //to remove:
-    const [sports, setSports] = useState([])
-    const [levels, setLevels] = useState([])
-    //end
-
     const [resort, setResort] = useState("")
     const [language, setLanguage] = useState("")
 
     let location = useLocation();
     let history = useHistory();
 
-    const resortSuggestions = getSuggestions(props.skierListData, resort, "resort");
-    const languageSuggestions = getSuggestions(props.skierListData, language, "languages")
+    const resortSuggestions = getSuggestionsDropbox(props.skierListData, resort, "resort");
+    const languageSuggestions = getSuggestionsDropbox(props.skierListData, language, "languages")
 
-    const levelsSelectBox = getSuggestionsSelectBox(props.skierListData, "level")
-    const sportsSelectBox = getSuggestionsSelectBox(props.skierListData, "sport")
+    const levels = getSuggestionsSelectBox(props.skierListData, "level")
+    const sports = getSuggestionsSelectBox(props.skierListData, "sport")
 
     /*
     useEffect(() => {
@@ -132,13 +89,13 @@ function Search(props) {
    
         if (sportFilter) {
             setSport(sportFilter)
-            if (levelsSelectBox.includes(sportFilter)) {
+            if (sports.includes(sportFilter)) {
                 props.setSportSearched(sportFilter)
             } 
         }
         if (levelFilter) {
             setLevel(levelFilter)
-            if (levelsSelectBox.includes(levelFilter)) {
+            if (levels.includes(levelFilter)) {
                     props.setLevelSearched(levelFilter)
             } 
            
@@ -180,24 +137,6 @@ function Search(props) {
     }, [history, sport, level, resort, language])
 
 
-    //MOVE FUNCTIONS OUTSIDE OF COMPONENT 
-    //get all available sports
-    const sportsAvailable = (skierData) => {
-        const sportsArr = skierData.map(skier => {
-            return skier.sport
-        })
-        setSports([...new Set(sportsArr)])
-    };
-
-    //get all available levels
-    const levelAvailable = (skierData) => {
-        const levelArr = skierData.map(skier => {
-            return skier.level
-        })
-        setLevels([...new Set(levelArr)])
-    };
-    //end
-
     return (
         <>
             <div className="row">
@@ -209,13 +148,11 @@ function Search(props) {
                         <div className="col-md-12">
                             <SelectBox
                                 autoFocus
-                                // getSelection={getSportSearched} 
                                 setValue={setSport}
                                 id="sport"
-                                // options={sports}
-                                options={sportsSelectBox}
+                                options={sports}
                                 label={{
-                                    text: "All sports..",
+                                    text: "All sports",
                                     value: ""
                                 }}
                                 value={sport}
@@ -225,12 +162,10 @@ function Search(props) {
                         <div className="col-md-12">
                             <SelectBox
                                 setValue={setLevel}
-                                // getSelection={getLevelsSearched}
                                 id="level"
-                                // options={levels}
-                                options={levelsSelectBox}
+                                options={levels}
                                 label={{
-                                    text: "All levels..",
+                                    text: "All levels",
                                     value: ""
                                 }}
                                 value={level}
