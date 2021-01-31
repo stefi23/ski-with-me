@@ -28,6 +28,7 @@ function Dropbox({ onClick, placeholder, suggestions, value, title, setValue, se
     const [activeSuggestionIndex, setactiveSuggestionIndex] = useState(-1)
 
     const containerRef = useRef(null);
+
     const filteredSuggestions = suggestions.filter(suggestion => {
         return suggestion.toLowerCase().includes(value.toLowerCase())
     })
@@ -92,8 +93,6 @@ function Dropbox({ onClick, placeholder, suggestions, value, title, setValue, se
     }
 
 
-
-
     return (
 
         <>
@@ -103,13 +102,11 @@ function Dropbox({ onClick, placeholder, suggestions, value, title, setValue, se
                 type="name"
                 name="resorts"
                 value={value}
-                // onChange={(e) => onFilter(e.target.value)}
                 onChange={(e) => filterDataSuggestions(e.target.value)}
                 onClick={() => setOpenSuggestions(true)}
                 onFocus={() => { setOpenSuggestions(true) }}
                 onBlur={() => setOpenSuggestions(false)}
                 placeholder={placeholder}
-                // onKeyUp={(e) => onFilter(e.target.value)}
                 onKeyUp={(e) => filterDataSuggestions(e.target.value)}
 
                 autoComplete="off"
