@@ -8,10 +8,10 @@ import PropTypes from "prop-types"
 Search.propTypes = {
     intialSkierList: PropTypes.array.isRequired,
     skierListData: PropTypes.array.isRequired,
-    getLanguageSearched: PropTypes.func.isRequired,
-    getLevelSearched: PropTypes.func.isRequired,
-    getResortSearched:  PropTypes.func.isRequired,
-    getSportSearched: PropTypes.func.isRequired,
+    setLanguageSearched: PropTypes.func.isRequired,
+    setLevelSearched: PropTypes.func.isRequired,
+    setResortSearched:  PropTypes.func.isRequired,
+    setSportSearched: PropTypes.func.isRequired,
 }
 
 const Title = styled.h1`
@@ -102,23 +102,23 @@ function Search(props) {
         const languageFilter = parameters.get('language');
 
         //if the filters have been reset - reset also the filters in the app
-        props.getResortSearched("")
-        props.getLanguageSearched("")
+        props.setResortSearched("")
+        props.setLanguageSearched("")
    
         if (sportFilter) {
             setSport(sportFilter)
-            props.getSportSearched(sportFilter)
+            props.setSportSearched(sportFilter)
         }
         if (levelFilter) {
             setLevel(levelFilter)
-            props.getLevelSearched(levelFilter)
+            props.setLevelSearched(levelFilter)
         }
         if (resortFilter) {
             setResort(resortFilter)
             
             if(props.skierListData.length > 0) {
                 if (resortSuggestions.includes(resortFilter)) {
-                    props.getResortSearched(resortFilter)
+                    props.setResortSearched(resortFilter)
                 } 
             }
         }
@@ -126,7 +126,7 @@ function Search(props) {
             //not working proprely - to check
             setLanguage(languageFilter)
             if (languageSuggestions.includes(languageFilter)) {
-                props.getLanguageSearched(languageFilter)
+                props.setLanguageSearched(languageFilter)
             }
         }
     
@@ -237,7 +237,7 @@ function Search(props) {
                                     value: ""
                                 }}
                                 value={sport}
-                                getValueSelected={props.getSportSearched}
+                                getValueSelected={props.setSportSearched}
                             />
                         </div>
                         <div className="col-md-12">
@@ -251,7 +251,7 @@ function Search(props) {
                                     value: ""
                                 }}
                                 value={level}
-                                getValueSelected={props.getLevelSearched}
+                                getValueSelected={props.setLevelSearched}
                             />
                         </div>
                         <div className="col-md-12">
@@ -262,7 +262,7 @@ function Search(props) {
                                 placeholder="Choose resort"
                                 suggestions={resortSuggestions}
                                 setValue={setResort}
-                                setValueSearched={props.getResortSearched}
+                                setValueSearched={props.setResortSearched}
                                 // refreshData={((e) => resortsAvailable(props.intialSkierList))}
                             />
 
@@ -275,7 +275,7 @@ function Search(props) {
                                 placeholder="Choose language"
                                 suggestions={languageSuggestions}
                                 setValue={setLanguage}
-                                setValueSearched={props.getLanguageSearched}
+                                setValueSearched={props.setLanguageSearched}
                                 // refreshData={((e) => languagesAvailable(props.intialSkierList))} 
                                 />
                         </div>

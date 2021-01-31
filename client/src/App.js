@@ -24,7 +24,7 @@ function App() {
   const [level, setLevel] = useState("")
   const [resort, setResort] = useState("")
   const [language, setLanguage] = useState("")
-  const [userId, getUserId] = useState()
+  const [userId, getUserId] = useState(null)
 
   const getUserdatafromDB = async () => {
     try {
@@ -77,19 +77,19 @@ function App() {
   }, [sport, level, language, resort, userId]);
 
 
-  const getSportSearched = (sportSearched) => {
+  const setSportSearched = (sportSearched) => {
     setSport(sportSearched)
   }
 
-  const getLevelSearched = (levelSearched) => {
+  const setLevelSearched = (levelSearched) => {
     setLevel(levelSearched)
   }
 
-  const getResortSearched = (resortSearched) => {
+  const setResortSearched = (resortSearched) => {
     setResort(resortSearched)
   }
 
-  const getLanguageSearched = (languageSearched) => {
+  const setLanguageSearched = (languageSearched) => {
     setLanguage(languageSearched)
   }
 
@@ -170,12 +170,12 @@ function App() {
               <Route path="/">
                 <div className="row">
                   <div className="col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-12">
-                    <Search getSportSearched={getSportSearched}
-                      getLevelSearched={getLevelSearched}
-                      getResortSearched={getResortSearched}
-                      getLanguageSearched={getLanguageSearched}
-                      skierListData={skierList}
-                      intialSkierList={intialSkierList}
+                    <Search setSportSearched={setSportSearched}
+                            setLevelSearched={setLevelSearched}
+                            setResortSearched={setResortSearched}
+                            setLanguageSearched={setLanguageSearched}
+                            skierListData={skierList}
+                            intialSkierList={intialSkierList}
                     />
                   </div>
                   <div className="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">
@@ -186,22 +186,6 @@ function App() {
                 </div>
               </Route>
             </Switch>
-            {/* <div className="row">
-              <div className="col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-12">
-                <Search getSportSearched={getSportSearched}
-                  getLevelSearched={getLevelSearched}
-                  getResortSearched={getResortSearched}
-                  getLanguageSearched={getLanguageSearched}
-                  skierListData={skierList}
-                  intialSkierList={intialSkierList}
-                />
-              </div>
-              <div className="col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-12">
-                <div className="row">
-                  <SkiersList isUserLoggedin={isUserLoggedin} skierListData={skierList} />
-                </div>
-              </div>
-            </div> */}
           </Router>
         </div>
       </div>
