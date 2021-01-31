@@ -28,12 +28,7 @@ function SelectBox({ setValue, getValueSelected, options, value, id, label, auto
         //pass value to parent component(Search)
         setValue(value)
         //pass the selected value all the way up to parent(App)
-        getValueSelected(value)
-        // if (value === "") {
-        //     //sent to Search to update - via maybe
-        //     // refreshData()
-        //     // sportsAvailable(intialSkierList)
-        // }
+        // getValueSelected(value)
     };
 
 

@@ -7,11 +7,7 @@ Dropbox.propTypes = {
     suggestions: PropTypes.arrayOf(PropTypes.string).isRequired,
     title: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    setSuggestions: PropTypes.func.isRequired,
     setValue: PropTypes.func.isRequired,
-    setValueSearched: PropTypes.func.isRequired,
-    refreshData: PropTypes.func.isRequired
 }
 
 const KEYS = {
@@ -23,7 +19,7 @@ const KEYS = {
 }
 
 
-function Dropbox({ onClick, placeholder, suggestions, value, title, setValue, setValueSearched, refreshData }) {
+function Dropbox({ placeholder, suggestions, value, title, setValue }) {
     const [openSuggestions, setOpenSuggestions] = useState(false)
     const [activeSuggestionIndex, setactiveSuggestionIndex] = useState(-1)
 

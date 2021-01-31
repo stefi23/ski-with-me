@@ -40,23 +40,54 @@ const getResortSuggestions = (skierList = [], selectedResort) => {
     return allResorts.filter(item => item.toLowerCase().includes(selectedResort.toLowerCase()))
 }
 
-const getLanguagesSuggestions = (skierList =[], selectedLanguage) => {
-    if (skierList.length === 0) {
+
+const getSuggestions = (skierList = [], selectedValue, title) => {
+    if (skierList.flat().length === 0) {
         return []
     }
-        const languagesArr = skierList.map(skier => {
-        return skier.languages.split(",")
+  
+        const suggestionsArr = skierList.map(skier => {
+        return skier[title].split(",")
     })
 
-    const allLanguages = [...new Set(languagesArr.flat())]
+    const allSuggestions = [...new Set(suggestionsArr.flat())]
 
-    if (selectedLanguage === '') {
-        return allLanguages
+    if (selectedValue === '') {
+        return allSuggestions
     }
 
-    return allLanguages.filter(item => item.toLowerCase().includes(selectedLanguage.toLowerCase()))
-    
+    return allSuggestions.filter(item => item.toLowerCase().includes(selectedValue.toLowerCase()))
 }
+
+ const getSuggestionsSelectBox = (skierList = [], title) => {
+    if (skierList.flat().length === 0 ) {
+        return []
+    }
+    const suggestionsArr = skierList.map(skier => {
+        return skier[title]
+    })
+
+    const allSuggestions = [...new Set(suggestionsArr)]
+    return allSuggestions
+};
+
+// const getLanguagesSuggestions = (skierList =[], selectedLanguage) => {
+//     if (skierList.length === 0) {
+//         return []
+//     }
+//         const languagesArr = skierList.map(skier => {
+//         return skier.languages.split(",")
+//     })
+
+//     const allLanguages = [...new Set(languagesArr.flat())]
+
+//     if (selectedLanguage === '') {
+//         return allLanguages
+//     }
+
+//     return allLanguages.filter(item => item.toLowerCase().includes(selectedLanguage.toLowerCase()))
+    
+// }
 
 function Search(props) {
     const [sport, setSport] = useState("")
@@ -73,14 +104,18 @@ function Search(props) {
     let location = useLocation();
     let history = useHistory();
 
-    const resortSuggestions = getResortSuggestions(props.skierListData, resort);
-    const languageSuggestions = getLanguagesSuggestions(props.skierListData, language)
-    
+    const resortSuggestions = getSuggestions(props.skierListData, resort, "resort");
+    const languageSuggestions = getSuggestions(props.skierListData, language, "languages")
 
+    const levelsSelectBox = getSuggestionsSelectBox(props.skierListData, "level")
+    const sportsSelectBox = getSuggestionsSelectBox(props.skierListData, "sport")
+
+    /*
     useEffect(() => {
         sportsAvailable(props.skierListData)
         levelAvailable(props.skierListData)
     }, [props.skierListData])
+    */
 
     useEffect(() => {
         const parameters = new URLSearchParams(location.search);
@@ -92,14 +127,21 @@ function Search(props) {
         //if the dropbox content has been cleared - reset also the filters in the app - Parent component
         props.setResortSearched("")
         props.setLanguageSearched("")
+        props.setSportSearched("")
+        props.setLevelSearched("")
    
         if (sportFilter) {
             setSport(sportFilter)
-            props.setSportSearched(sportFilter)
+            if (levelsSelectBox.includes(sportFilter)) {
+                props.setSportSearched(sportFilter)
+            } 
         }
         if (levelFilter) {
             setLevel(levelFilter)
-            props.setLevelSearched(levelFilter)
+            if (levelsSelectBox.includes(levelFilter)) {
+                    props.setLevelSearched(levelFilter)
+            } 
+           
         }
         if (resortFilter) {
             setResort(resortFilter)
@@ -117,7 +159,6 @@ function Search(props) {
             }
         }
     
-    
     }, [location, props.skierListData]);
 
     useEffect(() => {
@@ -134,10 +175,10 @@ function Search(props) {
                 queryString.append(key, value)
             }
         }
-        // const queryString = Object.keys(searchQuery).filter(key => searchQuery[key]).map(key => key + '=' + searchQuery[key].replace(/ /g, "+")).join('&');
+    history.push(`/?${queryString}`);
 
-        history.push(`/?${queryString}`);
     }, [history, sport, level, resort, language])
+
 
     //MOVE FUNCTIONS OUTSIDE OF COMPONENT 
     //get all available sports
@@ -157,24 +198,6 @@ function Search(props) {
     };
     //end
 
-    /*
-    get all available resorts
-    const resortsAvailable =  (skierData) => {
-        const resortsArr = skierData.map(skier => {
-            return skier.resort.split(",")
-        })
-        setResortSuggestions([...new Set(resortsArr.flat())])
-    }
-
-    get all available languagres
-    const languagesAvailable = async (skierData) => {
-        const languagesArr = skierData.map(skier => {
-            return skier.languages.split(",")
-        })
-        setLanguageSuggestions([...new Set(languagesArr.flat())])
-    }
-    */
-
     return (
         <>
             <div className="row">
@@ -189,52 +212,49 @@ function Search(props) {
                                 // getSelection={getSportSearched} 
                                 setValue={setSport}
                                 id="sport"
-                                options={sports}
+                                // options={sports}
+                                options={sportsSelectBox}
                                 label={{
                                     text: "All sports..",
                                     value: ""
                                 }}
                                 value={sport}
-                                getValueSelected={props.setSportSearched}
+                                 getValueSelected={props.setSportSearched}
                             />
                         </div>
                         <div className="col-md-12">
                             <SelectBox
                                 setValue={setLevel}
-                                // getSelection={getLevelSearched}
+                                // getSelection={getLevelsSearched}
                                 id="level"
-                                options={levels}
+                                // options={levels}
+                                options={levelsSelectBox}
                                 label={{
                                     text: "All levels..",
                                     value: ""
                                 }}
                                 value={level}
                                 getValueSelected={props.setLevelSearched}
+                                setValue={setLevel}
                             />
                         </div>
                         <div className="col-md-12">
                             <Dropbox
                                 title="resort"
-                                // onClick={((e) => resortsAvailable(props.skierListData))}
                                 value={resort}
                                 placeholder="Choose resort"
                                 suggestions={resortSuggestions}
                                 setValue={setResort}
-                                setValueSearched={props.setResortSearched}
-                                // refreshData={((e) => resortsAvailable(props.intialSkierList))}
                             />
 
                         </div>
                         <div className="col-md-12">
                             <Dropbox
                                 title="language"
-                                // onClick={((e) => languagesAvailable(props.skierListData))}
                                 value={language}
                                 placeholder="Choose language"
                                 suggestions={languageSuggestions}
                                 setValue={setLanguage}
-                                setValueSearched={props.setLanguageSearched}
-                                // refreshData={((e) => languagesAvailable(props.intialSkierList))} 
                                 />
                         </div>
                     </div>
