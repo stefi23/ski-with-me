@@ -15,16 +15,30 @@ import axios from "axios";
 import { Navbar } from "react-bootstrap";
 // import { identity } from "lodash";
 
+
+//To think of better naming convention
+const useCallback = (input) => {
+    const [value, setValue] = useState(input)
+    function setCallBack(value) {
+        setValue(value)
+    }
+    return [value, setCallBack]
+}
+
 function App() {
   const [isUserLoggedin, setUserLoggedIn] = useState(false);
   const [name, getName] = useState("");
   const [skierList, setSkierList] = useState([])
   const [intialSkierList, setintialSkierList] = useState([])
-  const [sport, setSport] = useState("")
-  const [level, setLevel] = useState("")
-  const [resort, setResort] = useState("")
-  const [language, setLanguage] = useState("")
+
+  const [sport, setSportSearched] = useCallback("")
+  const [level, setLevelSearched] = useCallback("")
+  const [resort, setResortSearched] = useCallback("")
+  const [language, setLanguageSearched] = useCallback("")
+  
   const [userId, getUserId] = useState(null)
+
+
 
   const getUserdatafromDB = async () => {
     try {
@@ -77,13 +91,13 @@ function App() {
   }, [sport, level, language, resort, userId]);
 
 
-  const setSportSearched = (sportSearched) => {
-    setSport(sportSearched)
-  }
+  // const setSportSearched = (sportSearched) => {
+  //   setSport(sportSearched)
+  // }
 
-  const setLevelSearched = (levelSearched) => {
-    setLevel(levelSearched)
-  }
+  // const setLevelSearched = (levelSearched) => {
+  //   setLevel(levelSearched)
+  // }
 
   const setResortSearched = (resortSearched) => {
     setResort(resortSearched)

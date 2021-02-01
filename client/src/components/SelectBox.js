@@ -22,23 +22,17 @@ function SelectBox({ setValue, options, value, id, label, autoFocus }) {
 
     function valueSelected(e) {
         setValue(e.target.value)
-        // getSelection(e.target.value)
     }
-
-    // const getSelection = (value) => {
-    //     setValue(value)
-    // };
-
 
     return (
         <>
             <label>{`Which ${id}?`}</label>
             <select id={id}
-                autoFocus={autoFocus}
-                className="form-select"
-                onChange={valueSelected} 
-                value={value}
-                >
+                    autoFocus={autoFocus}
+                    className="form-select"
+                    onChange={valueSelected} 
+                    value={value}
+            >   
                 <option value={label.value}>{label.text}</option>
                 {options.map((option, index) =>
                     <option value={option} key={index}>{option}</option>
