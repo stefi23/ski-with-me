@@ -3,13 +3,12 @@ import { useEffect } from "react"
 import PropTypes from "prop-types"
 
 SelectBox.propTypes = {
+    setValue: PropTypes.func.isRequired,
     options: PropTypes.array.isRequired,
     value: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     label: PropTypes.object.isRequired,
     autoFocus: PropTypes.bool,
-    setValue: PropTypes.func.isRequired,
-
 }
 
 
@@ -35,7 +34,10 @@ function SelectBox({ setValue, options, value, id, label, autoFocus }) {
             >   
                 <option value={label.value}>{label.text}</option>
                 {options.map((option, index) =>
-                    <option value={option} key={index}>{option}</option>
+                    <option value={option} 
+                            key={index}
+                    >{option}
+                    </option>
                 )}
             </select>
         </>

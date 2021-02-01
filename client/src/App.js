@@ -13,17 +13,9 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import { Navbar } from "react-bootstrap";
-// import { identity } from "lodash";
+import { useCallback } from "./hooks/useCallback"
 
 
-//To think of better naming convention
-const useCallback = (input) => {
-    const [value, setValue] = useState(input)
-    function setCallBack(value) {
-        setValue(value)
-    }
-    return [value, setCallBack]
-}
 
 function App() {
   const [isUserLoggedin, setUserLoggedIn] = useState(false);
@@ -48,7 +40,6 @@ function App() {
         }
       }
       );
-      // console.log("data from DB", resp.data)
       getUserId(resp.data.id)
       getName(resp.data.name);
       setUserLoggedIn(true);
@@ -62,7 +53,6 @@ function App() {
   const getInitialSkierList = async () => {
     try {
       const resp = await axios.get(`/everything`);
-      // setintialSkierList(resp.data)
       setintialSkierList(resp.data.filter((skier, index) => skier.id !== userId))
 
     } catch (err) {
@@ -74,7 +64,6 @@ function App() {
   const getSkierListfromDB = async () => {
 
     try {
-      // const resp = await axios.get('/everything');
       const resp = await axios.get(`/everything?language=${language}&sport=${sport}&level=${level}&resort=${resort}`);
       setSkierList(resp.data.filter((skier, index) => skier.id !== userId))
 
@@ -89,23 +78,6 @@ function App() {
     getSkierListfromDB()
     getInitialSkierList()
   }, [sport, level, language, resort, userId]);
-
-
-  // const setSportSearched = (sportSearched) => {
-  //   setSport(sportSearched)
-  // }
-
-  // const setLevelSearched = (levelSearched) => {
-  //   setLevel(levelSearched)
-  // }
-
-  const setResortSearched = (resortSearched) => {
-    setResort(resortSearched)
-  }
-
-  const setLanguageSearched = (languageSearched) => {
-    setLanguage(languageSearched)
-  }
 
 
   function handleLogout() {
@@ -139,8 +111,6 @@ function App() {
                 </Link>
                     </li>
                   </ul>
-
-
                 ) : (
                     <ul className="navbar-nav">
                       <li className="nav-item">

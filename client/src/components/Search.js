@@ -96,7 +96,7 @@ function Search(props) {
         if (levelFilter) {
             setLevel(levelFilter)
             if (levels.includes(levelFilter)) {
-                    props.setLevelSearched(levelFilter)
+                props.setLevelSearched(levelFilter)
             } 
            
         }
