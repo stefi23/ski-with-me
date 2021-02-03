@@ -1,7 +1,7 @@
 import {useState} from 'react'
 
-//To think of better naming convention
-const useCallback = (input) => {
+//To think of better naming?
+const useCallbackData = (input) => {
     const [value, setValue] = useState(input)
     function setCallBack(value) {
         setValue(value)
@@ -9,4 +9,4 @@ const useCallback = (input) => {
     return [value, setCallBack]
 }
 
-export {useCallback}
+export {useCallbackData}

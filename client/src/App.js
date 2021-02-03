@@ -13,7 +13,7 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import { Navbar } from "react-bootstrap";
-import { useCallback } from "./hooks/useCallback"
+import { useCallbackData } from "./hooks/useCallback"
 
 
 
@@ -23,10 +23,10 @@ function App() {
   const [skierList, setSkierList] = useState([])
   const [intialSkierList, setintialSkierList] = useState([])
 
-  const [sport, setSportSearched] = useCallback("")
-  const [level, setLevelSearched] = useCallback("")
-  const [resort, setResortSearched] = useCallback("")
-  const [language, setLanguageSearched] = useCallback("")
+  const [sport, setSportSearched] = useCallbackData("")
+  const [level, setLevelSearched] = useCallbackData("")
+  const [resort, setResortSearched] = useCallbackData("")
+  const [language, setLanguageSearched] = useCallbackData("")
   
   const [userId, getUserId] = useState(null)
 
