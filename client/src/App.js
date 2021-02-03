@@ -13,7 +13,7 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import { Navbar } from "react-bootstrap";
-import { useCallbackData } from "./hooks/useCallback"
+import { useCallbackData } from "./hooks/useCallbackData"
 
 
 
