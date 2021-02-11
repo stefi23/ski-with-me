@@ -40,6 +40,7 @@ function SelectBox({ setValue, options, value, id, label, autoFocus }) {
                     </option>
                 )}
             </select>
+            
         </>
     )
 
