@@ -8,7 +8,7 @@ const crypto = require("crypto");
 const isEqual = require('lodash/isEmpty')
 const capitalize = require('lodash/capitalize')
 
-const {getIdandName, getId, insertData, getName} = require('../model/users')
+const {getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken} = require('../model/users')
 
 const supersecret = process.env.SUPER_SECRET;
 
@@ -33,12 +33,7 @@ router.post("/login", async (req, res, next) => {
 
     if (result.data[0] && result.data[0].id) {
       const token = await getToken(result.data[0].id);
-      // const token = jwt.sign(
-      //   {
-      //     user_id: result.data[0].id,
-      //   },
-      //   supersecret
-      // );
+
       res.status(200).send({
         messsage: "Login successful",
         name,
@@ -56,19 +51,20 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.get("/profile", userShouldBeLoggedIn, async function (req, res, next) {
-  const { data } = await db(
-    'SELECT first_name from users WHERE id = ?;', [req.user_id]
-  );
-  const name = data[0].first_name;
   const id = req.user_id
+  const { data } = await getName(id)
+  // db(
+  //   'SELECT first_name from users WHERE id = ?;', [req.user_id]
+  // );
+  const name = data[0].first_name;
   res.send({
-    message: "Yes the user is logged in " + req.user_id,
+    message: "Yes the user is logged in " + id,
     name,
     id
   });
 });
 
-//Building Edit profile query: 
+//IN PROGRESS: Building Edit profile query: 
 
 router.post("/editProfile", userShouldBeLoggedIn, async(req, res, next) => {
 try{
@@ -259,7 +255,9 @@ const insertIntoDatabase = async (
     await insertValueIntoTable(table_name, table_column, value);
   }
 
-  let user_id = await getUserId(email);
+  
+  let user_id = await getUserByEmail(email);
+  // let user_id = await getUserId(email);
 
   let token = jwt.sign({ user_id: user_id }, supersecret);
 
@@ -286,27 +284,27 @@ const isUserRegistered = async (email) => {
   }
 };
 
-const getToken = async (user_id) => {
-  const token = jwt.sign(
-    {
-      user_id: user_id,
-    },
-    supersecret
-  );
-  return token;
-};
+// const getToken = async (user_id) => {
+//   const token = jwt.sign(
+//     {
+//       user_id: user_id,
+//     },
+//     supersecret
+//   );
+//   return token;
+// };
 
-const cryptoPassword = (password, email) => {
-  return new Promise((resolve, reject) => {
-    crypto.pbkdf2(password, email, 100000, 64, "sha512", (err, derivedKey) => {
-      if (err) {
-        reject(err);
-      } else {
-        let hashPassword = derivedKey.toString("hex");
-        resolve(hashPassword);
-      }
-    });
-  });
-};
+// const cryptoPassword = (password, email) => {
+//   return new Promise((resolve, reject) => {
+//     crypto.pbkdf2(password, email, 100000, 64, "sha512", (err, derivedKey) => {
+//       if (err) {
+//         reject(err);
+//       } else {
+//         let hashPassword = derivedKey.toString("hex");
+//         resolve(hashPassword);
+//       }
+//     });
+//   });
+// };
 
 module.exports = router;

@@ -4,11 +4,11 @@
 // }
 
 const db = require("../model/helper");
+const crypto = require("crypto");
+var jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-// const getIdandName = (email, hashedPassword) => {
-//     return db(`SELECT id, first_name from users WHERE email = ?  AND password = ?;`,
-//         [email, hashedPassword])
-// };
+const supersecret = process.env.SUPER_SECRET;
 
 const getIdandName = (email, hashedPassword) => {
     return db(`SELECT id, first_name from users WHERE email = ?  AND password = ?;`,
@@ -34,9 +34,32 @@ const getName = (id) => {
     );
 } 
 
-// 
+const getUserByEmail = (email) => {
+   return db(`SELECT id FROM users WHERE email = ?;`, [email]);
+}
 
-// const anotherSQL..
+const cryptoPassword = (password, email) => {
+  return new Promise((resolve, reject) => {
+    crypto.pbkdf2(password, email, 100000, 64, "sha512", (err, derivedKey) => {
+      if (err) {
+        reject(err);
+      } else {
+        let hashPassword = derivedKey.toString("hex");
+        resolve(hashPassword);
+      }
+    });
+  });
+};
 
 
-module.exports = { getIdandName, getId, insertData, getName }; 
+const getToken =  (user_id) => {
+  const token = jwt.sign(
+    {
+      user_id: user_id,
+    },
+    supersecret
+  );
+  return token;
+};
+
+module.exports = { getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken }; 
