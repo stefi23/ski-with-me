@@ -3,7 +3,7 @@
 //         [email, hashedPassword]
 // }
 
-const db = require("../model/helper");
+const { db, getValueId } = require("../model/helper");
 const crypto = require("crypto");
 var jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -62,4 +62,14 @@ const getToken =  (user_id) => {
   return token;
 };
 
-module.exports = { getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken }; 
+const isUserRegistered = async (email) => {
+  result = await getValueId("users", "email", email);
+
+  if (result.data[0] && !result.data[0].id) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+module.exports = { getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered }; 

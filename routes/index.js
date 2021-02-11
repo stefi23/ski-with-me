@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const db = require("../model/helper");
+const {db} = require("../model/helper");
 const { getAllResorts } = require('../model/resorts')
 const { getAllLanguages } = require('../model/languages')
 

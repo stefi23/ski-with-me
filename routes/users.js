@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const db = require("../model/helper");
+const { db, getValueId, insertValuesIntoIntermediateTable, insertValueIntoTable } = require("../model/helper");
 var jwt = require("jsonwebtoken");
 var userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 require("dotenv").config();
@@ -8,7 +8,7 @@ const crypto = require("crypto");
 const isEqual = require('lodash/isEmpty')
 const capitalize = require('lodash/capitalize')
 
-const {getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken} = require('../model/users')
+const {getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered} = require('../model/users')
 
 const supersecret = process.env.SUPER_SECRET;
 
@@ -209,25 +209,32 @@ const valueExistsInDatabase = async (table_name, column_name, value) => {
   );
 };
 
+/* Moved to helpers
 const insertValueIntoTable = async (table_name, table_column, value) => {
   return await db(
     `INSERT INTO ${table_name} (${table_column}) VALUES (?)`, [value]
   );
 };
+*/
 
-//TO MOVE TO MODELS -> HOW TO NAME IT VS getID?
+/*//MOVED! TO MOVE TO MODELS -> HOW TO NAME IT VS getID?
 //getUserByEmail(fields)
 const getUserId = async (email) => {
   return await db(`SELECT id FROM users WHERE email = ?;`, [email]);
 };
+*/
 
-const getValueId = async (table_name, table_column, value) => {
+
+/*MOVED to helpers
+const getValueId2 = async (table_name, table_column, value) => {
   return await db(
     `SELECT id FROM ${table_name} WHERE ${table_column} = ?;`, [value]
   );
 };
 
-const insertValuesIntoIntermediateTable = async (
+
+
+const insertValuesIntoIntermediateTable2 = async (
   table_name,
   column_name1,
   column_name2,
@@ -238,7 +245,7 @@ const insertValuesIntoIntermediateTable = async (
     `INSERT INTO ${table_name} (${column_name1}, ${column_name2}) VALUES (?, ?);`, [value1, value2]
   );
 };
-
+*/
 const insertIntoDatabase = async (
   email,
   table_name,
@@ -273,7 +280,7 @@ const insertIntoDatabase = async (
     value_id
   );
 };
-
+/*MOVED to helpers
 const isUserRegistered = async (email) => {
   result = await getValueId("users", "email", email);
 
@@ -283,6 +290,7 @@ const isUserRegistered = async (email) => {
     return false;
   }
 };
+
 
 // const getToken = async (user_id) => {
 //   const token = jwt.sign(
@@ -306,5 +314,5 @@ const isUserRegistered = async (email) => {
 //     });
 //   });
 // };
-
+*/
 module.exports = router;
