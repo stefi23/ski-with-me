@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const { db, getValueId, insertValuesIntoIntermediateTable, insertValueIntoTable } = require("../model/helper");
+const { db, getValueId, insertValuesIntoIntermediateTable, insertValueIntoTable, valueExistsInDatabase } = require("../model/helper");
 var jwt = require("jsonwebtoken");
 var userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 require("dotenv").config();
@@ -203,11 +203,13 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
+/* Moved to helpers
 const valueExistsInDatabase = async (table_name, column_name, value) => {
   return await db(
     `SELECT id FROM ${table_name} WHERE ${column_name} = ?;`, [value]
   );
 };
+*/
 
 /* Moved to helpers
 const insertValueIntoTable = async (table_name, table_column, value) => {
@@ -234,7 +236,7 @@ const getValueId2 = async (table_name, table_column, value) => {
 
 
 
-const insertValuesIntoIntermediateTable2 = async (
+const insertValuesIntoIntermediateTable = async (
   table_name,
   column_name1,
   column_name2,
@@ -253,11 +255,8 @@ const insertIntoDatabase = async (
   value,
   valueId
 ) => {
-  result = await valueExistsInDatabase(table_name, table_column, value);
-  // console.log("result data:", result.data[0])
-  // result.data[0] && 
+  const result = await valueExistsInDatabase(table_name, table_column, value);
 
-  // console.log("Here:", isEqual(result.data[0], {}))
   if (isEqual(result.data[0], {})) {
     await insertValueIntoTable(table_name, table_column, value);
   }
@@ -272,7 +271,7 @@ const insertIntoDatabase = async (
   user_id = user_id.data[0].id;
   let value_id = result_id.data[0].id;
 
-  results = await insertValuesIntoIntermediateTable(
+  const results = await insertValuesIntoIntermediateTable(
     `${table_name}_user`,
     "user_id",
     valueId,

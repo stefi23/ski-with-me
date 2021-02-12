@@ -87,4 +87,11 @@ const insertValueIntoTable = async (table_name, table_column, value) => {
   );
 };
 
-module.exports = { db, getValueId, insertValuesIntoIntermediateTable, insertValueIntoTable }
+const valueExistsInDatabase = async (table_name, column_name, value) => {
+  console.log("valueExistsInDatabase")
+  return await db(
+    `SELECT id FROM ${table_name} WHERE ${column_name} = ?;`, [value]
+  );
+};
+
+module.exports = { db, getValueId, insertValuesIntoIntermediateTable, insertValueIntoTable, valueExistsInDatabase }
