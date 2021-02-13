@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const { db, getValueId, insertValuesIntoIntermediateTable, insertValueIntoTable, valueExistsInDatabase } = require("../model/helper");
+const { db, getValueId, insertValuesIntoIntermediateTable, insertValueIntoTable, valueExistsInDatabase, insertIntoDatabase } = require("../model/helper");
 var jwt = require("jsonwebtoken");
 var userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 require("dotenv").config();
@@ -24,10 +24,6 @@ router.post("/login", async (req, res, next) => {
 
   try {
     let result = await getIdandName(email, hashedPassword)
-    // db(
-    //   `SELECT id, first_name from users WHERE email = ?  AND password = ?;`,
-    //   [email, hashedPassword]
-    // );
     const name = result.data[0].first_name;
     const id = result.data[0].id;
 
@@ -51,12 +47,10 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.get("/profile", userShouldBeLoggedIn, async function (req, res, next) {
-  const id = req.user_id
-  const { data } = await getName(id)
-  // db(
-  //   'SELECT first_name from users WHERE id = ?;', [req.user_id]
-  // );
+  const id = req.user_id;
+  const { data } = await getName(id);
   const name = data[0].first_name;
+
   res.send({
     message: "Yes the user is logged in " + id,
     name,
@@ -134,36 +128,22 @@ router.post("/register", async (req, res, next) => {
 
     const hashedPassword = await cryptoPassword(password, email);
 
-    let user = await insertData(first_name, last_name, email, sport, level, hashedPassword)
-    // db(
-    //   'INSERT INTO users (first_name, last_name, email, sport, level, password ) VALUES (?, ?, ?, ?, ?, ?);',
-    //   [first_name, last_name, email, sport, level, hashedPassword]
-    // );
+    let user = await insertData(first_name, last_name, email, sport, level, hashedPassword);
+    let userData = await getId(email, hashedPassword);
+    const id = userData.data[0].id;
 
-    let userData = await getId(email, hashedPassword)
-    // db(
-    //   `SELECT id from users WHERE email = ? AND password = ?;`,
-    //   [email, hashedPassword]
-    // );
+    const { data } = await getName(id);
 
-    const id = userData.data[0].id
-
-    //Thos data
-    const { data } = await getName(id)
-    // db(
-    //   'SELECT first_name from users WHERE id = ?;', [id]
-    // );
     const name = data[0].first_name;
 
     if (userData.data[0] && userData.data[0].id) {
       token = await getToken(userData.data[0].id);
     }
-    console.log(token);
-
+   
     resorts.forEach(async (resort) => {
       resort = capitalize(resort)
       try {
-        await insertIntoDatabase(
+        await insertIntoDatabase2(
           email,
           "resorts",
           "resort_name",
@@ -178,7 +158,7 @@ router.post("/register", async (req, res, next) => {
     languages.forEach(async (language) => {
       language = capitalize(language);
       try {
-        await insertIntoDatabase(
+        await insertIntoDatabase2(
           email,
           "languages",
           "language",
@@ -203,52 +183,8 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
-/* Moved to helpers
-const valueExistsInDatabase = async (table_name, column_name, value) => {
-  return await db(
-    `SELECT id FROM ${table_name} WHERE ${column_name} = ?;`, [value]
-  );
-};
-*/
 
-/* Moved to helpers
-const insertValueIntoTable = async (table_name, table_column, value) => {
-  return await db(
-    `INSERT INTO ${table_name} (${table_column}) VALUES (?)`, [value]
-  );
-};
-*/
-
-/*//MOVED! TO MOVE TO MODELS -> HOW TO NAME IT VS getID?
-//getUserByEmail(fields)
-const getUserId = async (email) => {
-  return await db(`SELECT id FROM users WHERE email = ?;`, [email]);
-};
-*/
-
-
-/*MOVED to helpers
-const getValueId2 = async (table_name, table_column, value) => {
-  return await db(
-    `SELECT id FROM ${table_name} WHERE ${table_column} = ?;`, [value]
-  );
-};
-
-
-
-const insertValuesIntoIntermediateTable = async (
-  table_name,
-  column_name1,
-  column_name2,
-  value1,
-  value2
-) => {
-  return await db(
-    `INSERT INTO ${table_name} (${column_name1}, ${column_name2}) VALUES (?, ?);`, [value1, value2]
-  );
-};
-*/
-const insertIntoDatabase = async (
+const insertIntoDatabase2 = async (
   email,
   table_name,
   table_column,
@@ -261,9 +197,7 @@ const insertIntoDatabase = async (
     await insertValueIntoTable(table_name, table_column, value);
   }
 
-  
   let user_id = await getUserByEmail(email);
-  // let user_id = await getUserId(email);
 
   let token = jwt.sign({ user_id: user_id }, supersecret);
 
@@ -279,39 +213,5 @@ const insertIntoDatabase = async (
     value_id
   );
 };
-/*MOVED to helpers
-const isUserRegistered = async (email) => {
-  result = await getValueId("users", "email", email);
 
-  if (result.data[0] && !result.data[0].id) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-
-// const getToken = async (user_id) => {
-//   const token = jwt.sign(
-//     {
-//       user_id: user_id,
-//     },
-//     supersecret
-//   );
-//   return token;
-// };
-
-// const cryptoPassword = (password, email) => {
-//   return new Promise((resolve, reject) => {
-//     crypto.pbkdf2(password, email, 100000, 64, "sha512", (err, derivedKey) => {
-//       if (err) {
-//         reject(err);
-//       } else {
-//         let hashPassword = derivedKey.toString("hex");
-//         resolve(hashPassword);
-//       }
-//     });
-//   });
-// };
-*/
 module.exports = router;

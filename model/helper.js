@@ -76,6 +76,7 @@ const insertValuesIntoIntermediateTable = async (
   value1,
   value2
 ) => {
+  console.log("insertValuesIntoIntermediateTable")
   return await db(
     `INSERT INTO ${table_name} (${column_name1}, ${column_name2}) VALUES (?, ?);`, [value1, value2]
   );
@@ -94,4 +95,37 @@ const valueExistsInDatabase = async (table_name, column_name, value) => {
   );
 };
 
-module.exports = { db, getValueId, insertValuesIntoIntermediateTable, insertValueIntoTable, valueExistsInDatabase }
+const insertIntoDatabase = async (
+  email,
+  table_name,
+  table_column,
+  value,
+  valueId
+) => {
+  const result = await valueExistsInDatabase(table_name, table_column, value);
+  console.log("RESULT", result)
+  if (isEqual(result.data[0], {})) {
+     console.log("RESULT IN IF", result)
+    await insertValueIntoTable(table_name, table_column, value);
+  }
+
+  console.log("LINE BELOW")
+  let user_id = await getUserByEmail(email);
+  // let user_id = await getUserId(email);
+  console.log(user_id)
+  let token = jwt.sign({ user_id: user_id }, supersecret);
+
+  let result_id = await getValueId(table_name, table_column, value);
+  user_id = user_id.data[0].id;
+  let value_id = result_id.data[0].id;
+
+  const results = await insertValuesIntoIntermediateTable(
+    `${table_name}_user`,
+    "user_id",
+    valueId,
+    user_id,
+    value_id
+  );
+};
+
+module.exports = { db, getValueId, insertValuesIntoIntermediateTable, insertValueIntoTable, valueExistsInDatabase, insertIntoDatabase }
