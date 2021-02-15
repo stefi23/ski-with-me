@@ -195,6 +195,7 @@ router.get('/sports', async (req, res) => {
   }
 });
 
+//user specific - more
 function getWhereClause(req) {
   const { level, language, sport, resort } = req.query;
 
@@ -233,6 +234,7 @@ function getWhereClause(req) {
   return { clause: whereClause, params: params };
 }
 
+//user model - to be moved
 router.get(`/everything`, async (req, res) => {
   // accepts urls like http://localhost/everything?language=english&sport=ski&level=pro
 

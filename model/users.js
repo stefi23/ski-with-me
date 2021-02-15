@@ -3,10 +3,12 @@
 //         [email, hashedPassword]
 // }
 
-const { db, getValueId } = require("../model/helper");
+const { db, getValueId, valueExistsInDatabase, insertValueIntoTable, insertValuesIntoIntermediateTable } = require("../model/helper");
+
 const crypto = require("crypto");
 var jwt = require("jsonwebtoken");
 require("dotenv").config();
+const isEqual = require('lodash/isEmpty')
 
 const supersecret = process.env.SUPER_SECRET;
 
@@ -72,4 +74,39 @@ const isUserRegistered = async (email) => {
   }
 };
 
-module.exports = { getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered }; 
+const insertIntoDatabase = async (
+  email,
+  table_name,
+  table_column,
+  value,
+  valueId
+) => {
+
+  try {
+  const result = await valueExistsInDatabase(table_name, table_column, value);
+  console.log("RESULT", result)
+  if (isEqual(result.data[0], {})) {
+     console.log("RESULT IN IF", result)
+    await insertValueIntoTable(table_name, table_column, value);
+  }
+
+  let user_id = await getUserByEmail(email);
+
+  let result_id = await getValueId(table_name, table_column, value);
+  user_id = user_id.data[0].id;
+  let value_id = result_id.data[0].id;
+
+  const results = await insertValuesIntoIntermediateTable(
+    `${table_name}_user`,
+    "user_id",
+    valueId,
+    user_id,
+    value_id
+  );
+  }
+  catch(error){
+    console.log("ERROR inside", error)
+  }
+};
+
+module.exports = { insertIntoDatabase, getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered }; 

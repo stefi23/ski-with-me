@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const { db, getValueId, insertValuesIntoIntermediateTable, insertValueIntoTable, valueExistsInDatabase, insertIntoDatabase } = require("../model/helper");
+const { db, getValueId, insertValuesIntoIntermediateTable, insertValueIntoTable, valueExistsInDatabase } = require("../model/helper");
 var jwt = require("jsonwebtoken");
 var userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 require("dotenv").config();
@@ -8,7 +8,7 @@ const crypto = require("crypto");
 const isEqual = require('lodash/isEmpty')
 const capitalize = require('lodash/capitalize')
 
-const {getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered} = require('../model/users')
+const {insertIntoDatabase, getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered} = require('../model/users')
 
 const supersecret = process.env.SUPER_SECRET;
 
@@ -42,6 +42,7 @@ router.post("/login", async (req, res, next) => {
         .send({ message: "Login not successful", error: "email or password incorrect" });
     }
   } catch (err) {
+    console.log("ERROR", err)
     res.status(500).send(err);
   }
 });
@@ -143,7 +144,7 @@ router.post("/register", async (req, res, next) => {
     resorts.forEach(async (resort) => {
       resort = capitalize(resort)
       try {
-        await insertIntoDatabase2(
+        await insertIntoDatabase(
           email,
           "resorts",
           "resort_name",
@@ -158,7 +159,7 @@ router.post("/register", async (req, res, next) => {
     languages.forEach(async (language) => {
       language = capitalize(language);
       try {
-        await insertIntoDatabase2(
+        await insertIntoDatabase(
           email,
           "languages",
           "language",
@@ -184,34 +185,34 @@ router.post("/register", async (req, res, next) => {
 });
 
 
-const insertIntoDatabase2 = async (
-  email,
-  table_name,
-  table_column,
-  value,
-  valueId
-) => {
-  const result = await valueExistsInDatabase(table_name, table_column, value);
+// const insertIntoDatabase2 = async (
+//   email,
+//   table_name,
+//   table_column,
+//   value,
+//   valueId
+// ) => {
+//   const result = await valueExistsInDatabase(table_name, table_column, value);
 
-  if (isEqual(result.data[0], {})) {
-    await insertValueIntoTable(table_name, table_column, value);
-  }
+//   if (isEqual(result.data[0], {})) {
+//     await insertValueIntoTable(table_name, table_column, value);
+//   }
 
-  let user_id = await getUserByEmail(email);
+//   let user_id = await getUserByEmail(email);
 
-  let token = jwt.sign({ user_id: user_id }, supersecret);
+//   let token = jwt.sign({ user_id: user_id }, supersecret);
 
-  let result_id = await getValueId(table_name, table_column, value);
-  user_id = user_id.data[0].id;
-  let value_id = result_id.data[0].id;
+//   let result_id = await getValueId(table_name, table_column, value);
+//   user_id = user_id.data[0].id;
+//   let value_id = result_id.data[0].id;
 
-  const results = await insertValuesIntoIntermediateTable(
-    `${table_name}_user`,
-    "user_id",
-    valueId,
-    user_id,
-    value_id
-  );
-};
+//   const results = await insertValuesIntoIntermediateTable(
+//     `${table_name}_user`,
+//     "user_id",
+//     valueId,
+//     user_id,
+//     value_id
+//   );
+// };
 
 module.exports = router;
