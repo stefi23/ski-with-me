@@ -77,20 +77,17 @@ const insertValuesIntoIntermediateTable = async (
   value1,
   value2
 ) => {
-  console.log("insertValuesIntoIntermediateTable")
   return await db(
     `INSERT INTO ${table_name} (${column_name1}, ${column_name2}) VALUES (?, ?);`, [value1, value2]
   );
 };
 const insertValueIntoTable = async (table_name, table_column, value) => {
-  console.log("works")
   return await db(
     `INSERT INTO ${table_name} (${table_column}) VALUES (?)`, [value]
   );
 };
 
 const valueExistsInDatabase = async (table_name, column_name, value) => {
-  console.log("valueExistsInDatabase")
   return await db(
     `SELECT id FROM ${table_name} WHERE ${column_name} = ?;`, [value]
   );

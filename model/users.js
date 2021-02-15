@@ -1,8 +1,3 @@
-// export function getIdandName(email, hashedPassword) {
-//     return `SELECT id, first_name from users WHERE email = ?  AND password = ?;`,
-//         [email, hashedPassword]
-// }
-
 const { db, getValueId, valueExistsInDatabase, insertValueIntoTable, insertValuesIntoIntermediateTable } = require("../model/helper");
 
 const crypto = require("crypto");
@@ -84,9 +79,7 @@ const insertIntoDatabase = async (
 
   try {
   const result = await valueExistsInDatabase(table_name, table_column, value);
-  console.log("RESULT", result)
   if (isEqual(result.data[0], {})) {
-     console.log("RESULT IN IF", result)
     await insertValueIntoTable(table_name, table_column, value);
   }
 
@@ -105,7 +98,7 @@ const insertIntoDatabase = async (
   );
   }
   catch(error){
-    console.log("ERROR inside", error)
+    console.log(error)
   }
 };
 
