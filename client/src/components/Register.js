@@ -16,15 +16,6 @@ Register.propTypes = {
   getUserId:PropTypes.func.isRequired,
 }
 
-/*
-const useInput = (input) => {
-  const [value, setValue] = useState(input)
-  function handleInputChange(event) {
-    setValue(event.target.value)
-  }
-  return [value, handleInputChange]
-}
-*/
 
 const useArrayState = (initialState) => {
   const [array, setArray] = useState(initialState)
@@ -77,7 +68,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const handleEmailChange = (e) => {
 
 
-    const userEmails = intialSkierList.map(user => user.email)
+  const userEmails = intialSkierList.map(user => user.email)
     setShowAlert(userEmails.includes(e.target.value))
     setEmail(e.target.value)
 
@@ -102,6 +93,10 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
     e.preventDefault()
     try {
       const resp = await axios.post('/users/register', userData);
+      if(resp.data.message === "user is already registered"){
+        setShowAlert(true)
+        return
+      }
       localStorage.setItem("skiBuddyToken", resp.data.token);
       updateLoggedIn(true);
       getName(resp.data.name);

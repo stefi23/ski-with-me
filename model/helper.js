@@ -1,8 +1,10 @@
 require("dotenv").config();
 const mysql = require("mysql");
 
-module.exports = async function db(query, query_params = []) {
-  const results = {
+
+// module.exports = async function db(query, query_params = []) {
+const db = async (query, query_params = []) => {  
+const results = {
     data: [],
     error: null,
   };
@@ -61,3 +63,38 @@ module.exports = async function db(query, query_params = []) {
 
   return promise;
 };
+
+const getValueId = async (table_name, table_column, value) => {
+  return await db(
+    `SELECT id FROM ${table_name} WHERE ${table_column} = ?;`, [value]
+  );
+};
+
+const insertValuesIntoIntermediateTable = async (
+  table_name,
+  column_name1,
+  column_name2,
+  value1,
+  value2
+) => {
+  return await db(
+    `INSERT INTO ${table_name} (${column_name1}, ${column_name2}) VALUES (?, ?);`, [value1, value2]
+  );
+};
+const insertValueIntoTable = async (table_name, table_column, value) => {
+  return await db(
+    `INSERT INTO ${table_name} (${table_column}) VALUES (?)`, [value]
+  );
+};
+
+const valueExistsInDatabase = async (table_name, column_name, value) => {
+  return await db(
+    `SELECT id FROM ${table_name} WHERE ${column_name} = ?;`, [value]
+  );
+};
+
+
+
+
+
+module.exports = { db, getValueId, insertValuesIntoIntermediateTable, insertValueIntoTable, valueExistsInDatabase }

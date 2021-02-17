@@ -1,4 +1,4 @@
-const db = require("../model/helper");
+const {db} = require("../model/helper");
 
 const getAllResorts = () => {
     return db(`SELECT resort_name FROM resorts;`);
