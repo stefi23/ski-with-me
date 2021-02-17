@@ -102,37 +102,7 @@ const insertIntoDatabase = async (
   }
 };
 
-function getWhereClause(level, language, sport, resort) {
-// const { level, language, sport, resort } = req.query;
-  let conditions = [];
-  let params = [];
 
-  if (level) {
-    conditions.push("users.level = ?")
-    params.push(level);
-  }
 
-  if (sport) {
-    conditions.push("users.sport = ?")
-    params.push(sport);
 
-  }
-
-  if (language) {
-    conditions.push(`users.id IN (
-      SELECT languages_user.user_id FROM languages_user
-        JOIN languages lang ON languages_user.language_id = lang.id 
-        WHERE lang.language = ?)`)
-    params.push(language);
-  }
-
-  if (resort) {
-    conditions.push(`users.id IN(
-      SELECT resorts_user.user_id FROM resorts_user 
-         JOIN resorts ON resorts.id = resorts_user.resort_id 
-         WHERE resorts.resort_name = ?)`)
-    params.push(resort);
-  }
-}
-
-module.exports = { insertIntoDatabase, getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered, getWhereClause }
+module.exports = { insertIntoDatabase, getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered }

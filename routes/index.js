@@ -4,6 +4,7 @@ const {db} = require("../model/helper");
 const { getAllResorts } = require('../model/resorts')
 const { getAllLanguages } = require('../model/languages')
 
+ 
 // /* GET home page. */
 router.get("/", async (req, res, next) => {
   try {
@@ -45,7 +46,6 @@ router.get("/AllLanguages", async (req, res) => {
 
 function getWhereClause(req) {
   const { level, language, sport, resort } = req.query;
-
   let conditions = [];
   let params = [];
 
@@ -85,8 +85,6 @@ function getWhereClause(req) {
 router.get(`/everything`, async (req, res) => {
   // accepts urls like http://localhost/everything?language=english&sport=ski&level=pro
 
-  
-
   let whereClause = getWhereClause(req);
 
   try {
@@ -99,7 +97,8 @@ router.get(`/everything`, async (req, res) => {
     JOIN languages lang ON languages_user.language_id = lang.id
     ${whereClause.clause}
     GROUP BY id, first_name, last_name;`;
-    const response = await db(query, whereClause.params); // Again, you will probably will get duplicated entries for this query - fixed
+    const response = await db(query, whereClause.params); 
+   
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
