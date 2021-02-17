@@ -75,8 +75,8 @@ function App() {
 
   useEffect(() => {
     getUserdatafromDB()
-    getSkierListfromDB()
     getInitialSkierList()
+    getSkierListfromDB()
   }, [sport, level, language, resort, userId]);
 
 

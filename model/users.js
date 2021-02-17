@@ -102,7 +102,52 @@ const insertIntoDatabase = async (
   }
 };
 
+const getData = async (level, language, sport, resort) => {
+  
+let conditions = [];
+  let params = [];
+
+  if (level) { 
+    console.log("LLL", level)
+    conditions.push("users.level = ?")
+    params.push(level);
+  }
+
+  if (sport) {
+    conditions.push("users.sport = ?")
+    params.push(sport);
+
+  }
+
+  if (language) {
+    conditions.push(`users.id IN (
+      SELECT languages_user.user_id FROM languages_user
+        JOIN languages lang ON languages_user.language_id = lang.id 
+        WHERE lang.language = ?)`)
+    params.push(language);
+  }
+
+  if (resort) {
+    conditions.push(`users.id IN(
+      SELECT resorts_user.user_id FROM resorts_user 
+         JOIN resorts ON resorts.id = resorts_user.resort_id 
+         WHERE resorts.resort_name = ?)`)
+    params.push(resort);
+  }
+
+  let whereClause = conditions.length > 0 ? "WHERE " + conditions.join(" AND ") : "";
+  
+   let query = `
+    SELECT users.id, first_name, last_name, sport,level,GROUP_CONCAT(DISTINCT resort_name) AS resort, GROUP_CONCAT( DISTINCT language) AS languages, email
+    FROM users
+    JOIN resorts_user ON resorts_user.user_id = users.id
+    JOIN resorts ON resorts.id = resorts_user.resort_id
+    JOIN languages_user ON languages_user.user_id = users.id
+    JOIN languages lang ON languages_user.language_id = lang.id
+    ${whereClause}
+    GROUP BY id, first_name, last_name;`;
+  return db(query, params)
+}
 
 
-
-module.exports = { insertIntoDatabase, getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered }
+module.exports = { insertIntoDatabase, getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered, getData }

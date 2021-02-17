@@ -3,27 +3,17 @@ var router = express.Router();
 const {db} = require("../model/helper");
 const { getAllResorts } = require('../model/resorts')
 const { getAllLanguages } = require('../model/languages')
-
+const { getData } = require('../model/users')
  
-// /* GET home page. */
 router.get("/", async (req, res, next) => {
   try {
-    let response = await db(`
-  SELECT users.id, first_name, last_name, sport,level, language, resort_name
-    FROM users
-    LEFT JOIN languages_user ON languages_user.user_id = users.id
-    LEFT JOIN resorts_user ON resorts_user.user_id = users.id
-    LEFT JOIN languages lang ON languages_user.language_id = lang.id
-    LEFT JOIN resorts resort ON resorts_user.id = resort.id
-    ;`);
-
+    let response = await getData()
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
   }
 });
 
-//All resorts available in the db 
 router.get("/AllResorts", async (req, res) => {
   try {
     const response = await getAllResorts()
@@ -33,7 +23,6 @@ router.get("/AllResorts", async (req, res) => {
   }
 });
 
-//All languages available in the db 
 router.get("/AllLanguages", async (req, res) => {
   try {
     const response = await getAllLanguages()
@@ -81,24 +70,12 @@ function getWhereClause(req) {
   return { clause: whereClause, params: params };
 }
 
-//user model - to be moved
 router.get(`/everything`, async (req, res) => {
   // accepts urls like http://localhost/everything?language=english&sport=ski&level=pro
-
-  let whereClause = getWhereClause(req);
+const { level, language, sport, resort } = req.query;
 
   try {
-    let query = `
-    SELECT users.id, first_name, last_name, sport,level,GROUP_CONCAT(DISTINCT resort_name) AS resort, GROUP_CONCAT( DISTINCT language) AS languages, email
-    FROM users
-    JOIN resorts_user ON resorts_user.user_id = users.id
-    JOIN resorts ON resorts.id = resorts_user.resort_id
-    JOIN languages_user ON languages_user.user_id = users.id
-    JOIN languages lang ON languages_user.language_id = lang.id
-    ${whereClause.clause}
-    GROUP BY id, first_name, last_name;`;
-    const response = await db(query, whereClause.params); 
-   
+    const response = await getData(level, language, sport, resort)
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
