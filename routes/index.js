@@ -26,7 +26,6 @@ router.get("/", async (req, res, next) => {
 router.get("/AllResorts", async (req, res) => {
   try {
     const response = await getAllResorts()
-    // db(`SELECT resort_name FROM resorts;`);
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
@@ -37,100 +36,6 @@ router.get("/AllResorts", async (req, res) => {
 router.get("/AllLanguages", async (req, res) => {
   try {
     const response = await getAllLanguages()
-    // db(`SELECT language FROM languages;`);
-    res.status(200).send(response.data);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
-//Serch resorts based on user input 
-// router.get("/AllResorts/:resort", async (req, res) => {
-//   const resort = req.params.resort;
-//   try {
-//     const response = await db(`
-//   SELECT resort_name FROM resorts WHERE resort_name LIKE "%${resort}%";`);
-//     res.status(200).send(response.data);
-//   } catch (err) {
-//     res.status(500).send(err);
-//   }
-// });
-
-//Serch resorts based on user input - NOT USED
-router.get("/AllResorts/:resort", async (req, res) => {
-  const resort = req.params.resort;
-  try {
-    const response = await db('SELECT resort_name FROM resorts WHERE resort_name LIKE ?;', [`%${resort}%`]);
-    res.status(200).send(response.data);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
-//Serch language based on user input - NOT USED
-router.get("/AllLanguages/:language", async (req, res) => {
-  const language = req.params.language;
-  try {
-    const response = await db('SELECT language FROM languages WHERE language LIKE ?;', [`%${language}%`]);
-    res.status(200).send(response.data);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
-//All users from a specific resort - NOT USED
-router.get("/resort/:resort", async (req, res) => {
-  const resort = req.params.resort;
-  try {
-    const response = await db(`
-  SELECT users.id, first_name, last_name, sport,level, language, resort_name
-    FROM users
-    LEFT JOIN languages_user ON languages_user.user_id = users.id
-    LEFT JOIN resorts_user ON resorts_user.user_id = users.id
-    LEFT JOIN languages lang ON languages_user.language_id = lang.id
-    LEFT JOIN resorts resort ON resorts_user.id = resort.id
-    WHERE resort_name = ?
-    ;`, [`${resort}`]);
-    res.status(200).send(response.data);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
-//All users with a specific level - NOT USED
-router.get("/level/:level", async (req, res) => {
-  const level = req.params.level;
-  try {
-    const response = await db(`
-  SELECT users.id, first_name, last_name, sport,level,GROUP_CONCAT(DISTINCT resort_name) AS resorts, GROUP_CONCAT( DISTINCT language) AS languages, email
-    FROM users
-    LEFT JOIN languages_user ON languages_user.user_id = users.id
-    LEFT JOIN resorts_user ON resorts_user.user_id = users.id
-    LEFT JOIN languages lang ON languages_user.language_id = lang.id
-    LEFT JOIN resorts resort ON resorts_user.id = resort.id
-    WHERE level = ?
-    GROUP BY id, first_name, last_name
-    ;`, [`${level}`]);
-    res.status(200).send(response.data);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
-//All users doing a specific sport - NOT USED
-router.get("/sport/:sport", async (req, res) => {
-  const sport = req.params.sport;
-  try {
-    const response = await db(`
-  SELECT users.id, first_name, last_name, sport,level,GROUP_CONCAT(DISTINCT resort_name) AS resorts, GROUP_CONCAT( DISTINCT language) AS languages, email
-    FROM users
-    LEFT JOIN languages_user ON languages_user.user_id = users.id
-    LEFT JOIN resorts_user ON resorts_user.user_id = users.id
-    LEFT JOIN languages lang ON languages_user.language_id = lang.id 
-    LEFT JOIN resorts resort ON resorts_user.id = resort.id
-    WHERE sport = ?
-    GROUP BY id, first_name, last_name;
-`, [`${sport}`]);
     res.status(200).send(response.data);
   } catch (err) {
     res.status(500).send(err);
@@ -138,64 +43,6 @@ router.get("/sport/:sport", async (req, res) => {
 });
 
 
-//TO BE CHECKED!
-router.get("/resorts", async (req, res) => {
-  // accepts urls like http://localhost/resorts?resort=Molina&language=English&sport=ski
-  const { resort, language, sport } = req.query;
-  console.log(resort)
-  if (!resort) {
-    res.status(404).send("Not found");
-    return;
-  }
-  try {
-    const response = await db(`
-  SELECT distinct resort_name
-    FROM resorts
-    LEFT JOIN resorts_user ON resorts_user.resort_id = resorts.id
-    LEFT JOIN users ON users.id = resorts_user.user_id
-    LEFT JOIN languages_user ON languages_user.user_id = users.id
-    LEFT JOIN languages lang ON languages_user.language_id = lang.id
-    WHERE resort_name = "${resort}"
-    ${language ? ` AND lang.language = "${language}"` : ""}
-    ${sport ? ` AND users.sport = "${sport}"` : ""}
-    ;`); // Be careful here, as you will probably get lots of duplicated resorts
-    res.status(200).send(response.data);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
-// User changes filter.
-// Fetch updated skier data from db based on filter.
-// Update select box contents based on skier data.
-
-// User changes filter
-// Fetch updated skier data from db based on filter.
-// Fetch select box contents from db based on filter.
-
-//- NOT SURE IF IT'S USED
-router.get('/sports', async (req, res) => {
-  // accept urls http://localhost/sports?language=english&level=pro
-  let whereClause = getWhereClause(req);
-
-  let query = `SELECT distinct sport
-  FROM users
-  LEFT JOIN resorts_user ON resorts_user.user_id = users.id
-  LEFT JOIN resorts ON resorts.id = resorts_user.resort_id
-  LEFT JOIN languages_user ON languages_user.user_id = users.id
-  LEFT JOIN languages lang ON languages_user.language_id = lang.id
-  ${whereClause.clause}
-  `
-
-  try {
-    const response = await db(query, whereClause.params);
-    res.status(200).send(response.data);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
-//user specific - more
 function getWhereClause(req) {
   const { level, language, sport, resort } = req.query;
 
@@ -238,7 +85,7 @@ function getWhereClause(req) {
 router.get(`/everything`, async (req, res) => {
   // accepts urls like http://localhost/everything?language=english&sport=ski&level=pro
 
-  // http://localhost:5000/everything?sport=ski" GROUP BY first_name, last_name; update users set first_name = "Hacked" where id = 1; select id, first_name, last_name, count(*) from users where sport = "ski
+  
 
   let whereClause = getWhereClause(req);
 

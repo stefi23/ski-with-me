@@ -1,16 +1,12 @@
 var express = require("express");
 var router = express.Router();
-const { db, getValueId, insertValuesIntoIntermediateTable, insertValueIntoTable, valueExistsInDatabase } = require("../model/helper");
+const { db } = require("../model/helper");
 var jwt = require("jsonwebtoken");
 var userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 require("dotenv").config();
-const crypto = require("crypto");
-const isEqual = require('lodash/isEmpty')
 const capitalize = require('lodash/capitalize')
-
 const {insertIntoDatabase, getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered} = require('../model/users')
 
-const supersecret = process.env.SUPER_SECRET;
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
@@ -57,47 +53,6 @@ router.get("/profile", userShouldBeLoggedIn, async function (req, res, next) {
     id
   });
 });
-
-//IN PROGRESS: Building Edit profile query: 
-
-router.post("/editProfile", userShouldBeLoggedIn, async(req, res, next) => {
-try{
-  //get the data from the user
-   let {
-      first_name,
-      last_name,
-      sport,
-      level,
-      resorts,
-      languages,
-    } = req.body;
-  //   const userId = result.data[0].id
-  //   console.log("userID", userId)
- // userID { data: [ RowDataPacket { id: 16 } ], error: null }
-    //sport and level have to be from the specified options
-    // Deal with unspecified fields.
-    // Check that the user is only editting themself.
-
-
-    // ALTER TABLE users ADD CONSTRAINT CHECK sport in ('ski', 'snowboard', 'both');
-    // 
-    const userData = await db("UPDATE USERS SET first_name = ?, last_name = ?, sport = ?, level = ? WHERE id = ?",
-      [first_name, last_name, sport, level, req.user_id]
-)
-return res.status(200).send(
-          {
-            message: "user data is updated"
-          }
-        );
-}
-catch(err){
-  console.log(err)
-}
-
-})
-
-//End of query
-
 
 router.post("/register", async (req, res, next) => {
   try {
@@ -181,6 +136,49 @@ router.post("/register", async (req, res, next) => {
     res.status(404).send({ message: "user not valid" });
   }
 });
+
+//IN PROGRESS: Building Edit profile query: 
+
+router.post("/editProfile", userShouldBeLoggedIn, async(req, res, next) => {
+try{
+  //get the data from the user
+   let {
+      first_name,
+      last_name,
+      sport,
+      level,
+      resorts,
+      languages,
+    } = req.body;
+  //   const userId = result.data[0].id
+  //   console.log("userID", userId)
+ // userID { data: [ RowDataPacket { id: 16 } ], error: null }
+    //sport and level have to be from the specified options
+    // Deal with unspecified fields.
+    // Check that the user is only editting themself.
+
+
+    // ALTER TABLE users ADD CONSTRAINT CHECK sport in ('ski', 'snowboard', 'both');
+    // 
+    const userData = await db("UPDATE USERS SET first_name = ?, last_name = ?, sport = ?, level = ? WHERE id = ?",
+      [first_name, last_name, sport, level, req.user_id]
+)
+return res.status(200).send(
+          {
+            message: "user data is updated"
+          }
+        );
+}
+catch(err){
+  console.log(err)
+}
+
+})
+
+//End of query
+
+
+
 
 
 module.exports = router;
