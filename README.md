@@ -4,22 +4,25 @@
 
 I want to go skiing but most of my friends who ski are in Romania.
 
-It would be great if I there would be a directory where I look up skies/snowboarders who go to/live close to a specific resort and message them to pair up for a few ski days.
+I would love to have a directory app where I can can look up people based on a resort and message them to pair up for a ski day, so I am building it ⛷
 
-> **Main goal:** connect more advance skiers/snowboarders with each other soe they can go ski together.  
+> **Main goal:** connect skiers/snowboarders with each other so they can go ski/snowboard together.
 
+![screenshot from the app](./skiBuddies.png)
 
-## How to install it and get started  
+## How to install it and get started
 
-Create a database name skiBuddies locally.
+Create a database named skiBuddies locally.
+
 ```
 git clone https://github.com/stefi23/ski-with-me
 $ cd ski-with-me
-$ npm run migrate  
+$ npm run migrate
 $ npm start
 ```
 
 Open another terminal window:
+
 ```
 $ cd ski-with-me
 $ cd client
