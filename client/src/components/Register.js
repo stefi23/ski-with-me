@@ -1,4 +1,4 @@
-import React, { useState, useDebugValue, useEffect } from "react";
+import React, { useState, useEffect, useRef, forwardRef } from "react";
 import axios from "axios";
 import { Link, withRouter, useHistory } from "react-router-dom";
 import { Modal } from "react-bootstrap";
@@ -17,7 +17,7 @@ Register.propTypes = {
 }
 
 
-const useArrayState = (initialState) => {
+const useArrayState = (initialState) => { 
   const [array, setArray] = useState(initialState)
   function handleAdd(newElement) {
     setArray([...array, newElement])
@@ -46,6 +46,7 @@ const useArrayState = (initialState) => {
 }
 
 
+
 function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const [firstName, handleFirstNameChange] = useInput("")
   const [lastName, handleLastNameChange] = useInput("");
@@ -64,6 +65,8 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const [showAlert, setShowAlert] = useState(false)
 
   const history = useHistory();
+
+  const focusRef = useRef(null)
 
   const handleEmailChange = (e) => {
 
@@ -138,7 +141,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   useEffect(() => {
     getResortsListfromDB()
     getLanguagesListfromDB()
-    //Update resorts array with data from db
+    focusRef.current.focus()
   }, [])
 
 
@@ -160,9 +163,6 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
         <Modal.Body className="px-4 py-4">
           <form onSubmit={(e) => {
             addUser(e)
-            // e.preventDefault();
-            // console.log(e)
-            // if (window.confirm("Register was succesful!"));
           }}>
             <div className="form-row">
               <div className="form-group col-md-6">
@@ -172,6 +172,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                   value={firstName}
                   onChange={handleFirstNameChange}
                   required
+                  ref={focusRef}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -298,9 +299,6 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
             <div className="form-row">
               <div className="form-group col-md-12">
                 <MultipleComponent
-                  // onClick={autocompleteResorts}
-                  // onFilter={filterSuggestions}
-                  // data={resortSuggestions}
                   data={resortsDb}
                   title="Resorts"
                   items={resorts}
@@ -340,7 +338,6 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
               disabled={showAlert ? true : false}
               type="submit"
               className="btn btn-blue width-complete"
-              // onClick={(e) => addUser(e)}
               onKeyUp={(e) => {
                 if (e.keyCode === 13) { return addUser(e) }
               }}
@@ -350,14 +347,6 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
             </button>
           </form>
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button
-            onClick={handleClose}
-          >
-            Close
-            </Button>
-
-        </Modal.Footer> */}
       </Modal>
     </>
   );

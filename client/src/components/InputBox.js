@@ -1,9 +1,13 @@
-import React from "react";
+import React, {forwardRef} from "react";
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 
 
-InputBox.propTypes = {
+
+
+const InputBox = forwardRef(({ label, type, value, onChange, required, showAlert }, ref) => {
+
+    InputBox.propTypes = {
     label: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
@@ -12,7 +16,6 @@ InputBox.propTypes = {
     showAlert: PropTypes.bool
 }
 
-function InputBox({ label, type, value, onChange, required, showAlert }) {
     return (
 
         <>
@@ -27,7 +30,7 @@ function InputBox({ label, type, value, onChange, required, showAlert }) {
                 name={value}
                 value={value}
                 onChange={onChange}
-
+                ref={ref}
             />
             <div className="parent">
                 {
@@ -45,9 +48,9 @@ function InputBox({ label, type, value, onChange, required, showAlert }) {
 
 
     )
-}
+})
 
 
-export default InputBox;
+  export default InputBox;
 
 

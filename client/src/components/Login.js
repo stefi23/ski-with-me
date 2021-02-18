@@ -42,6 +42,7 @@ function Login({ updateLoggedIn, getName, getUserId }) {
       updateLoggedIn(true);
       getName(resp.data.name);
       getUserId(resp.data.id)
+      
     }
     catch (err) {
       if (err.response.status === 400) {
