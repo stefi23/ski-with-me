@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../App.css";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
@@ -6,16 +6,6 @@ import { Modal } from "react-bootstrap";
 import InputBox from "./InputBox"
 
 import { useInput } from "../hooks/useInput"
-
-/*
-const useInput = (input) => {
-  const [value, setValue] = useState(input)
-  function handleInputChange(event) {
-    setValue(event.target.value)
-  }
-  return [value, handleInputChange]
-}
-*/
 
 function Login({ updateLoggedIn, getName, getUserId }) {
   const [email, handleEmailChange] = useInput("");
@@ -28,11 +18,16 @@ function Login({ updateLoggedIn, getName, getUserId }) {
      history.goBack()
   };
 
-
+  const focusRef = useRef(null)
+  
   const loginData = {
     email,
     password
   }
+
+  useEffect(() => {
+    focusRef.current.focus()
+  }, [])
 
   const attemptLogin = async (e) => {
     e.preventDefault()
@@ -82,6 +77,7 @@ function Login({ updateLoggedIn, getName, getUserId }) {
                   value={email}
                   onChange={handleEmailChange}
                   required
+                  ref={focusRef}
                 />
               </div>
             </div>
@@ -113,9 +109,6 @@ function Login({ updateLoggedIn, getName, getUserId }) {
             </p>
           </div>
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button onClick={handleClose} variant="secondary">Close</Button>
-        </Modal.Footer> */}
       </Modal >
     </>
   );
