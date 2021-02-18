@@ -115,9 +115,10 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const getResortsListfromDB = async () => {
     try {
       const resp = await axios.get('/AllResorts');
-      const resortsArr = resp.data.map(resorts => {
+      let resortsArr = resp.data.map(resorts => {
         return resorts.resort_name
       })
+      resortsArr = resortsArr.sort()
       setResortsDb(resortsArr)
     } catch (err) {
       // Handle Error Here
@@ -128,9 +129,10 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const getLanguagesListfromDB = async () => {
     try {
       const resp = await axios.get('/AllLanguages');
-      const languagesArr = resp.data.map(languages => {
+      let languagesArr = resp.data.map(languages => {
         return languages.language
       })
+      languagesArr = languagesArr.sort()
       setLanguagesDb(languagesArr)
     } catch (err) {
       // Handle Error Here
