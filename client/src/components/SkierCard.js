@@ -17,7 +17,8 @@ const SkierCardDiv = styled.div`
         border-radius: 10px;
         boxShadow: 0px 4px 8px 0px hsla(0, 0%, 0%, 0.2);
         height: 100%;
-        max-height: 320px;
+        max-height: 450px;
+        display:grid;
     `
 const Title = styled.h1`
         color: #649CCC;
@@ -37,7 +38,7 @@ const StyledP = styled.p`
         font-size: 14px;
         color: #443850
     `
-// #001c00;
+
 const TextCenter = styled.h1`
         text-align:center;
     `
@@ -48,6 +49,10 @@ const LinkLogin = styled.a`
         font-weight:bold;
     
     `
+
+ const Contact = styled.div`
+ align-self:  end;
+ `   
 
 
 function SkierCard(props) {
@@ -76,12 +81,17 @@ function SkierCard(props) {
                                 index === lastElement ? null : ", "}</span>
                         )
                     })) : "No resort added"}
-            </StyledP>
+            </StyledP> 
+            <Contact>
+
             {props.isUserLoggedin ?
+           
                 (<StyledP><span role="img" aria-label="waving hand emoji">👋 </span>&nbsp;{props.email}</StyledP>) :
                 (<><LinkLogin href="/login" ><span role="img" aria-label="waving hand emoji">👋 </span>Contact info</LinkLogin></>)
 
             }
+            </Contact>
+       
         </SkierCardDiv>
     )
 }
