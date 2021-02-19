@@ -183,7 +183,7 @@ function Search(props) {
                             />
 
                         </div>
-                        <div className="col-md-12">
+                        <div className="col-md-12 mb-4">
                             <Dropbox
                                 title="language"
                                 value={language}

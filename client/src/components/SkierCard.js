@@ -19,39 +19,63 @@ const SkierCardDiv = styled.div`
         height: 100%;
         max-height: 450px;
         display:grid;
+
+        @media(min-width: 768px) {
+            grid-template-rows: 65px 65px;
+        }
+
+        @media(min-width: 992px) {
+            grid-template-rows: 45px 50px;
+        }
+        
     `
 const Title = styled.h1`
         color: #649CCC;
-        font-size: 20px;
+        font-size: 22px;
         font-weight: bold;
         margin-bottom: 5px;
-        text-align : center;
+        justify-self:center;
+        align-self:center;
+        text-align:center;
 `;
 
 const LightText = styled.p`
-        text-align : center;
         font-size: 14px;
         color: hsl(214, 7%, 47%);
+        justify-self:center;
+        align-self:baseline;
     `
 
 const StyledP = styled.p`
         font-size: 14px;
-        color: #443850
+        color: #443850;
+        justify-self:start;
+        align-self:first-baseline;
+
+        @media(min-width: 768px) {
+            justify-self:start;
+           
+        }
+        
     `
 
 const TextCenter = styled.h1`
-        text-align:center;
+        grid-auto-rows: 170px;
+        justify-self:center;
+        align-self:center;
     `
 const LinkLogin = styled.a`
         text-align : center;
         display:block;
         color: #649CCC;
         font-weight:bold;
+        
     
     `
 
  const Contact = styled.div`
- align-self:  end;
+        margin-top:10px;
+        align-self:  end;
  `   
 
 

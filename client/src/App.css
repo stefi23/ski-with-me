@@ -82,3 +82,9 @@
   border-radius: 20px;
   background: white;
 }
+
+@media (max-width: 576px) {
+  .skiercards {
+    padding: 0px 40px;
+  }
+}
