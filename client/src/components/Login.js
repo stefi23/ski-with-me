@@ -30,11 +30,21 @@ function Login({ updateLoggedIn, getName, getUserId }) {
   }, [])
 
   const attemptLogin = async (e) => {
+    console.log('-- -- -- attemptLogin -- -- --')
     e.preventDefault()
     try {
+
+      
       const resp = await axios.post('/users/login', loginData);
-      localStorage.setItem("skiBuddyToken", resp.data.token);
+
+      console.log('-- -- updateLoggedIn -- --', updateLoggedIn)
       updateLoggedIn(true);
+      console.log('resp', resp)
+      localStorage.setItem("skiBuddyToken", resp.data.token);
+
+      console.log('after request', updateLoggedIn)
+
+      
       getName(resp.data.name);
       getUserId(resp.data.id)
       
@@ -68,7 +78,8 @@ function Login({ updateLoggedIn, getName, getUserId }) {
             </div>) : null
           }
           <form className="needs-validation"
-            onSubmit={(e) => email && password ? attemptLogin(e) : null} >
+            data-testid="login-form"
+            onSubmit={(e) => email && password ? attemptLogin(e) : null}>
             <div className="form-row">
               <div className="form-group col-md-12">
                 <InputBox

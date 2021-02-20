@@ -55,8 +55,7 @@ const StyledP = styled.p`
         @media(min-width: 768px) {
             justify-self:start;
            
-        }
-        
+        }    
     `
 
 const TextCenter = styled.h1`
@@ -69,8 +68,6 @@ const LinkLogin = styled.a`
         display:block;
         color: #649CCC;
         font-weight:bold;
-        
-    
     `
 
  const Contact = styled.div`

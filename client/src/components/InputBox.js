@@ -19,10 +19,12 @@ const InputBox = forwardRef(({ label, type, value, onChange, required, showAlert
     return (
 
         <>
-            <label
+            <label 
+                htmlFor={label}
                 className={showAlert ? "text-bordo" : "text-gray"}>{label}</label>
 
             <input
+                id={label}
                 style={{ "border": showAlert ? "#7F055F solid 2px" : null }}
                 required={required}
                 type={type}
