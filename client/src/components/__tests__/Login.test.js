@@ -23,7 +23,21 @@ describe('Login is working', () => {
   it('renders the <Login /> component', () => {
     const { container, getByText } = render(getComponent())
     expect(getByText('Welcome Back')).toBeInTheDocument()
-})
+  })
+
+  it('sets email value when user updates the email input', async () => {
+    const { container, getByText } = render(getComponent())
+    const inputEmail = screen.getByLabelText('Email')
+    fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
+    expect(inputEmail.value).toBe('matei@gmail.com')
+  })
+
+  it('sets password value when user updates the password input', () => {
+    const { container, getByText } = render(getComponent())
+    const inputPassword = screen.getByLabelText('Password')
+    fireEvent.change(inputPassword, { target: { value: '123' } })
+    expect(inputPassword.value).toBe('123')
+  })
 
   it('sets updateLoggedIn = true on successful login', async () => {
     const mockUpdateLoggedIn = jest.fn();
@@ -32,9 +46,9 @@ describe('Login is working', () => {
       updateLoggedIn: mockUpdateLoggedIn
     }))
 
-    const inputPassword = screen.getByLabelText('Password')
     const inputEmail = screen.getByLabelText('Email')
-
+    const inputPassword = screen.getByLabelText('Password')
+  
     const form = getByTestId('login-form')
 
     fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
@@ -48,17 +62,15 @@ describe('Login is working', () => {
         id: 1
       }
     }))
-
+    
     await act(async () => {
       fireEvent.submit(form)
     })
- 
+   
     expect(mockUpdateLoggedIn).toHaveBeenCalledWith(true)
   })
 
-  // expect(inputEmail.value).toBe('matei@gmail.com')
-
-  it('does not set updateLoggedIn = true on successful login', async () => {
+  it('does not set updateLoggedIn = true on unsuccessful login', async () => {
     const mockUpdateLoggedIn = jest.fn();
 
     const { container, getByText, debug, getByTestId } = render ( getComponent({

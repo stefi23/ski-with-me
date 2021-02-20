@@ -30,21 +30,11 @@ function Login({ updateLoggedIn, getName, getUserId }) {
   }, [])
 
   const attemptLogin = async (e) => {
-    console.log('-- -- -- attemptLogin -- -- --')
     e.preventDefault()
     try {
-
-      
       const resp = await axios.post('/users/login', loginData);
-
-      console.log('-- -- updateLoggedIn ', updateLoggedIn)
       updateLoggedIn(true);
-      console.log('resp', resp)
-      localStorage.setItem("skiBuddyToken", resp.data.token);
-
-      console.log('after request', updateLoggedIn)
-
-      
+      localStorage.setItem("skiBuddyToken", resp.data.token);      
       getName(resp.data.name);
       getUserId(resp.data.id)
       
