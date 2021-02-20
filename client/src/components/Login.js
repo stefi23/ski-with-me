@@ -93,7 +93,8 @@ function Login({ updateLoggedIn, getName, getUserId }) {
                 />
               </div>
             </div>
-            <button className="btn btn-blue mb-2 mt-3 width-complete">
+            <button className="btn btn-blue mb-2 mt-3 width-complete"
+                    data-testid="btn-login">
               Login
           </button>
           </form>
