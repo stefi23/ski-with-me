@@ -18,13 +18,11 @@ const getComponent = (props) => {
 
 describe('Login is working', () => {
   it('renders the component', () => {
-    expect(1).toBe(1)
+    expect(true).toBe(true)
   })
   it('renders the <Login /> component', () => {
-  const { container, getByText } = render(getComponent())
-
-  
-  expect(getByText('Welcome Back')).toBeInTheDocument()
+    const { container, getByText } = render(getComponent())
+    expect(getByText('Welcome Back')).toBeInTheDocument()
 })
 
   it('sets updateLoggedIn = true on successful login', async () => {
@@ -33,19 +31,14 @@ describe('Login is working', () => {
     const { container, getByText, debug, getByTestId } = render ( getComponent({
       updateLoggedIn: mockUpdateLoggedIn
     }))
-    
 
     const inputPassword = screen.getByLabelText('Password')
     const inputEmail = screen.getByLabelText('Email')
 
     const form = getByTestId('login-form')
-    // debug()
-    // console.log(form)
-    // fill the form
+
     fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
     fireEvent.change(inputPassword, { target: { value: '123' } })
-   
-    // expect(inputEmail.value).toBe('matei@gmail.com')
 
     jest.spyOn(axios, 'post').mockImplementation(() => Promise.resolve({
       data: {
@@ -63,6 +56,8 @@ describe('Login is working', () => {
     expect(mockUpdateLoggedIn).toHaveBeenCalledWith(true)
   })
 
+  // expect(inputEmail.value).toBe('matei@gmail.com')
+
   it('does not set updateLoggedIn = true on successful login', async () => {
     const mockUpdateLoggedIn = jest.fn();
 
@@ -70,19 +65,14 @@ describe('Login is working', () => {
       updateLoggedIn: mockUpdateLoggedIn
     }))
     
-
     const inputPassword = screen.getByLabelText('Password')
     const inputEmail = screen.getByLabelText('Email')
 
     const form = getByTestId('login-form')
-    // debug()
-    // console.log(form)
-    // fill the form
+
     fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
     fireEvent.change(inputPassword, { target: { value: '123' } })
    
-    // expect(inputEmail.value).toBe('matei@gmail.com')
-
     jest.spyOn(axios, 'post').mockImplementation(() => Promise.reject({
       response: {
         status: 400

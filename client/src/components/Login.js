@@ -37,7 +37,7 @@ function Login({ updateLoggedIn, getName, getUserId }) {
       
       const resp = await axios.post('/users/login', loginData);
 
-      console.log('-- -- updateLoggedIn -- --', updateLoggedIn)
+      console.log('-- -- updateLoggedIn ', updateLoggedIn)
       updateLoggedIn(true);
       console.log('resp', resp)
       localStorage.setItem("skiBuddyToken", resp.data.token);
