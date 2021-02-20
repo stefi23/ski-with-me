@@ -25,6 +25,14 @@ describe('Login is working', () => {
     expect(getByText('Welcome Back')).toBeInTheDocument()
   })
 
+  it('should have email and password input field present', ()=> {
+     const { container, getByLabelText } = render(getComponent())
+     const inputEmail = screen.getByLabelText('Email')
+     const inputPassword = screen.getByLabelText('Password')
+        expect(inputEmail).toBeTruthy()
+        expect(inputPassword).toBeTruthy()
+  });
+
   it('sets email value when user updates the email input', async () => {
     const { container, getByText } = render(getComponent())
     const inputEmail = screen.getByLabelText('Email')
