@@ -283,6 +283,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
               </div>
             </div>
             <button
+              data-testid="btn-register"
               disabled={showAlert ? true : false}
               type="submit"
               className="btn btn-blue width-complete"

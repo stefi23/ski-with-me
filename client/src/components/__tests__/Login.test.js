@@ -18,12 +18,14 @@ const getComponent = (props) => {
 }
 
 describe('Login is working', () => {
-  it('renders the component', () => {
+  it('checks test is connected', () => {
     expect(true).toBe(true)
   })
   it('renders the <Login /> component', () => {
     const { getByText } = render(getComponent())
-    expect(getByText('Welcome Back')).toBeInTheDocument()
+    getByText('Welcome Back')
+    // expect(getByText('Welcome Back')).toBeInTheDocument()
+    //check input boxes and button too
   })
 
   it('should have email and password input field present', ()=> {
@@ -34,7 +36,7 @@ describe('Login is working', () => {
         expect(inputPassword).toBeTruthy()
   });
 
-  it('should have a button containg the text Login', ()=> {
+  it('should have a button contain the text Login', ()=> {
     const { container, getByTestId } = render(getComponent())
     expect(getByTestId('btn-login').textContent).toBe('Login');
   });
