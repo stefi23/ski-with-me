@@ -25,7 +25,7 @@ function SelectBox({ setValue, options, value, id, label, autoFocus }) {
 
     return (
         <>
-            <label>{`Which ${id}?`}</label>
+            <label htmlFor={id}>{`Which ${id}?`}</label>
             <select id={id}
                     autoFocus={autoFocus}
                     className="form-select"

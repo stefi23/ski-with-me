@@ -75,11 +75,12 @@ function Dropbox({ placeholder, suggestions, value, title, setValue }) {
     return (
 
         <>
-            <label>Which {title}?</label>
+            <label htmlFor={title}>Which {title}?</label>
             <input
                 className="form-control input"
                 type="name"
-                name="resorts"
+                id={title}
+                // name="resorts"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 onClick={() => setOpenSuggestions(true)}
