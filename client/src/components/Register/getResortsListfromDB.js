@@ -7,7 +7,7 @@ export const getResortsListfromDB = async () => {
       return resorts.resort_name
     })
     resortsArr = resortsArr.sort()  
-
+   
     return resortsArr;
   } catch (err) {
     // Handle Error Here

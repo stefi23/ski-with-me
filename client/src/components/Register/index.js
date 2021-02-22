@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import { Link, withRouter, useHistory } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import InputBox from "../InputBox"
 import RadioBox from "../RadioBox"
 import MultipleComponent from "../MultipleInput";
 import PropTypes from "prop-types"
-import { getResortsListfromDB} from './getResortsListfromDB'
+import { getResortsListfromDB } from './getResortsListfromDB'
 import { getLanguagesListfromDB } from './getLanguagesListfromDB'
 import { useInput } from "../../hooks/useInput"
 import { addUserInDb }  from './addUser'

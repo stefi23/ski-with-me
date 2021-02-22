@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getLanguagesListfromDB = async () => {
+export const getLanguagesListfromDB =  async () => {
     try {
       const resp = await axios.get('/AllLanguages');
       let languagesArr = resp.data.map(languages => {

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen} from '@testing-library/react'
+import { fireEvent, render, screen, cleanup} from '@testing-library/react'
 import axios from "axios";
 import React from 'react'
 import Login from '../Login'
@@ -17,90 +17,106 @@ const getComponent = (props) => {
         </Router>
 }
 
+
 describe('Login is working', () => {
+
+  beforeEach(() => render(getComponent()))
+
   it('checks test is connected', () => {
     expect(true).toBe(true)
   })
   it('renders the <Login /> component', () => {
-    const { getByText } = render(getComponent())
-    getByText('Welcome Back')
-    // expect(getByText('Welcome Back')).toBeInTheDocument()
+    expect(screen.getByText('Welcome Back')).toBeInTheDocument()
     //check input boxes and button too
   })
 
   it('should have email and password input field present', ()=> {
-     const { container, getByLabelText } = render(getComponent())
      const inputEmail = screen.getByLabelText('Email')
      const inputPassword = screen.getByLabelText('Password')
-        expect(inputEmail).toBeTruthy()
-        expect(inputPassword).toBeTruthy()
+        expect(inputEmail).toBeDefined()
+        expect(inputPassword).toBeDefined()
   });
 
-  it('should have a button contain the text Login', ()=> {
-    const { container, getByTestId } = render(getComponent())
-    expect(getByTestId('btn-login').textContent).toBe('Login');
+  it('should have a Login button', ()=> {
+    const button = screen.getByRole('button', { name: 'Login'})
+    expect(button).toBeDefined()
+    // expect(getByTestId('btn-login').textContent).toBe('Login');
   });
 
   it('sets email value when user updates the email input', async () => {
-    const { container, getByLabelText } = render(getComponent())
     const inputEmail = screen.getByLabelText('Email')
     fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
     expect(inputEmail.value).toBe('matei@gmail.com')
   })
 
   it('sets password value when user updates the password input', () => {
-    const { container, getByLabelText } = render(getComponent())
     const inputPassword = screen.getByLabelText('Password')
     fireEvent.change(inputPassword, { target: { value: '123' } })
     expect(inputPassword.value).toBe('123')
   })
 
-  it('sets updateLoggedIn = true on successful login', async () => {
-    const mockUpdateLoggedIn = jest.fn();
+  describe('after successful login', () => {
+    const mockUpdateLoggedIn = jest.fn()
+    const mockGetName = jest.fn()
+    const mockGetUserId = jest.fn()
 
-    const { container, getByText, debug, getByTestId } = render ( getComponent({
-      updateLoggedIn: mockUpdateLoggedIn
-    }))
+    const resposeData = {
+                        messsage: "Login successful",
+                        name: "Matei",
+                        token: 123,
+                        id: 1
+                    }
 
-    const inputEmail = screen.getByLabelText('Email')
-    const inputPassword = screen.getByLabelText('Password')
-  
-    const form = getByTestId('login-form')
+    beforeEach( async () => {
+        cleanup()
+        const { container, getByText, debug, getByTestId } = render ( getComponent({
+          updateLoggedIn: mockUpdateLoggedIn,
+          getName: mockGetName,
+          getUserId: mockGetUserId
+        }))
+        const inputEmail = screen.getByLabelText('Email')
+        const inputPassword = screen.getByLabelText('Password')
+        const form = screen.getByTestId('login-form')
 
-    fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
-    fireEvent.change(inputPassword, { target: { value: '123' } })
+        fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
+        fireEvent.change(inputPassword, { target: { value: '123' } })
 
-    jest.spyOn(axios, 'post').mockImplementation(() => Promise.resolve({
-      data: {
-        messsage: "Login successful",
-        name: "Matei",
-        token: 123,
-        id: 1
-      }
-    }))
-    
-    await act(async () => {
-      fireEvent.submit(form)
+        jest.spyOn(axios, 'post').mockImplementation(() => Promise.resolve({
+          data: resposeData
+        }))
+        await act(async () => {
+          fireEvent.submit(form)
+        })
     })
-   
-    expect(mockUpdateLoggedIn).toHaveBeenCalledWith(true)
+
+      it('sets updateLoggedIn = true', async () => {
+          expect(mockUpdateLoggedIn).toHaveBeenCalledWith(true)
+      })
+      it('sets getName to the user name', async () => {
+          expect(mockGetName).toHaveBeenCalledWith(resposeData.name)
+      })
+      it('sets  getUserId to the user id', async () => {
+          expect(mockGetUserId).toHaveBeenCalledWith(resposeData.id)
+      })
+      it('does not show alert: username or password incorrect', async () => {
+      expect(screen.queryByText('username or password incorrect')).not.toBeInTheDocument()
+      })
   })
+  
+describe('after unsuccessful login', () => {
+  const mockUpdateLoggedIn = jest.fn();
 
-  it('does not set updateLoggedIn = true on unsuccessful login', async () => {
-    const mockUpdateLoggedIn = jest.fn();
-
+  beforeEach( async () => {
+    cleanup()
     const { container, getByText, debug, getByTestId } = render ( getComponent({
       updateLoggedIn: mockUpdateLoggedIn
     }))
-    
     const inputPassword = screen.getByLabelText('Password')
     const inputEmail = screen.getByLabelText('Email')
-
     const form = getByTestId('login-form')
 
     fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
     fireEvent.change(inputPassword, { target: { value: '123' } })
-   
     jest.spyOn(axios, 'post').mockImplementation(() => Promise.reject({
       response: {
         status: 400
@@ -110,7 +126,15 @@ describe('Login is working', () => {
     await act( async() => {
       fireEvent.submit(form)
     })
-
-    expect(mockUpdateLoggedIn).not.toHaveBeenCalled()
   })
+
+    it('does not set updateLoggedIn = true', async () => {
+      expect(mockUpdateLoggedIn).not.toHaveBeenCalled()
+    })
+    it('does set showAlert to true on unsuccessful login', async () => {
+      expect(screen.getByText('username or password incorrect')).toBeInTheDocument()
+    })
+
+})
+
 })
