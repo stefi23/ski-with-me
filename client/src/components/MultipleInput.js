@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 MultipleComponent.propTypes = {
-  title: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
   items: PropTypes.array.isRequired,
   onAdd: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
@@ -44,12 +44,12 @@ const useStyles = makeStyles({
 
 
 
-function MultipleComponent({ title, items, onAdd, onRemove, onEdit, data }) {
+function MultipleComponent({ label, items, onAdd, onRemove, onEdit, data }) {
   const classes = useStyles();
 
   return (
     <div>
-      <label className="text-gray">{title}</label>
+      <label htmlFor={label} className="text-gray">{label}</label>
       {items.map((item, index) => {
         return (
           <div key={index}>
@@ -57,6 +57,7 @@ function MultipleComponent({ title, items, onAdd, onRemove, onEdit, data }) {
             <div>
               {data?.length ? ( // We use <Autocomple /> only if we have suggestions data
                 <Autocomplete
+                  id={label}
                   onChange={(e, value) => {
                     onEdit(value, index)
                   }}
@@ -128,7 +129,7 @@ function MultipleComponent({ title, items, onAdd, onRemove, onEdit, data }) {
           //   if (e.keyCode === 13) { }
           // }}
           >
-            Add more {title}
+            Add more {label}
           </button>
         </div>
       </div>

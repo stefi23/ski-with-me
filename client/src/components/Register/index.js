@@ -247,7 +247,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
               <div className="form-group col-md-12">
                 <MultipleComponent
                   data={resortsDb}
-                  title="Resorts"
+                  label="Resorts"
                   items={resorts}
                   onAdd={addResort}
                   onRemove={removeResort}
@@ -260,7 +260,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
               <div className="form-group col-md-12">
                 <MultipleComponent
                   data={languagesDb}
-                  title="Languages"
+                  label="Languages"
                   items={languages}
                   onAdd={addLanguage}
                   onRemove={removeLanguage}

@@ -54,6 +54,41 @@ describe('Register is working', () => {
         expect(inputPassword).toBeInTheDocument()
     })
 
+    it('should have a radio boxes for all sports(ski, snowboard, both)', ()=> {
+    const radioBoxSki = screen.getByRole('radio', { name: 'ski'})
+    const radioBoxSnowboard = screen.getByRole('radio', { name: 'snowboard'})
+    const radioBoxBoth = screen.getByRole('radio', { name: 'both'})
+    expect(radioBoxSki).toBeDefined()
+    expect(radioBoxSnowboard).toBeDefined()
+    expect(radioBoxBoth).toBeDefined()
+  });
+
+  it('should have a radio boxes for all levels(beginner, medium, advanced, pro)', ()=> {
+    // const pro = screen.getByRole('radio', { name: 'pro'})
+    const pro = screen.getByLabelText('pro')
+    const advanced = screen.getByRole('radio', { name: 'advanced'})
+    const medium = screen.getByRole('radio', { name: 'medium'})
+    const beginner = screen.getByRole('radio', { name: 'beginner'})
+    
+    expect(pro).toBeDefined()
+    expect(advanced).toBeDefined()
+    expect(medium).toBeDefined()
+    expect(beginner).toBeDefined()
+  });
+
+  it('should have a the an input field for Resorts)', ()=> {
+    // const resortsInput = screen.getByRole('textbox', { name: 'Resorts'})
+    const resortsInput = screen.getByLabelText('Resorts')
+    expect(resortsInput).toBeDefined()
+
+  });
+
+   it('should have a the an input field for Resorts)', ()=> {
+    const languagesInput = screen.getByLabelText('Languages')
+    expect(languagesInput).toBeDefined()
+
+  });
+
     it('should have a Sign Up button', ()=> {
     const button = screen.getByRole('button', { name: 'Submit'})
     expect(button).toBeDefined()
