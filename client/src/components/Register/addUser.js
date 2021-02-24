@@ -6,6 +6,6 @@ export const addUserInDb = async (userData) => {
       return resp.data
     }
     catch (err) {
-      console.log(err)
+      console.log("err", err)
     }
   };

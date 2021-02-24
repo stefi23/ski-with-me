@@ -203,9 +203,6 @@ describe('after successful register', () => {
 
   describe('if user is already registered', () => {
     const mockUpdateLoggedIn = jest.fn()
-    const resposeData = {
-                        message: "user not valid",                   
-                    }
 
       beforeEach( async () => {
         cleanup()
@@ -241,5 +238,39 @@ describe('after successful register', () => {
     it('Submit button is disabled', async () => {
       const button = screen.getByRole('button', { name: 'Submit'})
       expect(button).toHaveAttribute('disabled');
+    })
+  })
+
+
+   describe('after unsuccessful register', () => {
+    const mockUpdateLoggedIn = jest.fn()
+
+      beforeEach( async () => {
+        cleanup()
+        const { container, getByText, debug, getByTestId } = render ( getComponent({
+          updateLoggedIn: mockUpdateLoggedIn,
+        }))
+        const inputFirstName = screen.getByLabelText('First name')
+        const inputLastName = screen.getByLabelText('Last name')
+        const inputEmail = screen.getByLabelText('Email')
+        const inputPassword = screen.getByLabelText('Password')
+        const form = screen.getByTestId('register-form')
+
+        // fireEvent.change(inputFirstName, { target: { value: 'Matei' } })
+        // fireEvent.change(inputLastName, { target: { value: 'Mayer' } })
+        // fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
+        // fireEvent.change(inputPassword, { target: { value: '123' } })
+
+        jest.spyOn(axios, 'post').mockImplementation(() => Promise.reject({
+         data: { message: "user is not valid"}
+        }))
+        
+        await act(async () => {
+          fireEvent.submit(form)
+        })
+        
+    })
+    it('does not set updateLoggedIn = true', async () => {
+      expect(mockUpdateLoggedIn).not.toHaveBeenCalled()
     })
   })
