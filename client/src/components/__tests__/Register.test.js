@@ -149,9 +149,10 @@ it('sets updateLoggedIn = true', async () => {
         })
           expect(mockUpdateLoggedIn).toHaveBeenCalledWith(true)
         })
+        //it expects
       
 })
-describe('after successful login', () => {
+describe('after successful register', () => {
     const mockUpdateLoggedIn = jest.fn()
     const mockGetName = jest.fn()
     const mockGetUserId = jest.fn()
@@ -187,15 +188,21 @@ describe('after successful login', () => {
         await act(async () => {
           fireEvent.submit(form)
         })
-        it('sets updateLoggedIn = true', async () => {
+        
+    })
+    it('sets updateLoggedIn = true', async () => {
           expect(mockUpdateLoggedIn).toHaveBeenCalledWith(true)
       })
-      
-    })
       it('sets getName to the user name', async () => {
           expect(mockGetName).toHaveBeenCalledWith(resposeData.name)
       })
+      it('sets  getUserId to the user id', async () => {
+          expect(mockGetUserId).toHaveBeenCalledWith(resposeData.id)
+      })
   })
+
+
+
 
 
 // Test button is disabled if email is existet, showAlert is true
