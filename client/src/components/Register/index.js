@@ -108,9 +108,9 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
             </Modal.Title>
         </Modal.Header>
         <Modal.Body className="px-4 py-4">
-          <form onSubmit={(e) => {
-            handleSubmit(e)
-          }}>
+          <form 
+              data-testid="register-form"
+              onSubmit={(e) => {handleSubmit(e)}}>
             <div className="form-row">
               <div className="form-group col-md-6">
                 <InputBox

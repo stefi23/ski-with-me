@@ -105,7 +105,7 @@ describe('Login is working', () => {
   
 describe('after unsuccessful login', () => {
   const mockUpdateLoggedIn = jest.fn();
-
+//
   beforeEach( async () => {
     cleanup()
     const { container, getByText, debug, getByTestId } = render ( getComponent({
