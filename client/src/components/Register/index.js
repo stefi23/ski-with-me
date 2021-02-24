@@ -67,7 +67,6 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const resp = await addUserInDb(userData)
-    
     if(resp.message === "user is already registered"){
         setShowAlert(true)
         return
