@@ -77,7 +77,6 @@ const LinkLogin = styled.a`
 
 
 function SkierCard(props) {
-
     return (
         <SkierCardDiv>
             <TextCenter>{props.sport === "ski" ? (<span role="img" aria-label="skier emoji">⛷️</span>) : (props.sport === "snowboard") ? (<span role="img" aria-label="snowboader emoji">🏂</span>) : (<span role="img" aria-label="skier/snowboarder emoji">⛷️/🏂</span>)}</TextCenter>
@@ -91,7 +90,7 @@ function SkierCard(props) {
                             <span key={index}>{language}{
                                 index === lastElement ? null : ", "}</span>
                         )
-                    })) : "No resort added"}
+                    })) : "No languages added"}
             </StyledP>
             <StyledP><span role="img" aria-label="mountain emoji">🏔️</span> &nbsp;
                 {props.resorts ? (
