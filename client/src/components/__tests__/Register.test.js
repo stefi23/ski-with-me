@@ -83,7 +83,7 @@ describe('Register is working', () => {
 
   });
 
-   it('should have a the an input field for Resorts', ()=> {
+   it('should have a the an input field for Languages', ()=> {
     const languagesInput = screen.getByLabelText('Languages')
     expect(languagesInput).toBeDefined()
 
@@ -102,18 +102,12 @@ describe('Register is working', () => {
   })
 
   it('sets sport value when specific sport is selected', async () => {
-     const radioBoxSki = screen.getByRole('radio', { name: 'ski'})
+    const radioBoxSki = screen.getByRole('radio', { name: 'ski'})
     fireEvent.change(radioBoxSki, { target: { value: 'ski' } })
     expect(radioBoxSki.value).toBe('ski')
   })
 
-  it('sets cannot set sport value to a not specified sport ', async () => {
-     const radioBoxSki = screen.getByRole('radio', { name: 'ski'})
-    fireEvent.change(radioBoxSki, { target: { value: 'skier' } })
-    expect(radioBoxSki.value).not.toBe('ski')
-  })
-
-const mockUpdateLoggedIn = jest.fn()
+    const mockUpdateLoggedIn = jest.fn()
     const mockGetName = jest.fn()
     const mockGetUserId = jest.fn()
 
@@ -149,7 +143,6 @@ it('sets updateLoggedIn = true', async () => {
         })
           expect(mockUpdateLoggedIn).toHaveBeenCalledWith(true)
         })
-        //it expects
       
 })
 describe('after successful register', () => {
@@ -229,9 +222,6 @@ describe('after successful register', () => {
         })
         
     })
-    it('does not set updateLoggedIn = true', async () => {
-      expect(mockUpdateLoggedIn).not.toHaveBeenCalled()
-    })
     it('does set showAlert to true if user is already registered', async () => {
       expect(screen.getByText('Email address already registered.')).toBeInTheDocument()
     })
@@ -244,6 +234,7 @@ describe('after successful register', () => {
 
    describe('after unsuccessful register', () => {
     const mockUpdateLoggedIn = jest.fn()
+    window.alert = jest.fn()
 
       beforeEach( async () => {
         cleanup()
@@ -256,10 +247,10 @@ describe('after successful register', () => {
         const inputPassword = screen.getByLabelText('Password')
         const form = screen.getByTestId('register-form')
 
-        // fireEvent.change(inputFirstName, { target: { value: 'Matei' } })
-        // fireEvent.change(inputLastName, { target: { value: 'Mayer' } })
-        // fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
-        // fireEvent.change(inputPassword, { target: { value: '123' } })
+        fireEvent.change(inputFirstName, { target: { value: 'Matei' } })
+        fireEvent.change(inputLastName, { target: { value: 'Mayer' } })
+        fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
+        fireEvent.change(inputPassword, { target: { value: '123' } })
 
         jest.spyOn(axios, 'post').mockImplementation(() => Promise.reject({
          data: { message: "user is not valid"}
@@ -270,7 +261,11 @@ describe('after successful register', () => {
         })
         
     })
-    it('does not set updateLoggedIn = true', async () => {
+    it('does not set updateLoggedIn = true',  () => {
       expect(mockUpdateLoggedIn).not.toHaveBeenCalled()
     })
+    it('alerts the user wit 500 ERROR', () => {
+      expect(window.alert).toHaveBeenCalledWith('500 ERROR!')
+
+    }) 
   })

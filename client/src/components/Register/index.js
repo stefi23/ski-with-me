@@ -66,9 +66,8 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    try { 
+    try {
       const resp = await addUserInDb(userData)
-      if(resp){
         if(resp.message === "user is already registered"){
             setShowAlert(true)
             return
@@ -79,9 +78,9 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
           getUserId(resp.id)
           history.push("/"); 
         }
-      } catch(err) {
-        console.log(err)
-      }
+        catch(err) {
+         alert("500 ERROR!")
+        }
   };
 
 

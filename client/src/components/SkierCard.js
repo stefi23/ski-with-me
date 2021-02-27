@@ -7,9 +7,8 @@ SkierCard.propTypes = {
     name: PropTypes.string.isRequired,
     level: PropTypes.string.isRequired,
     resorts: PropTypes.string.isRequired,
-
+    languages: PropTypes.string.isRequired,
 }
-
 
 const SkierCardDiv = styled.div`
         background: #fcfdff;
@@ -76,31 +75,38 @@ const LinkLogin = styled.a`
  `   
 
 
-function SkierCard(props) {
+function SkierCard(props) { 
+    const languages = props.languages.replace(/,/g, ', ')
+    const hasLanguages = languages !== ''
+    const resorts = props.resorts.replace(/,/g, ', ')
+    const hasResorts = resorts !== ''
     return (
         <SkierCardDiv>
             <TextCenter>{props.sport === "ski" ? (<span role="img" aria-label="skier emoji">⛷️</span>) : (props.sport === "snowboard") ? (<span role="img" aria-label="snowboader emoji">🏂</span>) : (<span role="img" aria-label="skier/snowboarder emoji">⛷️/🏂</span>)}</TextCenter>
-            <Title>{props.name}</Title>
+            <Title data-testid="title">{props.name}</Title>
             <LightText>- {props.level} -</LightText>
             <StyledP><span role="img" aria-label="speaking head emoji">🗣️</span> &nbsp;
-                {props.languages ? (
+                {hasLanguages ? languages : 'No languages added'}
+
+                {/* {props.languages ? (
                     props.languages.split(",").map((language, index) => {
                         const lastElement = props.languages.split(',').length - 1
                         return (
                             <span key={index}>{language}{
                                 index === lastElement ? null : ", "}</span>
                         )
-                    })) : "No languages added"}
+                    })) : "No languages added"} */}
             </StyledP>
             <StyledP><span role="img" aria-label="mountain emoji">🏔️</span> &nbsp;
-                {props.resorts ? (
+                 {hasResorts ? resorts : 'No resorts added'}
+                {/* {props.resorts ? (
                     props.resorts.split(",").map((resort, index) => {
                         const lastElement = props.resorts.split(',').length - 1
                         return (
                             <span key={index}>{resort}{
                                 index === lastElement ? null : ", "}</span>
                         )
-                    })) : "No resort added"}
+                    })) : "No resort added"} */}
             </StyledP> 
             <Contact>
 
