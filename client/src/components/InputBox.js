@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 
 
-const InputBox = forwardRef(({ label, type, value, onChange, required, showAlert }, ref) => {
+const InputBox = forwardRef(({ label, type, value, onChange, required, showAlert, message  }, ref) => {
 
     InputBox.propTypes = {
     label: PropTypes.string.isRequired,
@@ -34,18 +34,15 @@ const InputBox = forwardRef(({ label, type, value, onChange, required, showAlert
                 onChange={onChange}
                 ref={ref}
             />
-            <div className="parent">
+            
                 {
-                    showAlert ?
-                        (
-                            <div className={showAlert ? "alert-box-absolute" : null}>
-                                <p className="mb-0">Email address already registered.</p>
-                                <p className="mb-0">Please <Link to="/login" className="text-bordo">
-                                    <b>login</b>
-                                </Link>.</p>
-                            </div>) : null
+                    showAlert ? 
+                    <div className="parent">
+                        {message}
+                    </div> 
+                    : null
                 }
-            </div>
+           
         </>
 
 
