@@ -21,40 +21,41 @@ const getComponent = (props) => {
 describe('Login is working', () => {
 
   beforeEach(() => render(getComponent()))
-
-  it('checks test is connected', () => {
-    expect(true).toBe(true)
-  })
   it('renders the <Login /> component', () => {
     expect(screen.getByText('Welcome Back')).toBeInTheDocument()
-    //check input boxes and button too
   })
 
-  it('should have email and password input field present', ()=> {
-     const inputEmail = screen.getByLabelText('Email')
-     const inputPassword = screen.getByLabelText('Password')
+  describe('should have email and password input field present', () => {
+    it('email', ()=> {
+        const inputEmail = screen.getByLabelText('Email')
         expect(inputEmail).toBeDefined()
+      });
+      it('password', ()=> {
+        const inputPassword = screen.getByLabelText('Password')
         expect(inputPassword).toBeDefined()
-  });
-
-  it('should have a Login button', ()=> {
-    const button = screen.getByRole('button', { name: 'Login'})
-    expect(button).toBeDefined()
-    // expect(getByTestId('btn-login').textContent).toBe('Login');
-  });
-
-  it('sets email value when user updates the email input', async () => {
-    const inputEmail = screen.getByLabelText('Email')
-    fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
-    expect(inputEmail.value).toBe('matei@gmail.com')
+      });
+    })
+  describe('should have a Login button', () => {
+    it('login button', ()=> {
+      const button = screen.getByRole('button', { name: 'Login'})
+      expect(button).toBeDefined()
+      expect(screen.getByTestId('btn-login').textContent).toBe('Login');
+    });
   })
 
-  it('sets password value when user updates the password input', () => {
-    const inputPassword = screen.getByLabelText('Password')
-    fireEvent.change(inputPassword, { target: { value: '123' } })
-    expect(inputPassword.value).toBe('123')
-  })
+  describe('sets input value when to the data the user inputs', () => {
+    it('email input', async () => {
+      const inputEmail = screen.getByLabelText('Email')
+      fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
+      expect(inputEmail.value).toBe('matei@gmail.com')
+    })
 
+    it('password input', () => {
+      const inputPassword = screen.getByLabelText('Password')
+      fireEvent.change(inputPassword, { target: { value: '123' } })
+      expect(inputPassword.value).toBe('123')
+    })
+})
   describe('after successful login', () => {
     const mockUpdateLoggedIn = jest.fn()
     const mockGetName = jest.fn()
@@ -95,7 +96,7 @@ describe('Login is working', () => {
       it('sets getName to the user name', async () => {
           expect(mockGetName).toHaveBeenCalledWith(resposeData.name)
       })
-      it('sets  getUserId to the user id', async () => {
+      it('sets getUserId to the user id', async () => {
           expect(mockGetUserId).toHaveBeenCalledWith(resposeData.id)
       })
       it('does not show alert: username or password incorrect', async () => {
@@ -131,7 +132,7 @@ describe('after unsuccessful login', () => {
     it('does not set updateLoggedIn = true', async () => {
       expect(mockUpdateLoggedIn).not.toHaveBeenCalled()
     })
-    it('does set showAlert to true on unsuccessful login', async () => {
+    it('shows alert: username or password incorrect', async () => {
       expect(screen.getByText('username or password incorrect')).toBeInTheDocument()
     })
 
