@@ -35,76 +35,108 @@ describe('Register is working', () => {
     
   })
 
-    it('checks test is connected', () => {
-      expect(true).toBe(true)
-    })
-
     it('renders the <Register /> component', () => {
       expect(screen.getByText('Sign up')).toBeInTheDocument()
     })
 
-    it('should have first name, last name, email and password input fields present', () => {
-        const inputFirstName = screen.getByLabelText('First name')
-        const inputLastName = screen.getByLabelText('Last name')
-        const inputEmail = screen.getByLabelText('Email')
-        const inputPassword = screen.getByLabelText('Password')
-        expect(inputFirstName).toBeInTheDocument()
-        expect(inputLastName).toBeInTheDocument()
-        expect(inputEmail).toBeInTheDocument()
-        expect(inputPassword).toBeInTheDocument()
-    })
-
-    it('should have a radio boxes for all sports(ski, snowboard, both)', ()=> {
-    const radioBoxSki = screen.getByRole('radio', { name: 'ski'})
-    const radioBoxSnowboard = screen.getByRole('radio', { name: 'snowboard'})
-    const radioBoxBoth = screen.getByRole('radio', { name: 'both'})
-    expect(radioBoxSki).toBeDefined()
-    expect(radioBoxSnowboard).toBeDefined()
-    expect(radioBoxBoth).toBeDefined()
-  });
-
-  it('should have a radio boxes for all levels(beginner, medium, advanced, pro)', ()=> {
-    // const pro = screen.getByRole('radio', { name: 'pro'})
-    const pro = screen.getByLabelText('pro')
-    const advanced = screen.getByRole('radio', { name: 'advanced'})
-    const medium = screen.getByRole('radio', { name: 'medium'})
-    const beginner = screen.getByRole('radio', { name: 'beginner'})
-    
-    expect(pro).toBeDefined()
-    expect(advanced).toBeDefined()
-    expect(medium).toBeDefined()
-    expect(beginner).toBeDefined()
-  });
-
-  it('should have a the an input field for Resorts', ()=> {
-    // const resortsInput = screen.getByRole('textbox', { name: 'Resorts'})
-    const resortsInput = screen.getByLabelText('Resorts')
-    expect(resortsInput).toBeDefined()
-
-  });
-
-   it('should have a the an input field for Languages', ()=> {
-    const languagesInput = screen.getByLabelText('Languages')
-    expect(languagesInput).toBeDefined()
-
-  });
-
-    it('should have a Sign Up button', ()=> {
-    const button = screen.getByRole('button', { name: 'Submit'})
-    expect(button).toBeDefined()
-    // expect(getByTestId('btn-login').textContent).toBe('Login');
-  });
-
-  it('sets email value when user updates the email input', async () => {
-    const inputEmail = screen.getByLabelText('Email')
-    fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
-    expect(inputEmail.value).toBe('matei@gmail.com')
+    describe('should have first name, last name, email and password input fields present', () => {
+      it('first name', () => {
+          const inputFirstName = screen.getByLabelText('First name')  
+          expect(inputFirstName).toBeInTheDocument()
+      })
+      it('last name', () => {
+          const inputLastName = screen.getByLabelText('Last name')
+          expect(inputLastName).toBeInTheDocument()
+      })
+      it('email', () => {
+          const inputEmail = screen.getByLabelText('Email')
+          expect(inputEmail).toBeInTheDocument()
+      })
+       it('password', () => {
+          const inputPassword = screen.getByLabelText('Password')
+          expect(inputPassword).toBeInTheDocument()
+      })
   })
 
+  describe('should have a radio boxes for all sport options', () => {
+    describe.each(['ski', 'snowboard', 'both'])('%s', (sport) => {
+      it('has specific radiobox', () => {
+        const radioBox = screen.getByRole('radio', { name: sport})
+        expect(radioBox).toBeDefined()
+      })
+    })
+  })
+
+  describe('should have a radio boxes for all levels', () => {
+    describe.each(['beginner', 'medium', 'advanced', 'pro']) ('%s', (level) => {
+      it('has specific radio box', () => {
+        const radioBox = screen.getByLabelText(level)
+        expect(radioBox).toBeDefined()
+      })
+    })
+    })
+
+  describe('should have input field for Resorts and Languages', () => { 
+    // V1
+    describe.each(['Resorts', 'Languages']) ('%s', (inputField) => {
+      it('has specific input field', () => {
+        const input = screen.getByLabelText(inputField)
+        expect(input).toBeDefined()
+      })
+    })
+
+    // V2
+    it('Resorts', ()=> {
+      const resortsInput = screen.getByLabelText('Resorts')
+      expect(resortsInput).toBeDefined()
+    });
+    it('Languages', ()=> {
+      const languagesInput = screen.getByLabelText('Languages')
+      expect(languagesInput).toBeDefined()
+    });
+  })  
+
+describe('should have a Sign Up button', ()=> {
+    it('Sign Up button', ()=> {
+    const button = screen.getByRole('button', { name: 'Submit'})
+    expect(button).toBeDefined()
+  });
+})
+
+//TODO with a table
+describe('sets input value when to the data the user inputs', () => {
+  describe.each(['First name', 'Last name']) ('%s', (inputField) => {
+    it('updates field correctly', () => {
+      const input = screen.getByLabelText(inputField)
+      fireEvent.change(input, { target: { value: 'test' } })
+       expect(input.value).toBe('test')
+    })
+  })
+  it('email', async () => {
+    const input = screen.getByLabelText('Email')
+    fireEvent.change(input, { target: { value: 'matei@gmail.com' } })
+    expect(input.value).toBe('matei@gmail.com')
+  })
+   it('password', async () => {
+    const input = screen.getByLabelText('Email')
+    fireEvent.change(input, { target: { value: '123' } })
+    expect(input.value).toBe('123')
+  })
+})
+
+//Broken
+// describe('sets sport value when specific sport is selected', () => {
+//   describe.each(['ski', 'snowboard', 'both']) ('%s' , (sport) => {
+//     const radioBoxSport = screen.getByRole('radio', { name: sport})
+//     fireEvent.change(radioBoxSport, { target: { value: sport } })
+//     expect(radioBox.value).toBe(sport)
+//   })
+// })
+
   it('sets sport value when specific sport is selected', async () => {
-    const radioBoxSki = screen.getByRole('radio', { name: 'ski'})
-    fireEvent.change(radioBoxSki, { target: { value: 'ski' } })
-    expect(radioBoxSki.value).toBe('ski')
+    const radioBoxSki = screen.getByRole('radio', { name: 'snowboard'})
+    fireEvent.change(radioBoxSki, { target: { value: 'snowboard' } })
+    expect(radioBoxSki.value).toBe('snowboard')
   })
 
     const mockUpdateLoggedIn = jest.fn()
