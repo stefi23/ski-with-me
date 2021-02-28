@@ -57,6 +57,7 @@ function MultipleComponent({ label, items, onAdd, onRemove, onEdit, data }) {
             <div>
               {data?.length ? ( // We use <Autocomple /> only if we have suggestions data
                 <Autocomplete
+                  data-testid='autocomplete'
                   id={label}
                   onChange={(e, value) => {
                     onEdit(value, index)
@@ -89,6 +90,7 @@ function MultipleComponent({ label, items, onAdd, onRemove, onEdit, data }) {
                 />
               ) : (
                   <input
+                    id={label}
                     value={item}
                     className="form-control mb-2"
                     onChange={(e) => onEdit(e.target.value, index)}
