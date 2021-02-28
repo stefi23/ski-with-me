@@ -20,7 +20,6 @@ const getComponent = (props) => {
 }
 
 describe('Register is working', () => {
-  
   beforeEach(async () =>  {
      jest.spyOn(getResortsListfromDB, 'getResortsListfromDB').mockImplementation(() => Promise.resolve(
           ["Andorra", "La Molina"]
@@ -28,11 +27,9 @@ describe('Register is working', () => {
     jest.spyOn(getLanguagesListfromDB, 'getLanguagesListfromDB').mockImplementation(() => Promise.resolve(
           ["English" , "Spanish"]
         ))
-
     await act( async () => {
         render(getComponent())
       });
-    
   })
 
     it('renders the <Register /> component', () => {
@@ -77,107 +74,65 @@ describe('Register is working', () => {
     })
 
   describe('should have input field for Resorts and Languages', () => { 
-    // V1
-    describe.each(['Resorts', 'Languages']) ('%s', (inputField) => {
-      it('has specific input field', () => {
+    it.each(['Resorts', 'Languages']) ('%s' , (inputField) => {
         const input = screen.getByLabelText(inputField)
         expect(input).toBeDefined()
-      })
     })
-
-    // V2
-    it('Resorts', ()=> {
-      const resortsInput = screen.getByLabelText('Resorts')
-      expect(resortsInput).toBeDefined()
-    });
-    it('Languages', ()=> {
-      const languagesInput = screen.getByLabelText('Languages')
-      expect(languagesInput).toBeDefined()
-    });
   })  
 
-describe('should have a Sign Up button', ()=> {
-    it('Sign Up button', ()=> {
-    const button = screen.getByRole('button', { name: 'Submit'})
-    expect(button).toBeDefined()
-  });
-})
+  describe('should have a Sign Up button', ()=> {
+      it('Sign Up button', ()=> {
+      const button = screen.getByRole('button', { name: 'Submit'})
+      expect(button).toBeDefined()
+    });
+  })
 
-//TODO with a table
+//TODO with a table to have key values: email = matei@gmail.com etc.
+
 describe('sets input value when to the data the user inputs', () => {
-  describe.each(['First name', 'Last name']) ('%s', (inputField) => {
-    it('updates field correctly', () => {
-      const input = screen.getByLabelText(inputField)
-      fireEvent.change(input, { target: { value: 'test' } })
-       expect(input.value).toBe('test')
+    describe.each`
+    inputField                 | value
+    ${'First name'}       | ${'Matei'}
+    ${'Last name'}        | ${'Stanciu'}
+    ${'Email'}            | ${'matei@gmail.com'}
+    ${'Password'}         | ${'123'}
+    `('$inputField', ({inputField, value}) => {
+      it(`set`, () => {
+        const input = screen.getByLabelText(inputField)
+        fireEvent.change(input, { target: { value: value } })
+        expect(input.value).toBe(value)
+      })
     })
   })
-  it('email', async () => {
-    const input = screen.getByLabelText('Email')
-    fireEvent.change(input, { target: { value: 'matei@gmail.com' } })
-    expect(input.value).toBe('matei@gmail.com')
-  })
-   it('password', async () => {
-    const input = screen.getByLabelText('Email')
-    fireEvent.change(input, { target: { value: '123' } })
-    expect(input.value).toBe('123')
-  })
+
+
+
+
+describe('sets sport value when specific sport is selected', () => {
+     it.each(['ski', 'snowboard', 'both'])(
+        "%s",
+        (sport) => {
+          const radioBoxSport = screen.getByRole('radio', { name: sport})
+          fireEvent.change(radioBoxSport, { target: { value: sport } })
+          expect(radioBoxSport.value).toBe(sport)
+        }
+      );
 })
 
-//Broken
-// describe('sets sport value when specific sport is selected', () => {
-//   describe.each(['ski', 'snowboard', 'both']) ('%s' , (sport) => {
-//     const radioBoxSport = screen.getByRole('radio', { name: sport})
-//     fireEvent.change(radioBoxSport, { target: { value: sport } })
-//     expect(radioBox.value).toBe(sport)
-//   })
-// })
 
-  it('sets sport value when specific sport is selected', async () => {
-    const radioBoxSki = screen.getByRole('radio', { name: 'snowboard'})
-    fireEvent.change(radioBoxSki, { target: { value: 'snowboard' } })
-    expect(radioBoxSki.value).toBe('snowboard')
-  })
-
-    const mockUpdateLoggedIn = jest.fn()
-    const mockGetName = jest.fn()
-    const mockGetUserId = jest.fn()
-
-    const resposeData = {
-                        messsage: "user was added",
-                        name: "Matei",
-                        token: 123,
-                        id: 1
-                    }
-it('sets updateLoggedIn = true', async () => {
-        cleanup()
-        const { container, getByText, debug, getByTestId } = render ( getComponent({
-          updateLoggedIn: mockUpdateLoggedIn,
-          getName: mockGetName,
-          getUserId: mockGetUserId
-        }))
-        const inputFirstName = screen.getByLabelText('First name')
-        const inputLastName = screen.getByLabelText('Last name')
-        const inputEmail = screen.getByLabelText('Email')
-        const inputPassword = screen.getByLabelText('Password')
-        const form = screen.getByTestId('register-form')
-
-        fireEvent.change(inputFirstName, { target: { value: 'Matei' } })
-        fireEvent.change(inputLastName, { target: { value: 'Mayer' } })
-        fireEvent.change(inputEmail, { target: { value: 'matei@gmail.com' } })
-        fireEvent.change(inputPassword, { target: { value: '123' } })
-
-        jest.spyOn(axios, 'post').mockImplementation(() => Promise.resolve({
-          data: resposeData
-        }))
-        await act(async () => {
-          fireEvent.submit(form)
-        })
-          expect(mockUpdateLoggedIn).toHaveBeenCalledWith(true)
-        })
-      
+describe('sets level value when specific level is selected', () => {
+     it.each(['beginner', 'medium', 'advanced', 'pro'])(
+        "%s",
+        (level) => {
+          const radioBoxLevel = screen.getByRole('radio', { name: level})
+          fireEvent.change(radioBoxLevel, { target: { value: level } })
+          expect(radioBoxLevel.value).toBe(level)
+        }
+      );
 })
-describe('after successful register', () => {
+
+
+  describe('after successful register', () => {
     const mockUpdateLoggedIn = jest.fn()
     const mockGetName = jest.fn()
     const mockGetUserId = jest.fn()
@@ -263,8 +218,7 @@ describe('after successful register', () => {
     })
   })
 
-
-   describe('after unsuccessful register', () => {
+  describe('after unsuccessful register', () => {
     const mockUpdateLoggedIn = jest.fn()
     window.alert = jest.fn()
 
@@ -291,7 +245,6 @@ describe('after successful register', () => {
         await act(async () => {
           fireEvent.submit(form)
         })
-        
     })
     it('does not set updateLoggedIn = true',  () => {
       expect(mockUpdateLoggedIn).not.toHaveBeenCalled()
@@ -301,3 +254,5 @@ describe('after successful register', () => {
 
     }) 
   })
+
+})
