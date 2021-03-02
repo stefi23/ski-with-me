@@ -5,7 +5,7 @@ var jwt = require("jsonwebtoken");
 var userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 require("dotenv").config();
 const capitalize = require('lodash/capitalize')
-const {insertIntoDatabase, getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered} = require('../model/users')
+const {insertIntoDatabase, getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered, getUserResorts, getUserLanguages } = require('../model/users')
 
 
 /* GET users listing. */
@@ -84,7 +84,7 @@ router.post("/register", async (req, res, next) => {
 
     let user = await insertData(first_name, last_name, email, sport, level, hashedPassword);
     let userData = await getId(email, hashedPassword);
-    const id = userData.data[0].id;
+    const user_id = userData.data[0].id;
 
     const { data } = await getName(id);
 
@@ -98,7 +98,7 @@ router.post("/register", async (req, res, next) => {
       resort = capitalize(resort)
       try {
         await insertIntoDatabase(
-          email,
+          user_id,
           "resorts",
           "resort_name",
           resort,
@@ -113,7 +113,7 @@ router.post("/register", async (req, res, next) => {
       language = capitalize(language);
       try {
         await insertIntoDatabase(
-          email,
+          user_id,
           "languages",
           "language",
           language,
@@ -140,38 +140,58 @@ router.post("/register", async (req, res, next) => {
 //IN PROGRESS: Building Edit profile query: 
 
 router.post("/editProfile", userShouldBeLoggedIn, async(req, res, next) => {
-try{
-  //get the data from the user
-   let {
-      first_name,
-      last_name,
-      sport,
-      level,
-      resorts,
-      languages,
-    } = req.body;
-  //   const userId = result.data[0].id
-  //   console.log("userID", userId)
- // userID { data: [ RowDataPacket { id: 16 } ], error: null }
-    //sport and level have to be from the specified options
-    // Deal with unspecified fields.
-    // Check that the user is only editting themself.
+  try{
+    let {
+        first_name,
+        last_name,
+        sport,
+        level,
+        resorts,
+        languages,
+      } = req.body;
 
+    let user_id = req.user_id;
 
-    // ALTER TABLE users ADD CONSTRAINT CHECK sport in ('ski', 'snowboard', 'both');
-    // 
     const userData = await db("UPDATE USERS SET first_name = ?, last_name = ?, sport = ?, level = ? WHERE id = ?",
-      [first_name, last_name, sport, level, req.user_id]
-)
-return res.status(200).send(
+      [first_name, last_name, sport, level, user_id])
+
+    let old_resorts = await getUserResorts(user_id);
+    let removed_resorts =  old_resorts.data.filter(resort => !resorts.includes(resort.resort_name));
+
+    for (const resort of removed_resorts) {
+      // await deleteUserResort(user_id, resort.resort_id)
+      await db("DELETE FROM resorts_user where user_id = ? and resort_id = ?;", [user_id, resort.resort_id])
+    }
+
+    let old_resort_names = old_resorts.data.map(resort => resort.resort_name)
+    let added_resorts = resorts.filter(newResort => !old_resort_names.includes(newResort))
+    added_resorts.forEach(async (resort) => {
+      resort = capitalize(resort)
+      try {
+        // await insertUserResort(user_id, resort)
+        await insertIntoDatabase(
+          user_id,
+          "resorts",
+          "resort_name",
+          resort,
+          "resort_id"
+        );
+      } catch (err) {
+        res.status(500).send(err);
+      }
+    });
+
+    let old_languages = await getUserLanguages(user_id)
+   
+    return res.status(200).send(
           {
             message: "user data is updated"
           }
         );
 }
-catch(err){
-  console.log(err)
-}
+  catch(err){
+    console.log(err)
+  }
 
 })
 

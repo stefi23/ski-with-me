@@ -70,7 +70,7 @@ const isUserRegistered = async (email) => {
 };
 
 const insertIntoDatabase = async (
-  email,
+  user_id,
   table_name,
   table_column,
   value,
@@ -83,10 +83,7 @@ const insertIntoDatabase = async (
     await insertValueIntoTable(table_name, table_column, value);
   }
 
-  let user_id = await getUserByEmail(email);
-
   let result_id = await getValueId(table_name, table_column, value);
-  user_id = user_id.data[0].id;
   let value_id = result_id.data[0].id;
 
   const results = await insertValuesIntoIntermediateTable(
@@ -150,4 +147,23 @@ let conditions = [];
 }
 
 
-module.exports = { insertIntoDatabase, getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered, getData }
+const getUserResorts = (user_id) => {
+  return db(`
+    SELECT resort_id, resort_name
+    FROM resorts_user 
+    JOIN resorts ON resorts.id = resorts_user.resort_id
+    WHERE user_id = ?;`, [user_id]
+  );
+}
+
+const getUserLanguages = (user_id) => {
+  return db(`
+    SELECT language_id, language
+    FROM languages_user 
+    JOIN languages lang ON languages_user.language_id = lang.id
+    WHERE user_id = ?;`, [user_id]
+  );
+}
+
+
+module.exports = { insertIntoDatabase, getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered, getData, getUserResorts, getUserLanguages }
