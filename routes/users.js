@@ -195,7 +195,6 @@ router.post("/editProfile", userShouldBeLoggedIn, async(req, res, next) => {
 
 })
 
-//End of query
 
 
 
