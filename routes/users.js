@@ -5,7 +5,10 @@ var jwt = require("jsonwebtoken");
 var userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 require("dotenv").config();
 const capitalize = require('lodash/capitalize')
-const {insertIntoDatabase, getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered, getUserResorts, getUserLanguages } = require('../model/users')
+const {insertIntoDatabase, getIdandName, getId, insertData, getName, 
+  getUserByEmail, cryptoPassword, getToken, isUserRegistered, getUserResorts, 
+  getUserLanguages, updateUserData, deleteResortFromUser, deleteLanguageFromUser 
+} = require('../model/users')
 
 
 /* GET users listing. */
@@ -137,7 +140,7 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
-//IN PROGRESS: Building Edit profile query: 
+//IN PROGRESS: TODO -> move to model  insertIntoDatabase as insertUserLanguages and insertUserResorts
 
 router.post("/editProfile", userShouldBeLoggedIn, async(req, res, next) => {
   try{
@@ -152,16 +155,13 @@ router.post("/editProfile", userShouldBeLoggedIn, async(req, res, next) => {
 
     let user_id = req.user_id;
 
-    //move to model
-    const userData = await db("UPDATE USERS SET first_name = ?, last_name = ?, sport = ?, level = ? WHERE id = ?",
-      [first_name, last_name, sport, level, user_id])
+    await updateUserData(first_name, last_name, sport, level, user_id)
 
     let old_resorts = await getUserResorts(user_id);
     let removed_resorts =  old_resorts.data.filter(resort => !resorts.includes(resort.resort_name));
 
     for (const resort of removed_resorts) {
-      // await deleteUserResort(user_id, resort.resort_id)
-      await db("DELETE FROM resorts_user where user_id = ? and resort_id = ?;", [user_id, resort.resort_id])
+      await deleteResortFromUser(user_id, resort.resort_id)
     }
 
     let old_resort_names = old_resorts.data.map(resort => resort.resort_name)
@@ -186,8 +186,7 @@ router.post("/editProfile", userShouldBeLoggedIn, async(req, res, next) => {
     let removed_languages =  old_languages.data.filter(language => !languages.includes(language.language));
     
     for (const language of removed_languages) {
-      // await deleteUserResort(user_id, resort.resort_id)
-      await db("DELETE FROM languages_user where user_id = ? and language_id = ?;", [user_id, language.language_id])
+      await deleteLanguageFromUser(user_id, language.language_id)
     }
 
 

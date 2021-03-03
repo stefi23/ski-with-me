@@ -165,5 +165,19 @@ const getUserLanguages = (user_id) => {
   );
 }
 
+ const updateUserData = (first_name, last_name, sport, level, user_id) => {
+   return db("UPDATE USERS SET first_name = ?, last_name = ?, sport = ?, level = ? WHERE id = ?",
+      [first_name, last_name, sport, level, user_id])
+ }
 
-module.exports = { insertIntoDatabase, getIdandName, getId, insertData, getName, getUserByEmail, cryptoPassword, getToken, isUserRegistered, getData, getUserResorts, getUserLanguages }
+const deleteResortFromUser = (user_id, resort_id) => {
+     return db("DELETE FROM resorts_user where user_id = ? and resort_id = ?;", [user_id, resort_id])
+    }
+
+const deleteLanguageFromUser = (user_id, language_id) => {
+  return db("DELETE FROM languages_user where user_id = ? and language_id = ?;", [user_id, language_id])
+}
+
+module.exports = { insertIntoDatabase, getIdandName, getId, insertData, getName, 
+  getUserByEmail, cryptoPassword, getToken, isUserRegistered, getData, getUserResorts, 
+  getUserLanguages, updateUserData, deleteResortFromUser, deleteLanguageFromUser }
