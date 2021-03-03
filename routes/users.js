@@ -152,6 +152,7 @@ router.post("/editProfile", userShouldBeLoggedIn, async(req, res, next) => {
 
     let user_id = req.user_id;
 
+    //move to model
     const userData = await db("UPDATE USERS SET first_name = ?, last_name = ?, sport = ?, level = ? WHERE id = ?",
       [first_name, last_name, sport, level, user_id])
 
@@ -168,7 +169,7 @@ router.post("/editProfile", userShouldBeLoggedIn, async(req, res, next) => {
     added_resorts.forEach(async (resort) => {
       resort = capitalize(resort)
       try {
-        // await insertUserResort(user_id, resort)
+        // await insertUserResorts(user_id, resort)
         await insertIntoDatabase(
           user_id,
           "resorts",
@@ -182,7 +183,34 @@ router.post("/editProfile", userShouldBeLoggedIn, async(req, res, next) => {
     });
 
     let old_languages = await getUserLanguages(user_id)
-   
+    let removed_languages =  old_languages.data.filter(language => !languages.includes(language.language));
+    
+    for (const language of removed_languages) {
+      // await deleteUserResort(user_id, resort.resort_id)
+      await db("DELETE FROM languages_user where user_id = ? and language_id = ?;", [user_id, language.language_id])
+    }
+
+
+    let old_languages_names = old_languages.data.map(language => language.language)
+    let added_languages = languages.filter(newLanguage => !old_languages_names.includes(newLanguage))
+
+    added_languages.forEach(async (language) => {
+      language = capitalize(language)
+      try {
+        // await insertUserLanguages(user_id, resort)
+        await insertIntoDatabase(
+           user_id,
+          "languages",
+          "language",
+          language,
+          "language_id"
+        );
+      } catch (err) {
+        res.status(500).send(err);
+      }
+    });
+
+
     return res.status(200).send(
           {
             message: "user data is updated"
