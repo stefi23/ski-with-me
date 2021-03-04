@@ -5,6 +5,10 @@ import Dropbox from "./Dropbox"
 import { useLocation, useHistory } from "react-router-dom"
 import PropTypes from "prop-types"
 
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { makeStyles } from '@material-ui/core/styles';
+
 Search.propTypes = {
     intialSkierList: PropTypes.array.isRequired,
     skierListData: PropTypes.array.isRequired,
@@ -21,6 +25,53 @@ const Title = styled.h1`
         margin-top: 15px;
         text-align : left;
 `;
+
+const useStyles = makeStyles({
+
+  root: {
+    "& label.Mui-focused": {
+      color: "red",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#ced4da",
+        height: `2.5em`,
+        // border: `1px solid #ced4da`
+      },
+      "&:hover fieldset": {
+        borderColor: "#659CCC"
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: `#659CCC`,
+        borderWidth: `1px`,
+        outline: `none!important`,
+        boxShadow: `0 0 0 0.25rem rgba(13,110,253,.25)`,
+        color: `white`
+      },
+
+    }
+  },
+});
+
+const getSuggestionsDataResorts = (skierList = [], selectedValue, title) => {
+    if (skierList.flat().length === 0) {
+        return []
+    }
+    const suggestionsArr = skierList.map(skier => {
+    return skier[title].split(",")
+    })
+
+    const allSuggestions = [...new Set(suggestionsArr.flat())]
+    console.log(allSuggestions)
+    console.log("THIS", selectedValue)
+    if (selectedValue === null) {
+        return allSuggestions
+    }
+
+    return allSuggestions
+    // return allSuggestions.filter(item => item.toLowerCase().includes(selectedValue.toLowerCase()))
+
+}
 
 const getSuggestionsDropbox = (skierList = [], selectedValue, title) => {
     if (skierList.flat().length === 0) {
@@ -61,7 +112,11 @@ function Search(props) {
     let location = useLocation();
     let history = useHistory();
 
-    const resortSuggestions = getSuggestionsDropbox(props.skierListData, resort, "resort");
+    const resortsData = getSuggestionsDataResorts(props.skierListData, resort, "resort");
+
+    const classes = useStyles();
+
+    // const resortSuggestions = getSuggestionsDropbox(props.skierListData, resort, "resort");
     const languageSuggestions = getSuggestionsDropbox(props.skierListData, language, "languages")
 
     const levels = getSuggestionsSelectBox(props.skierListData, "level")
@@ -104,7 +159,8 @@ function Search(props) {
             setResort(resortFilter)
             
             if(props.skierListData.length > 0) {
-                if (resortSuggestions.includes(resortFilter)) {
+                 if (resortsData.includes(resortFilter)) {
+                // if (resortSuggestions.includes(resortFilter)) {
                     props.setResortSearched(resortFilter)
                 } 
             }
@@ -174,13 +230,44 @@ function Search(props) {
                             />
                         </div>
                         <div className="col-md-12">
-                            <Dropbox
+                            <label htmlFor="ResortsData" className="text-gray">Resorts Data</label>
+                                <Autocomplete
+                                    data-testid='autocomplete'
+                                    id="ResortsData"
+                                    onChange={(e, value) => { setResort(value)}}
+                                    onInputChange={(e, value) => { setResort(value)}}
+                                    fullWidth
+                                    // freeSolo
+                                    options={resortsData}
+                                    getOptionLabel={(option) => option}
+                                    renderInput={(params) => (
+                                        <TextField {...params}
+                                        className={classes.root}
+                                        variant="outlined"
+                                        size="small"
+                                        margin="normal"
+                                        required
+                                        />
+
+                                    )}
+                                    ListboxProps={{
+                                        style: {
+                                        maxHeight: "160px",
+                                        }
+                                    }}
+                                    />
+
+                        </div> 
+
+
+                        <div className="col-md-12">
+                            {/* <Dropbox
                                 title="resort"
                                 value={resort}
                                 placeholder="Choose resort"
                                 suggestions={resortSuggestions}
                                 setValue={setResort}
-                            />
+                            /> */}
 
                         </div>
                         <div className="col-md-12 mb-4">
