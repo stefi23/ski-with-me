@@ -30,12 +30,18 @@ const useStyles = makeStyles({
 
   root: {
     "& label.Mui-focused": {
-      color: "red",
+       color: "#659CCC",
+       // fontSize: "20px"
+      // textTransform: "uppercase"
+     
+    },
+    "& .MuiAutocomplete-inputRoot": {
+       background:'white',
+       color:'black'
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
         borderColor: "#ced4da",
-        height: `2.5em`,
         // border: `1px solid #ced4da`
       },
       "&:hover fieldset": {
@@ -43,17 +49,17 @@ const useStyles = makeStyles({
       },
       "&.Mui-focused fieldset": {
         borderColor: `#659CCC`,
-        borderWidth: `1px`,
-        outline: `none!important`,
-        boxShadow: `0 0 0 0.25rem rgba(13,110,253,.25)`,
-        color: `white`
+        // borderWidth: `1px`,
+        // outline: `none!important`,
+        // boxShadow: `0 0 0 0.25rem rgba(13,110,253,.25)`,
+        // color: `white`
       },
 
     }
   },
 });
 
-const getSuggestionsDataResorts = (skierList = [], selectedValue, title) => {
+const getSuggestionsData = (skierList = [], selectedValue, title) => {
     if (skierList.flat().length === 0) {
         return []
     }
@@ -72,7 +78,8 @@ const getSuggestionsDataResorts = (skierList = [], selectedValue, title) => {
     // return allSuggestions.filter(item => item.toLowerCase().includes(selectedValue.toLowerCase()))
 
 }
-
+/*
+//to remove old from the Autocomplete:
 const getSuggestionsDropbox = (skierList = [], selectedValue, title) => {
     if (skierList.flat().length === 0) {
         return []
@@ -86,10 +93,10 @@ const getSuggestionsDropbox = (skierList = [], selectedValue, title) => {
     if (selectedValue === '') {
         return allSuggestions
     }
-
+    console.log("here, allSuggestions")
     return allSuggestions.filter(item => item.toLowerCase().includes(selectedValue.toLowerCase()))
 }
-
+*/
  const getSuggestionsSelectBox = (skierList = [], title) => {
     if (skierList.flat().length === 0 ) {
         return []
@@ -112,12 +119,14 @@ function Search(props) {
     let location = useLocation();
     let history = useHistory();
 
-    const resortsData = getSuggestionsDataResorts(props.skierListData, resort, "resort");
+    const resortsData = getSuggestionsData(props.skierListData, resort, "resort");
+    const languagesData = getSuggestionsData(props.skierListData, language, "languages");   
+
 
     const classes = useStyles();
 
     // const resortSuggestions = getSuggestionsDropbox(props.skierListData, resort, "resort");
-    const languageSuggestions = getSuggestionsDropbox(props.skierListData, language, "languages")
+    // const languageSuggestions = getSuggestionsDropbox(props.skierListData, language, "languages")
 
     const levels = getSuggestionsSelectBox(props.skierListData, "level")
     const sports = getSuggestionsSelectBox(props.skierListData, "sport")
@@ -156,6 +165,7 @@ function Search(props) {
            
         }
         if (resortFilter) {
+            console.log("resortFilter", resortFilter)
             setResort(resortFilter)
             
             if(props.skierListData.length > 0) {
@@ -167,9 +177,9 @@ function Search(props) {
         }
         if (languageFilter) {
             setLanguage(languageFilter)
-            if (languageSuggestions.includes(languageFilter)) {
+            // if (languageSuggestions.includes(languageFilter)) {
                 props.setLanguageSearched(languageFilter)
-            }
+            // }
         }
     
     }, [location, props.skierListData]);
@@ -230,7 +240,7 @@ function Search(props) {
                             />
                         </div>
                         <div className="col-md-12">
-                            <label htmlFor="ResortsData" className="text-gray">Resorts Data</label>
+                            {/* <label htmlFor="ResortsData" className="text-gray">Resorts Data</label> */}
                                 <Autocomplete
                                     data-testid='autocomplete'
                                     id="ResortsData"
@@ -238,21 +248,22 @@ function Search(props) {
                                     onInputChange={(e, value) => { setResort(value)}}
                                     fullWidth
                                     // freeSolo
+                                    value={resort}
                                     options={resortsData}
                                     getOptionLabel={(option) => option}
                                     renderInput={(params) => (
                                         <TextField {...params}
+                                        label="Resort"
                                         className={classes.root}
                                         variant="outlined"
                                         size="small"
                                         margin="normal"
-                                        required
                                         />
 
                                     )}
                                     ListboxProps={{
                                         style: {
-                                        maxHeight: "160px",
+                                        // maxHeight: "160px",
                                         }
                                     }}
                                     />
@@ -271,13 +282,39 @@ function Search(props) {
 
                         </div>
                         <div className="col-md-12 mb-4">
-                            <Dropbox
+                                <Autocomplete
+                                    data-testid='autocomplete'
+                                    id="LanguageData"
+                                    onChange={(e, value) => { setLanguage(value)}}
+                                    onInputChange={(e, value) => { setLanguage(value)}}
+                                    fullWidth
+                                    // freeSolo
+                                    value={language}
+                                    options={languagesData}
+                                    getOptionLabel={(option) => option}
+                                    renderInput={(params) => (
+                                        <TextField {...params}
+                                        label="Language"
+                                        className={classes.root}
+                                        variant="outlined"
+                                        size="small"
+                                        margin="normal"
+                                        />
+
+                                    )}
+                                    ListboxProps={{
+                                        style: {
+                                        // maxHeight: "160px",
+                                        }
+                                    }}
+                                    />
+                            {/* <Dropbox
                                 title="language"
                                 value={language}
                                 placeholder="Choose language"
                                 suggestions={languageSuggestions}
                                 setValue={setLanguage}
-                                />
+                                /> */}
                         </div>
                     </div>
                 </div>
