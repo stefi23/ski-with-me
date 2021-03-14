@@ -212,7 +212,35 @@ function Search(props) {
                             <Title>Filter:</Title>
                         </div>
                         <div className="col-md-12">
-                            <SelectBox
+
+                                <Autocomplete
+                                    data-testid='autocomplete'
+                                    id="sport"
+                                    onChange={(e, value) => { setSport(value)}}
+                                    onInputChange={(e, value) => { setSport(value)}}
+                                    fullWidth
+                                    // freeSolo
+                                    value={sport}
+                                    options={sports}
+                                    getOptionLabel={(option) => option}
+                                    renderInput={(params) => (
+                                        <TextField {...params}
+                                        label="Sport"
+                                        className={classes.root}
+                                        variant="outlined"
+                                        size="small"
+                                        margin="normal"
+                                        />
+
+                                    )}
+                                    ListboxProps={{
+                                        style: {
+                                        // maxHeight: "160px",
+                                        }
+                                    }}
+                                    />
+
+                            {/* <SelectBox
                                 autoFocus
                                 setValue={setSport}
                                 id="sport"
@@ -223,10 +251,36 @@ function Search(props) {
                                 }}
                                 value={sport}
                                  getValueSelected={props.setSportSearched}
-                            />
+                            /> */}
                         </div>
                         <div className="col-md-12">
-                            <SelectBox
+                                 <Autocomplete
+                                    data-testid='autocomplete'
+                                    id="level"
+                                    onChange={(e, value) => { setLevel(value)}}
+                                    onInputChange={(e, value) => { setLevel(value)}}
+                                    fullWidth
+                                    // freeSolo
+                                    value={level}
+                                    options={levels}
+                                    getOptionLabel={(option) => option}
+                                    renderInput={(params) => (
+                                        <TextField {...params}
+                                        label="Level"
+                                        className={classes.root}
+                                        variant="outlined"
+                                        size="small"
+                                        margin="normal"
+                                        />
+
+                                    )}
+                                    ListboxProps={{
+                                        style: {
+                                        // maxHeight: "160px",
+                                        }
+                                    }}
+                                    />
+                            {/* <SelectBox
                                 setValue={setLevel}
                                 id="level"
                                 options={levels}
@@ -237,7 +291,7 @@ function Search(props) {
                                 value={level}
                                 getValueSelected={props.setLevelSearched}
                                 setValue={setLevel}
-                            />
+                            /> */}
                         </div>
                         <div className="col-md-12">
                             {/* <label htmlFor="ResortsData" className="text-gray">Resorts Data</label> */}
@@ -263,7 +317,7 @@ function Search(props) {
                                     )}
                                     ListboxProps={{
                                         style: {
-                                        // maxHeight: "160px",
+                                        maxHeight: "160px",
                                         }
                                     }}
                                     />
@@ -304,7 +358,7 @@ function Search(props) {
                                     )}
                                     ListboxProps={{
                                         style: {
-                                        // maxHeight: "160px",
+                                        maxHeight: "160px",
                                         }
                                     }}
                                     />
