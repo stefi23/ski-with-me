@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SelectBox from "./SelectBox"
 import styled from 'styled-components'
-import Dropbox from "./Dropbox"
 import { useLocation, useHistory } from "react-router-dom"
 import PropTypes from "prop-types"
 
@@ -68,8 +66,6 @@ const getSuggestionsData = (skierList = [], selectedValue, title) => {
     })
 
     const allSuggestions = [...new Set(suggestionsArr.flat())]
-    console.log(allSuggestions)
-    console.log("THIS", selectedValue)
     if (selectedValue === null) {
         return allSuggestions
     }
@@ -165,7 +161,6 @@ function Search(props) {
            
         }
         if (resortFilter) {
-            console.log("resortFilter", resortFilter)
             setResort(resortFilter)
             
             if(props.skierListData.length > 0) {
@@ -177,8 +172,16 @@ function Search(props) {
         }
         if (languageFilter) {
             setLanguage(languageFilter)
+            console.log(languageFilter)
+            if(props.skierListData.length > 0) {
+                 if (languagesData.includes(languageFilter)) {
+                // if (resortSuggestions.includes(resortFilter)) {
+                    props.setLanguageSearched(languageFilter)
+                } 
+            }
+
             // if (languageSuggestions.includes(languageFilter)) {
-                props.setLanguageSearched(languageFilter)
+                // props.setLanguageSearched(languageFilter)
             // }
         }
     
@@ -299,12 +302,12 @@ function Search(props) {
                                     data-testid='autocomplete'
                                     id="ResortsData"
                                     onChange={(e, value) => { setResort(value)}}
-                                    onInputChange={(e, value) => { setResort(value)}}
+                                    // onInputChange={(e, value) => { setResort(value)}}
                                     fullWidth
                                     // freeSolo
                                     value={resort}
                                     options={resortsData}
-                                    getOptionLabel={(option) => option}
+                                    // getOptionLabel={(option) => option}
                                     renderInput={(params) => (
                                         <TextField {...params}
                                         label="Resort"
@@ -340,12 +343,12 @@ function Search(props) {
                                     data-testid='autocomplete'
                                     id="LanguageData"
                                     onChange={(e, value) => { setLanguage(value)}}
-                                    onInputChange={(e, value) => { setLanguage(value)}}
+                                    // onInputChange={(e, value) => { setLanguage(value)}}
                                     fullWidth
                                     // freeSolo
                                     value={language}
                                     options={languagesData}
-                                    getOptionLabel={(option) => option}
+                                    // getOptionLabel={(option) => option}
                                     renderInput={(params) => (
                                         <TextField {...params}
                                         label="Language"

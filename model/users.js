@@ -93,6 +93,7 @@ const insertIntoDatabase = async (
     user_id,
     value_id
   );
+  console.log(results)
   }
   catch(error){
     console.log(error)

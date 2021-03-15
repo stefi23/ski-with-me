@@ -10,6 +10,8 @@ import { getLanguagesListfromDB } from './getLanguagesListfromDB'
 import { useInput } from "../../hooks/useInput"
 import { addUserInDb }  from './addUser'
 import { useArrayState }  from './useArrayState'
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 Register.propTypes = {
   intialSkierList: PropTypes.array.isRequired,
@@ -28,8 +30,9 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const [password, handlePasswordChange] = useInput("");
   const [sport, handleSportChange] = useInput("ski");
   const [level, handleLevelChange] = useInput("medium");
-  const [resorts, addResort, removeResort, editResort] = useArrayState([""]);
-  const [languages, addLanguage, removeLanguage, editLanguage] = useArrayState([""]);
+  // const [resorts, addResort, removeResort, editResort] = useArrayState([""]);
+  // const [languages, addLanguage, removeLanguage, editLanguage] = useArrayState([""]);
+  
 
   const [resortsDb, setResortsDb] = useState([])
   const [languagesDb, setLanguagesDb] = useState([])
@@ -39,6 +42,9 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const history = useHistory();
 
   const focusRef = useRef(null)
+
+  const [languages, setLanguageArr] = useState([])
+  const [resorts, setResortArr] = useState([])
 
   const handleEmailChange = (e) => {
 
@@ -67,6 +73,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
+      console.log(userData)
       const resp = await addUserInDb(userData)
         if(resp.message === "user is already registered"){
             setShowAlert(true)
@@ -93,6 +100,8 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
     })();
     focusRef.current.focus()
   }, [])
+
+ 
 
 
   return (
@@ -247,7 +256,53 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
               </div>
             </div>
             <div className="form-row">
-              <div className="form-group col-md-12">
+              <div className="form-group col-md-12 mt-3">
+                {/* <div className={classes.root}> */}
+                    <Autocomplete
+                      multiple
+                      limitTags={2}
+                      id="multiple-limit-tags"
+                      options={resortsDb}
+                      freeSolo
+                      onChange={(e, resort) => { setResortArr(resort)}}
+                      required
+                      renderInput={(params) => (
+                        <TextField {...params} 
+                        variant="outlined" 
+                        label="Add Resort/s" 
+                        placeholder="Resort/s that you live closeby"
+                        
+                        />
+                      )}
+                    />
+                {/* </div> */}
+              </div>
+            </div> 
+
+            <div className="form-row">
+              <div className="form-group col-md-12 mt-3">
+                {/* <div className={classes.root}> */}
+                    <Autocomplete
+                      multiple
+                      limitTags={2}
+                      id="multiple-limit-tags"
+                      options={languagesDb}
+                      freeSolo
+                      onChange={(e, language) => { setLanguageArr(language)}}
+                      required
+                      renderInput={(params) => (
+                        <TextField {...params} 
+                        variant="outlined" 
+                        label="Add Language/s" 
+                        placeholder="Language/s that you speak"
+                        />
+                      )}
+                    />
+                {/* </div> */}
+              </div>
+            </div> 
+
+              {/* <div className="form-group col-md-12">
                 <MultipleComponent
                   data={resortsDb}
                   label="Resorts"
@@ -257,9 +312,10 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                   onEdit={editResort}
                   required
                 />
-              </div>
-            </div>
-            <div className="form-row">
+              </div> */}
+            
+            
+            {/* <div className="form-row">
               <div className="form-group col-md-12">
                 <MultipleComponent
                   data={languagesDb}
@@ -271,7 +327,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                   required
                 />
               </div>
-            </div>
+            </div> */}
             <div className="form-group">
               <div className="form-check">
                 <input
