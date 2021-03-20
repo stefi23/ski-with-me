@@ -4,8 +4,35 @@ import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import InputBox from "./InputBox"
-
+import TextField from "@material-ui/core/TextField";
+import { makeStyles } from '@material-ui/core/styles';
 import { useInput } from "../hooks/useInput"
+
+
+const useStyles = makeStyles({
+  root: {
+    '& label.Mui-focused': {
+      color: '#659CCC',
+    },
+    '& .MuiInputBase-input': {
+      color: '#495057',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#659CCC',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#ced4da',
+      },
+      '&:hover fieldset': {
+        borderColor: '#659CCC',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#659CCC',
+      },
+    },
+  },
+});
 
 function Login({ updateLoggedIn, getName, getUserId }) {
   const [email, handleEmailChange] = useInput("");
@@ -25,6 +52,8 @@ function Login({ updateLoggedIn, getName, getUserId }) {
     password
   }
 
+  const classes = useStyles();
+  
   useEffect(() => {
     focusRef.current.focus()
   }, [])
@@ -70,7 +99,23 @@ function Login({ updateLoggedIn, getName, getUserId }) {
           <form className="needs-validation"
             data-testid="login-form"
             onSubmit={(e) => email && password ? attemptLogin(e) : null}>
-            <div className="form-row">
+              <div className="form-row">
+              <div className="form-group col-md-12">
+                <TextField  className={classes.root}
+                            // inputRef={focusRef}
+                            id= "Email"
+                            label="Email" 
+                            type="text"
+                            size="small"
+                            fullWidth
+                            variant="outlined" 
+                            value={email}
+                            onChange={handleEmailChange}
+                            inputRef={focusRef}
+                            required />
+              </div>
+            </div>
+            {/* <div className="form-row">
               <div className="form-group col-md-12">
                 <InputBox
                   type="text"
@@ -81,16 +126,30 @@ function Login({ updateLoggedIn, getName, getUserId }) {
                   ref={focusRef}
                 />
               </div>
-            </div>
-            <div className="form-row">
+            </div> */}
+            {/* <div className="form-row">
               <div className="form-group col-md-12">
                 <InputBox
                   type="password"
                   label="Password"
-                  value={password}
-                  onChange={handlePasswordChange}
+                  // value={password}
+                  // onChange={handlePasswordChange}
                   required
                 />
+              </div>
+            </div> */}
+            <div className="form-row">
+              <div className="form-group col-md-12">
+                <TextField  className={classes.root}
+                            id= "Password"
+                            label="Password" 
+                            type="password"
+                            size="small"
+                            fullWidth
+                            variant="outlined" 
+                            value={password}
+                            onChange={handlePasswordChange}
+                            required />
               </div>
             </div>
             <button className="btn btn-blue mb-2 mt-3 width-complete"

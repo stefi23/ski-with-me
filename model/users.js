@@ -85,6 +85,7 @@ const insertIntoDatabase = async (
 
   let result_id = await getValueId(table_name, table_column, value);
   let value_id = result_id.data[0].id;
+  console.log(value_id)
 
   const results = await insertValuesIntoIntermediateTable(
     `${table_name}_user`,
