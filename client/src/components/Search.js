@@ -236,11 +236,6 @@ function Search(props) {
                                         />
 
                                     )}
-                                    ListboxProps={{
-                                        style: {
-                                        // maxHeight: "160px",
-                                        }
-                                    }}
                                     />
 
                             {/* <SelectBox
@@ -278,11 +273,6 @@ function Search(props) {
                                         />
 
                                     )}
-                                    ListboxProps={{
-                                        style: {
-                                        //maxHeight: "160px",
-                                        }
-                                    }}
                                     />
                             {/* <SelectBox
                                 setValue={setLevel}

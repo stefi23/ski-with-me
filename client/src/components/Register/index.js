@@ -266,6 +266,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                       freeSolo
                       onChange={(e, resort) => { setResortArr(resort)}}
                       required
+                      size="small"
                       renderInput={(params) => (
                         <TextField {...params} 
                         variant="outlined" 
@@ -274,6 +275,11 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                         
                         />
                       )}
+                      ListboxProps={{
+                                        style: {
+                                        maxHeight: "160px",
+                                        }
+                                    }}
                     />
                 {/* </div> */}
               </div>
@@ -290,13 +296,20 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                       freeSolo
                       onChange={(e, language) => { setLanguageArr(language)}}
                       required
+                      size="small"
                       renderInput={(params) => (
                         <TextField {...params} 
                         variant="outlined" 
                         label="Add Language/s" 
                         placeholder="Language/s that you speak"
                         />
-                      )}
+                        )}
+                        ListboxProps={{
+                                        style: {
+                                        maxHeight: "160px",
+                                        }
+                                    }}
+                      
                     />
                 {/* </div> */}
               </div>
