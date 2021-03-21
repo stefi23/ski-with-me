@@ -172,7 +172,6 @@ function Search(props) {
         }
         if (languageFilter) {
             setLanguage(languageFilter)
-            console.log(languageFilter)
             if(props.skierListData.length > 0) {
                  if (languagesData.includes(languageFilter)) {
                 // if (resortSuggestions.includes(resortFilter)) {
@@ -223,7 +222,8 @@ function Search(props) {
                                     onInputChange={(e, value) => { setSport(value)}}
                                     fullWidth
                                     // freeSolo
-                                    value={sport}
+                                    getOptionSelected={(option, sport) => option === sport}
+                                    // value={sport}
                                     options={sports}
                                     getOptionLabel={(option) => option}
                                     renderInput={(params) => (
@@ -264,7 +264,8 @@ function Search(props) {
                                     onInputChange={(e, value) => { setLevel(value)}}
                                     fullWidth
                                     // freeSolo
-                                    value={level}
+                                    getOptionSelected={(option, level) => option === level}
+                                    // value={level}
                                     options={levels}
                                     getOptionLabel={(option) => option}
                                     renderInput={(params) => (
@@ -299,13 +300,14 @@ function Search(props) {
                         <div className="col-md-12">
                             {/* <label htmlFor="ResortsData" className="text-gray">Resorts Data</label> */}
                                 <Autocomplete
+                                    getOptionSelected={(option, resort) => option === resort}
                                     data-testid='autocomplete'
                                     id="ResortsData"
                                     onChange={(e, value) => { setResort(value)}}
                                     // onInputChange={(e, value) => { setResort(value)}}
                                     fullWidth
                                     // freeSolo
-                                    value={resort}
+                                    // value={resort}
                                     options={resortsData}
                                     // getOptionLabel={(option) => option}
                                     renderInput={(params) => (
@@ -346,7 +348,8 @@ function Search(props) {
                                     // onInputChange={(e, value) => { setLanguage(value)}}
                                     fullWidth
                                     // freeSolo
-                                    value={language}
+                                    getOptionSelected={(option, language) => option === language}
+                                    // value={language}
                                     options={languagesData}
                                     // getOptionLabel={(option) => option}
                                     renderInput={(params) => (
