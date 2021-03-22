@@ -10,8 +10,12 @@ import { getLanguagesListfromDB } from './getLanguagesListfromDB'
 import { useInput } from "../../hooks/useInput"
 import { addUserInDb }  from './addUser'
 import { useArrayState }  from './useArrayState'
-import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
+import { makeStyles } from '@material-ui/core/styles';
+import { InputAdornment } from '@material-ui/core';
+import { isNull } from "lodash";
+
 
 Register.propTypes = {
   intialSkierList: PropTypes.array.isRequired,
@@ -20,6 +24,85 @@ Register.propTypes = {
   getUserId:PropTypes.func.isRequired,
 }
 
+
+const useStylesAutoComplete = makeStyles( (theme) => ({
+  root: {
+    '& label.Mui-focused': {
+      color: '#659CCC',
+    },
+    '& label.Mui-error': {
+      color: '#7F055F',
+    },
+    '& .MuiInputBase-input': {
+      color: '#495057',
+    },
+    '& .MuiInputBase-input.Mui-error': {
+      color: 'red',
+    },
+    '& .MuiFormHelperText-root.Mui-error' :  {
+     color: '#7F055F'
+    },
+
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#659CCC',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#ced4da',
+      },
+      '&:hover fieldset': {
+        borderColor: '#659CCC',
+      },
+      '&.MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline' : {
+        borderColor: '#7F055F',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#659CCC',
+      },
+      '& .MuiChip-root' : {
+        border: '1px solid #649CCC'
+      } 
+    },
+  },
+}));
+
+const useStyles = makeStyles( (theme) => ({
+  root: {
+    '& label.Mui-focused': {
+      color: '#659CCC',
+    },
+    '& label.Mui-error': {
+      color: '#7F055F',
+    },
+    '& .MuiInputBase-input': {
+      color: '#495057',
+    },
+    '& .MuiInputBase-input.Mui-error': {
+      color: 'red',
+    },
+    '& .MuiFormHelperText-root.Mui-error' :  {
+     color: '#7F055F'
+    },
+
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#659CCC',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#ced4da',
+      },
+      '&:hover fieldset': {
+        borderColor: '#659CCC',
+      },
+      '&.MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline' : {
+        borderColor: '#7F055F',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#659CCC',
+      },
+    },
+  },
+}));
 
 function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const [firstName, handleFirstNameChange] = useInput("")
@@ -90,6 +173,8 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
         }
   };
 
+  const classes = useStyles();
+  const classesAutoComplete = useStylesAutoComplete();
 
   useEffect(() => {
     (async () => {
@@ -125,28 +210,77 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
               onSubmit={(e) => {handleSubmit(e)}}>
             <div className="form-row">
               <div className="form-group col-md-6">
-                <InputBox
+                <TextField  
+                            className={classes.root}
+                            id= "First name"
+                            label="First name" 
+                            type="text"
+                            size="small"
+                            fullWidth
+                            variant="outlined" 
+                            value={firstName}
+                            onChange={handleFirstNameChange}
+                            inputRef={focusRef}
+                            required 
+                 />
+                {/* <InputBox
                   type="text"
                   label="First name"
                   value={firstName}
                   onChange={handleFirstNameChange}
                   required
                   ref={focusRef}
-                />
+                /> */}
               </div>
               <div className="form-group col-md-6">
-                <InputBox
+                <TextField  
+                        className={classes.root}
+                        id= "Last name"
+                        label="Last name" 
+                        type="text"
+                        size="small"
+                        fullWidth
+                        variant="outlined" 
+                        value={lastName}
+                        onChange={handleLastNameChange}
+                        required 
+                 />
+                {/* <InputBox
                   type="text"
                   label="Last name"
                   value={lastName}
                   onChange={handleLastNameChange}
                   required
-                />
+                /> */}
               </div>
             </div>
             <div className="form-row">
               <div className="form-group col-md-6">
-                <InputBox
+                <TextField  
+                        className={classes.root}
+                        error={showAlert}
+                        id= "Email"
+                        label="Email" 
+                        type="email"
+                        size="small"
+                        fullWidth
+                        variant="outlined" 
+                        value={email}
+                        onChange={handleEmailChange}
+                        helperText= {showAlert ? "Email already registered." : null}
+                        required 
+                    
+                        //ADD ERROR ICON:
+                      //   InputProps={{
+                      //   endAdornment: (
+                      //     showAlert ? (<InputAdornment position="center">
+                      //       <p className="mb-0">!!</p>
+                      //     </InputAdornment>) : null
+                      //   ),
+                      //  }}
+                      
+                 />
+                {/* <InputBox
                   showAlert={showAlert}
                   type="email"
                   label="Email"
@@ -162,16 +296,28 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                   }
 
                   required
-                />
+                /> */}
               </div>
               <div className="form-group col-md-6">
-                <InputBox
+                <TextField  
+                        className={classes.root}
+                        id= "Password"
+                        label="Password" 
+                        type="password"
+                        size="small"
+                        fullWidth
+                        variant="outlined" 
+                        value={password}
+                        onChange={handlePasswordChange}
+                        required 
+                 />
+                {/* <InputBox
                   type="password"
                   label="Password"
                   value={password}
                   onChange={handlePasswordChange}
                   required
-                />
+                /> */}
               </div>
 
             </div>
@@ -261,7 +407,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                     <Autocomplete
                       multiple
                       limitTags={2}
-                      id="multiple-limit-tags"
+                      id="multiple-resorts"
                       options={resortsDb}
                       freeSolo
                       onChange={(e, resort) => { setResortArr(resort)}}
@@ -271,6 +417,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                         <TextField {...params} 
                         variant="outlined" 
                         label="Add Resort/s" 
+                        className={classesAutoComplete.root}
                         placeholder="Resort/s that you live closeby"
                         
                         />
@@ -291,7 +438,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                     <Autocomplete
                       multiple
                       limitTags={2}
-                      id="multiple-limit-tags"
+                      id="multiple-languages"
                       options={languagesDb}
                       freeSolo
                       onChange={(e, language) => { setLanguageArr(language)}}
@@ -301,6 +448,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                         <TextField {...params} 
                         variant="outlined" 
                         label="Add Language/s" 
+                        className={classesAutoComplete.root}
                         placeholder="Language/s that you speak"
                         />
                         )}

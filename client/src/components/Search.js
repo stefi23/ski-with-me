@@ -24,6 +24,44 @@ const Title = styled.h1`
         text-align : left;
 `;
 
+const useStylesAutoComplete = makeStyles( (theme) => ({
+  root: {
+    '& label.Mui-focused': {
+      color: '#659CCC',
+    },
+    '& label.Mui-error': {
+      color: '#7F055F',
+    },
+    '& .MuiInputBase-input': {
+      color: '#495057',
+    },
+    '& .MuiInputBase-input.Mui-error': {
+      color: 'red',
+    },
+    '& .MuiFormHelperText-root.Mui-error' :  {
+     color: '#7F055F'
+    },
+
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#659CCC',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#ced4da',
+      },
+      '&:hover fieldset': {
+        borderColor: '#659CCC',
+      },
+      '&.MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline' : {
+        borderColor: '#7F055F',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#659CCC',
+      },
+    },
+  },
+}));
+
 const useStyles = makeStyles({
 
   root: {
