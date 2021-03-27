@@ -30,6 +30,46 @@ Register.propTypes = {
   getUserId:PropTypes.func.isRequired,
 }
 
+const useStylesRadio = makeStyles({
+  root: {
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+  },
+  icon: {
+    borderRadius: '50%',
+    width: 16,
+    height: 16,
+    boxShadow: 'inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)',
+    backgroundColor: '#f5f8fa',
+    backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))',
+    '$root.Mui-focusVisible &': {
+      outline: '2px auto rgba(19,124,189,.6)',
+      outlineOffset: 2,
+    },
+    'input:hover ~ &': {
+      backgroundColor: '#ebf1f5',
+    },
+    'input:disabled ~ &': {
+      boxShadow: 'none',
+      background: 'rgba(206,217,224,.5)',
+    },
+  },
+  checkedIcon: {
+    backgroundColor: '#137cbd',
+    backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))',
+    '&:before': {
+      display: 'block',
+      width: 16,
+      height: 16,
+      backgroundImage: 'radial-gradient(#fff,#fff 28%,transparent 32%)',
+      content: '""',
+    },
+    'input:hover ~ &': {
+      backgroundColor: '#106ba3',
+    },
+  },
+});
 
 const useStylesAutoComplete = makeStyles( (theme) => ({
   root: {
@@ -181,6 +221,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
 
   const classes = useStyles();
   const classesAutoComplete = useStylesAutoComplete();
+  const classesRadio = useStylesRadio()
 
   useEffect(() => {
     (async () => {
@@ -326,6 +367,29 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                 /> */}
               </div>
             </div>
+            {/* radio material */}
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <FormLabel component="legend">Sport</FormLabel>
+                <RadioGroup aria-label="sport" name="sport" value={sport} onChange={handleSportChange} row>
+                  <FormControlLabel value="ski" control={<Radio size="small"/>} label="ski" />
+                  <FormControlLabel value="snowboard" control={<Radio size="small"/>} label="snowboard" />
+                  <FormControlLabel value="both" control={<Radio size="small" />} label="both" />
+              </RadioGroup>
+              </div>
+            
+            <div className="form-group col-md-6">
+                <FormLabel component="legend">Level</FormLabel>
+                <RadioGroup aria-label="gender" name="gender1" value={level} onChange={handleLevelChange} row>
+                  <FormControlLabel value="beginner" control={<Radio />} label="beginner" />
+                  <FormControlLabel value="medium" control={<Radio />} label="medium" />
+                  <FormControlLabel value="advanced" control={<Radio />} label="advanced" />
+                  <FormControlLabel value="pro"  control={<Radio />} label="pro" />
+              </RadioGroup>
+              </div>
+            </div>
+         
+            {/* end */}
             <div className="form-row">
               <div className="form-group col-md-6 mb-0">
                 <label className="text-gray">Sport</label>
@@ -337,6 +401,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
             <div className="form-row">
               <div className="form-group col-md-6">
                 <div className="form-check form-check-inline">
+                  
                   <RadioBox
                     name="sport"
                     label="ski"
