@@ -15,6 +15,12 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from '@material-ui/core/styles';
 import { InputAdornment } from '@material-ui/core';
 import { isNull } from "lodash";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+
 
 
 Register.propTypes = {
@@ -319,7 +325,6 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                   required
                 /> */}
               </div>
-
             </div>
             <div className="form-row">
               <div className="form-group col-md-6 mb-0">
@@ -331,7 +336,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
             </div>
             <div className="form-row">
               <div className="form-group col-md-6">
-                <div className="form-check form-check-inline">
+                <div className="custom-control custom-radio">
                   <RadioBox
                     name="sport"
                     label="ski"
