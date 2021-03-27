@@ -336,7 +336,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
             </div>
             <div className="form-row">
               <div className="form-group col-md-6">
-                <div className="custom-control custom-radio">
+                <div className="form-check form-check-inline">
                   <RadioBox
                     name="sport"
                     label="ski"
