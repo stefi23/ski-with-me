@@ -345,7 +345,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                 /> */}
               </div>
             </div>
-            {/* radio material */}
+    
             <div className="form-row">
               <div className="form-group col-md-6">
                 <FormLabel component="legend" >Sport</FormLabel>
@@ -367,15 +367,14 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
               </div>
             </div>
          
-            {/* end */}
-            <div className="form-row">
+            {/* <div className="form-row">
               <div className="form-group col-md-6 mb-0">
                 <label className="text-gray">Sport</label>
               </div>
               <div className="form-group col-md-6 mb-0">
                 <label className="text-gray">Level</label>
               </div>
-            </div>
+            </div> */}
             {/* <div className="form-row">
               <div className="form-group col-md-6">
                 <div className="form-check form-check-inline">
