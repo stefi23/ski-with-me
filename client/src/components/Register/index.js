@@ -41,6 +41,11 @@ const useStylesRadio = makeStyles({
     '& .MuiRadio-colorSecondary.Mui-checked' : {
       color: '#649ccc'
     },
+    '&.MuiRadio-root' : {
+      color: "rgba(0, 0, 0, 0.4)",
+      // "#ced4da"
+      
+    },
 
     // 'MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-10 MuiRadio-root MuiRadio-colorSecondary MuiIconButton-colorSecondary'
     '&.MuiIconButton-root:hover' : {
@@ -349,10 +354,10 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
             <div className="form-row">
               <div className="form-group col-md-6">
                 <FormLabel component="legend" >Sport</FormLabel>
-                <RadioGroup aria-label="sport" name="sport" value={sport} onChange={handleSportChange} row>
-                  <FormControlLabel value="ski" control={<Radio size="small" color="primary" />} color="primary" label="ski" />
-                  <FormControlLabel value="snowboard" control={<Radio size="small" color="primary"/>} label="snowboard" />
-                  <FormControlLabel value="both" control={<Radio size="small" color="primary" />} label="both" />
+                <RadioGroup  className={classesRadio.root} aria-label="sport" name="sport" value={sport} onChange={handleSportChange} row>
+                  <FormControlLabel value="ski" control={<Radio className={classesRadio.root} />} color="primary" label="ski" />
+                  <FormControlLabel value="snowboard" control={<Radio  className={classesRadio.root}/>} label="snowboard" />
+                  <FormControlLabel value="both" control={<Radio  className={classesRadio.root} />} label="both" />
               </RadioGroup>
               </div>
             
