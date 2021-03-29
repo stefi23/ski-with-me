@@ -89,7 +89,7 @@ router.post("/register", async (req, res, next) => {
     let userData = await getId(email, hashedPassword);
     const user_id = userData.data[0].id;
 
-    const { data } = await getName(id);
+    const { data } = await getName(user_id);
 
     const name = data[0].first_name;
 
@@ -132,10 +132,11 @@ router.post("/register", async (req, res, next) => {
         message: "user was added",
         token,
         name,
-        id
+        user_id
       });
     }
   } catch (err) {
+    console.log("Error: (User not valid): ", err)
     res.status(404).send({ message: "user not valid" });
   }
 });
