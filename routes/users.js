@@ -5,7 +5,7 @@ var jwt = require("jsonwebtoken");
 var userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 require("dotenv").config();
 const capitalize = require('lodash/capitalize')
-const {insertIntoDatabase, getIdandName, getId, insertData, getName, 
+const {insertUserResorts, insertIntoDatabase, insertUserLanguages, getIdandName, getId, insertData, getName, 
   getUserByEmail, cryptoPassword, getToken, isUserRegistered, getUserResorts, 
   getUserLanguages, updateUserData, deleteResortFromUser, deleteLanguageFromUser 
 } = require('../model/users')
@@ -100,13 +100,7 @@ router.post("/register", async (req, res, next) => {
     resorts.forEach(async (resort) => {
       resort = capitalize(resort)
       try {
-        await insertIntoDatabase(
-          user_id,
-          "resorts",
-          "resort_name",
-          resort,
-          "resort_id"
-        );
+        await insertUserResorts(user_id, resort)
       } catch (err) {
         res.status(500).send(err);
       }
@@ -115,13 +109,7 @@ router.post("/register", async (req, res, next) => {
     languages.forEach(async (language) => {
       language = capitalize(language);
       try {
-        await insertIntoDatabase(
-          user_id,
-          "languages",
-          "language",
-          language,
-          "language_id"
-        );
+        await insertUserLanguages(user_id, language)
       } catch (err) {
         res.status(500).send(err);
       }
@@ -170,14 +158,7 @@ router.post("/editProfile", userShouldBeLoggedIn, async(req, res, next) => {
     added_resorts.forEach(async (resort) => {
       resort = capitalize(resort)
       try {
-        // await insertUserResorts(user_id, resort)
-        await insertIntoDatabase(
-          user_id,
-          "resorts",
-          "resort_name",
-          resort,
-          "resort_id"
-        );
+        await insertUserResorts(user_id, resort)
       } catch (err) {
         res.status(500).send(err);
       }
@@ -197,14 +178,7 @@ router.post("/editProfile", userShouldBeLoggedIn, async(req, res, next) => {
     added_languages.forEach(async (language) => {
       language = capitalize(language)
       try {
-        // await insertUserLanguages(user_id, resort)
-        await insertIntoDatabase(
-           user_id,
-          "languages",
-          "language",
-          language,
-          "language_id"
-        );
+        await insertUserLanguages(user_id, language)
       } catch (err) {
         res.status(500).send(err);
       }

@@ -69,6 +69,7 @@ const isUserRegistered = async (email) => {
   }
 };
 
+
 const insertIntoDatabase = async (
   user_id,
   table_name,
@@ -99,6 +100,26 @@ const insertIntoDatabase = async (
     console.log("ERROR: Insert into database: ", error)
   }
 };
+
+const insertUserResorts = (user_id, resort) => {
+  return insertIntoDatabase(
+          user_id,
+          "resorts",
+          "resort_name",
+          resort,
+          "resort_id"
+        );
+}
+
+const insertUserLanguages = (user_id, language) => {
+  return insertIntoDatabase(
+          user_id,
+          "languages",
+          "language",
+          language,
+          "language_id"
+        );
+}
 
 const getData = async (level, language, sport, resort) => {
   
@@ -179,6 +200,6 @@ const deleteLanguageFromUser = (user_id, language_id) => {
   return db("DELETE FROM languages_user where user_id = ? and language_id = ?;", [user_id, language_id])
 }
 
-module.exports = { insertIntoDatabase, getIdandName, getId, insertData, getName, 
+module.exports = { insertUserResorts, insertUserLanguages, insertIntoDatabase, getIdandName, getId, insertData, getName, 
   getUserByEmail, cryptoPassword, getToken, isUserRegistered, getData, getUserResorts, 
   getUserLanguages, updateUserData, deleteResortFromUser, deleteLanguageFromUser }
