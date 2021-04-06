@@ -18,7 +18,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-
+import Checkbox from '@material-ui/core/Checkbox';
 
 
 Register.propTypes = {
@@ -381,16 +381,27 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
               </div>
             </div> 
             <div className="form-group">
-              <div className="form-check">
-                <input
+              {/* <div className="form-check"> */}
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={state.checkedB}
+                          // onChange={handleChange}
+                          name="checkedB"
+                          color="primary"
+                        />
+                      }
+                      label="I agree to terms and conditions"
+      />
+                {/* <input
                   className="form-check-input"
                   type="checkbox"
                   id="gridCheck"
                 />
                 <label className="form-check-label" htmlFor="gridCheck">
                   I agree to terms and conditions
-                </label>
-              </div>
+                </label> */}
+              {/* </div> */}
             </div>
             <button
               data-testid="btn-register"
