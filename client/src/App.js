@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import { Navbar } from "react-bootstrap";
 import { useCallbackData } from "./hooks/useCallbackData"
+import { Modal } from '@material-ui/core';
 
 
 
@@ -30,6 +31,7 @@ function App() {
   
   const [userId, getUserId] = useState(null)
 
+  const [isRegisterOpen, setRegisterOpen] = useState(false)
 
 
   const getUserdatafromDB = async () => {
@@ -131,6 +133,25 @@ function App() {
                           Sign Up
                   </Link>
                       </li>
+                       <li className="nav-item">
+                        <button onClick={() => setRegisterOpen(!isRegisterOpen)} >
+                         Button
+                         </button>
+                         <Modal
+                            open={isRegisterOpen}
+                            onClose={() => setRegisterOpen(false)}
+                            aria-labelledby="simple-modal-title"
+                            aria-describedby="simple-modal-description"
+                          >
+                             
+                              <Register
+                                updateLoggedIn={setUserLoggedIn}
+                                getName={getName}
+                                getUserId={getUserId}
+                                intialSkierList={intialSkierList} />
+                            
+                        </Modal>
+                      </li>
                     </ul>
                   )}
               </Navbar.Collapse>
@@ -145,6 +166,7 @@ function App() {
                   )}
               </Route>
               <Route path="/register">
+                
                 {<Register
                   updateLoggedIn={setUserLoggedIn}
                   getName={getName}

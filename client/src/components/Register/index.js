@@ -205,10 +205,14 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
       setResortsDb(resorts)
       setLanguagesDb(languages)
     })();
-    focusRef.current.focus()
+    // focusRef.current.focus()
   }, [])
 
- 
+ useEffect(() => {
+    if(focusRef.current) {
+      focusRef.current.focus()
+    }
+  }, [])
 
 
   return (
