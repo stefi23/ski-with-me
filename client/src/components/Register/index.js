@@ -1,19 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, withRouter, useHistory } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 import { Modal } from "react-bootstrap";
-import InputBox from "../InputBox"
-import MultipleComponent from "../MultipleInput";
 import PropTypes from "prop-types"
 import { getResortsListfromDB } from './getResortsListfromDB'
 import { getLanguagesListfromDB } from './getLanguagesListfromDB'
 import { useInput } from "../../hooks/useInput"
 import { addUserInDb }  from './addUser'
-import { useArrayState }  from './useArrayState'
+
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from '@material-ui/core/styles';
 import { InputAdornment } from '@material-ui/core';
-import { isNull } from "lodash";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -27,6 +24,24 @@ Register.propTypes = {
   getName: PropTypes.func.isRequired,
   getUserId:PropTypes.func.isRequired,
 }
+
+const useStylesRadio2 = makeStyles({
+  root: {
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+    '&.MuiCheckbox-colorPrimary.Mui-checked' : {
+      color: '#649ccc'
+    },
+    '&.MuiCheckbox-root' : {
+      color: 'rgba(0, 0, 0, 0.4)'
+    },
+
+    '&.MuiIconButton-root:hover' : {
+    backgroundColor: 'rgba(100,156,204, 0.06)',
+    },
+  },
+});
 
 const useStylesRadio = makeStyles({
   root: {
@@ -133,13 +148,15 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const [lastName, handleLastNameChange] = useInput("");
 
   const [email, setEmail] = useState("");
-
   const [password, handlePasswordChange] = useInput("");
+
   const [sport, handleSportChange] = useInput("ski");
   const [level, handleLevelChange] = useInput("medium");
 
   const [resortsDb, setResortsDb] = useState([])
   const [languagesDb, setLanguagesDb] = useState([])
+
+  const [checkedTerms, isCheckedTerms] = useState(false)
 
   const [showAlert, setShowAlert] = useState(false)
 
@@ -197,6 +214,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const classes = useStyles();
   const classesAutoComplete = useStylesAutoComplete();
   const classesRadio = useStylesRadio()
+  const classesCheckbox = useStylesRadio2()
 
   useEffect(() => {
     (async () => {
@@ -381,27 +399,18 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
               </div>
             </div> 
             <div className="form-group">
-              {/* <div className="form-check"> */}
                     <FormControlLabel
                       control={
                         <Checkbox
-                          // checked={state.checkedB}
-                          // onChange={handleChange}
+                          checked={checkedTerms}
+                          onChange={() => isCheckedTerms(!checkedTerms)}
+                          className={classesCheckbox.root}
                           name="checkedB"
                           color="primary"
                         />
                       }
-                      label="I agree to terms and conditions"
-      />
-                {/* <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id="gridCheck"
-                />
-                <label className="form-check-label" htmlFor="gridCheck">
-                  I agree to terms and conditions
-                </label> */}
-              {/* </div> */}
+                      label="I have read and agree to the terms and conditions"
+              />
             </div>
             <button
               data-testid="btn-register"
