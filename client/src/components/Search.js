@@ -192,19 +192,6 @@ function Search(props) {
 
                                     )}
                                     />
-
-                            {/* <SelectBox
-                                autoFocus
-                                setValue={setSport}
-                                id="sport"
-                                options={sports}
-                                label={{
-                                    text: "All sports",
-                                    value: ""
-                                }}
-                                value={sport}
-                                 getValueSelected={props.setSportSearched}
-                            /> */}
                         </div>
                         <div className="col-md-12">
                                  <Autocomplete
@@ -227,18 +214,6 @@ function Search(props) {
 
                                     )}
                                     />
-                            {/* <SelectBox
-                                setValue={setLevel}
-                                id="level"
-                                options={levels}
-                                label={{
-                                    text: "All levels",
-                                    value: ""
-                                }}
-                                value={level}
-                                getValueSelected={props.setLevelSearched}
-                                setValue={setLevel}
-                            /> */}
                         </div>
                         <div className="col-md-12">
                                 <Autocomplete
