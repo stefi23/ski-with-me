@@ -25,24 +25,6 @@ Register.propTypes = {
   getUserId:PropTypes.func.isRequired,
 }
 
-const useStylesRadio2 = makeStyles({
-  root: {
-    '&:hover': {
-      backgroundColor: 'transparent',
-    },
-    '&.MuiCheckbox-colorPrimary.Mui-checked' : {
-      color: '#649ccc'
-    },
-    '&.MuiCheckbox-root' : {
-      color: 'rgba(0, 0, 0, 0.4)'
-    },
-
-    '&.MuiIconButton-root:hover' : {
-    backgroundColor: 'rgba(100,156,204, 0.06)',
-    },
-  },
-});
-
 const useStylesRadio = makeStyles({
   root: {
     '&:hover': {
@@ -156,8 +138,6 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const [resortsDb, setResortsDb] = useState([])
   const [languagesDb, setLanguagesDb] = useState([])
 
-  const [checkedTerms, isCheckedTerms] = useState(false)
-
   const [showAlert, setShowAlert] = useState(false)
 
   const history = useHistory();
@@ -214,7 +194,6 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const classes = useStyles();
   const classesAutoComplete = useStylesAutoComplete();
   const classesRadio = useStylesRadio()
-  const classesCheckbox = useStylesRadio2()
 
   useEffect(() => {
     (async () => {
@@ -398,20 +377,6 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                     />
               </div>
             </div> 
-            <div className="form-group">
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedTerms}
-                          onChange={() => isCheckedTerms(!checkedTerms)}
-                          className={classesCheckbox.root}
-                          name="checkedB"
-                          color="primary"
-                        />
-                      }
-                      label="I have read and agree to the terms and conditions"
-              />
-            </div>
             <button
               data-testid="btn-register"
               disabled={showAlert ? true : false}
@@ -420,6 +385,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
             >
               Submit
             </button>
+            <p class='mt-3 '><small>By creating an account, you agree to the Terms of Service. We'll occasionally send you account-related emails.</small></p>
           </form>
         </Modal.Body>
       </Modal>
