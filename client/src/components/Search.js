@@ -24,52 +24,11 @@ const Title = styled.h1`
         text-align : left;
 `;
 
-const useStylesAutoComplete = makeStyles( (theme) => ({
-  root: {
-    '& label.Mui-focused': {
-      color: '#659CCC',
-    },
-    '& label.Mui-error': {
-      color: '#7F055F',
-    },
-    '& .MuiInputBase-input': {
-      color: '#495057',
-    },
-    '& .MuiInputBase-input.Mui-error': {
-      color: 'red',
-    },
-    '& .MuiFormHelperText-root.Mui-error' :  {
-     color: '#7F055F'
-    },
-
-    '& .MuiInput-underline:after': {
-      borderBottomColor: '#659CCC',
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#ced4da',
-      },
-      '&:hover fieldset': {
-        borderColor: '#659CCC',
-      },
-      '&.MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline' : {
-        borderColor: '#7F055F',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#659CCC',
-      },
-    },
-  },
-}));
-
 const useStyles = makeStyles({
 
   root: {
     "& label.Mui-focused": {
        color: "#659CCC",
-       // fontSize: "20px"
-      // textTransform: "uppercase"
-     
     },
     "& .MuiAutocomplete-inputRoot": {
        background:'white',
@@ -78,17 +37,12 @@ const useStyles = makeStyles({
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
         borderColor: "#ced4da",
-        // border: `1px solid #ced4da`
       },
       "&:hover fieldset": {
         borderColor: "#659CCC"
       },
       "&.Mui-focused fieldset": {
         borderColor: `#659CCC`,
-        // borderWidth: `1px`,
-        // outline: `none!important`,
-        // boxShadow: `0 0 0 0.25rem rgba(13,110,253,.25)`,
-        // color: `white`
       },
 
     }
@@ -109,28 +63,9 @@ const getSuggestionsData = (skierList = [], selectedValue, title) => {
     }
 
     return allSuggestions
-    // return allSuggestions.filter(item => item.toLowerCase().includes(selectedValue.toLowerCase()))
 
 }
-/*
-//to remove old from the Autocomplete:
-const getSuggestionsDropbox = (skierList = [], selectedValue, title) => {
-    if (skierList.flat().length === 0) {
-        return []
-    }
-    const suggestionsArr = skierList.map(skier => {
-    return skier[title].split(",")
-    })
 
-    const allSuggestions = [...new Set(suggestionsArr.flat())]
-
-    if (selectedValue === '') {
-        return allSuggestions
-    }
-    console.log("here, allSuggestions")
-    return allSuggestions.filter(item => item.toLowerCase().includes(selectedValue.toLowerCase()))
-}
-*/
  const getSuggestionsSelectBox = (skierList = [], title) => {
     if (skierList.flat().length === 0 ) {
         return []
@@ -159,18 +94,8 @@ function Search(props) {
 
     const classes = useStyles();
 
-    // const resortSuggestions = getSuggestionsDropbox(props.skierListData, resort, "resort");
-    // const languageSuggestions = getSuggestionsDropbox(props.skierListData, language, "languages")
-
     const levels = getSuggestionsSelectBox(props.skierListData, "level")
     const sports = getSuggestionsSelectBox(props.skierListData, "sport")
-
-    /*
-    useEffect(() => {
-        sportsAvailable(props.skierListData)
-        levelAvailable(props.skierListData)
-    }, [props.skierListData])
-    */
 
     useEffect(() => {
         const parameters = new URLSearchParams(location.search);
@@ -203,7 +128,6 @@ function Search(props) {
             
             if(props.skierListData.length > 0) {
                  if (resortsData.includes(resortFilter)) {
-                // if (resortSuggestions.includes(resortFilter)) {
                     props.setResortSearched(resortFilter)
                 } 
             }
@@ -212,14 +136,9 @@ function Search(props) {
             setLanguage(languageFilter)
             if(props.skierListData.length > 0) {
                  if (languagesData.includes(languageFilter)) {
-                // if (resortSuggestions.includes(resortFilter)) {
                     props.setLanguageSearched(languageFilter)
                 } 
             }
-
-            // if (languageSuggestions.includes(languageFilter)) {
-                // props.setLanguageSearched(languageFilter)
-            // }
         }
     
     }, [location, props.skierListData]);
@@ -259,9 +178,7 @@ function Search(props) {
                                     onChange={(e, value) => { setSport(value)}}
                                     onInputChange={(e, value) => { setSport(value)}}
                                     fullWidth
-                                    // freeSolo
                                     getOptionSelected={(option, sport) => option === sport}
-                                    // value={sport}
                                     options={sports}
                                     getOptionLabel={(option) => option}
                                     renderInput={(params) => (
@@ -296,9 +213,7 @@ function Search(props) {
                                     onChange={(e, value) => { setLevel(value)}}
                                     onInputChange={(e, value) => { setLevel(value)}}
                                     fullWidth
-                                    // freeSolo
                                     getOptionSelected={(option, level) => option === level}
-                                    // value={level}
                                     options={levels}
                                     getOptionLabel={(option) => option}
                                     renderInput={(params) => (
@@ -326,18 +241,13 @@ function Search(props) {
                             /> */}
                         </div>
                         <div className="col-md-12">
-                            {/* <label htmlFor="ResortsData" className="text-gray">Resorts Data</label> */}
                                 <Autocomplete
                                     getOptionSelected={(option, resort) => option === resort}
                                     data-testid='autocomplete'
                                     id="ResortsData"
                                     onChange={(e, value) => { setResort(value)}}
-                                    // onInputChange={(e, value) => { setResort(value)}}
                                     fullWidth
-                                    // freeSolo
-                                    // value={resort}
                                     options={resortsData}
-                                    // getOptionLabel={(option) => option}
                                     renderInput={(params) => (
                                         <TextField {...params}
                                         label="Resort"
@@ -346,7 +256,6 @@ function Search(props) {
                                         size="small"
                                         margin="normal"
                                         />
-
                                     )}
                                     ListboxProps={{
                                         style: {
@@ -356,30 +265,14 @@ function Search(props) {
                                     />
 
                         </div> 
-
-
-                        <div className="col-md-12">
-                            {/* <Dropbox
-                                title="resort"
-                                value={resort}
-                                placeholder="Choose resort"
-                                suggestions={resortSuggestions}
-                                setValue={setResort}
-                            /> */}
-
-                        </div>
                         <div className="col-md-12 mb-4">
                                 <Autocomplete
                                     data-testid='autocomplete'
                                     id="LanguageData"
                                     onChange={(e, value) => { setLanguage(value)}}
-                                    // onInputChange={(e, value) => { setLanguage(value)}}
                                     fullWidth
-                                    // freeSolo
                                     getOptionSelected={(option, language) => option === language}
-                                    // value={language}
                                     options={languagesData}
-                                    // getOptionLabel={(option) => option}
                                     renderInput={(params) => (
                                         <TextField {...params}
                                         label="Language"
@@ -396,19 +289,10 @@ function Search(props) {
                                         }
                                     }}
                                     />
-                            {/* <Dropbox
-                                title="language"
-                                value={language}
-                                placeholder="Choose language"
-                                suggestions={languageSuggestions}
-                                setValue={setLanguage}
-                                /> */}
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </>
     )
 }
