@@ -176,11 +176,13 @@ function Search(props) {
                                     data-testid='autocomplete'
                                     id="sport"
                                     onChange={(e, value) => { setSport(value)}}
-                                    onInputChange={(e, value) => { setSport(value)}}
+                                    // onInputChange={(e, value) => { setSport(value)}}
                                     fullWidth
-                                    getOptionSelected={(option, sport) => option === sport}
+                                    // getOptionSelected={(sport) => sport}
                                     options={sports}
-                                    getOptionLabel={(option) => option}
+                                    getOptionLabel={(sport) => sport}
+                                    value={sport}
+                                    value={sports.includes(sport) ? sport : ""}
                                     renderInput={(params) => (
                                         <TextField {...params}
                                         label="Sport"
@@ -198,10 +200,11 @@ function Search(props) {
                                     data-testid='autocomplete'
                                     id="level"
                                     onChange={(e, value) => { setLevel(value)}}
-                                    onInputChange={(e, value) => { setLevel(value)}}
+                                    // onInputChange={(e, value) => { setLevel(value)}}
                                     fullWidth
-                                    getOptionSelected={(option, level) => option === level}
+                                    // getOptionSelected={(option, level) => option === level}
                                     options={levels}
+                                    value={levels.includes(level) ? level : ""}
                                     getOptionLabel={(option) => option}
                                     renderInput={(params) => (
                                         <TextField {...params}
@@ -217,12 +220,15 @@ function Search(props) {
                         </div>
                         <div className="col-md-12">
                                 <Autocomplete
-                                    getOptionSelected={(option, resort) => option === resort}
+                                    // getOptionSelected={(option) => option}
                                     data-testid='autocomplete'
                                     id="ResortsData"
                                     onChange={(e, value) => { setResort(value)}}
                                     fullWidth
                                     options={resortsData}
+                                    value={resort}
+                                    value={resortsData.includes(resort) ? resort : ""}
+                                    getOptionLabel={(option) => option}
                                     renderInput={(params) => (
                                         <TextField {...params}
                                         label="Resort"
@@ -246,8 +252,10 @@ function Search(props) {
                                     id="LanguageData"
                                     onChange={(e, value) => { setLanguage(value)}}
                                     fullWidth
-                                    getOptionSelected={(option, language) => option === language}
+                                    // getOptionSelected={(option, language) => option === language}
+                                    getOptionLabel={(option) => option}
                                     options={languagesData}
+                                    value={languagesData.includes(language) ? language : ""}
                                     renderInput={(params) => (
                                         <TextField {...params}
                                         label="Language"

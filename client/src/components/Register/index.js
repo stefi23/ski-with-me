@@ -15,8 +15,6 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-
 
 Register.propTypes = {
   intialSkierList: PropTypes.array.isRequired,
@@ -385,7 +383,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
             >
               Submit
             </button>
-            <p class='mt-3 '><small>By creating an account, you agree to the Terms of Service. We'll occasionally send you account-related emails.</small></p>
+            <p className='mt-3 '><small>By creating an account, you agree to the Terms of Service. We'll occasionally send you account-related emails.</small></p>
           </form>
         </Modal.Body>
       </Modal>
