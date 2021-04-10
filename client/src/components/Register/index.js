@@ -1,24 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, withRouter, useHistory } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 import { Modal } from "react-bootstrap";
-import InputBox from "../InputBox"
-import MultipleComponent from "../MultipleInput";
 import PropTypes from "prop-types"
 import { getResortsListfromDB } from './getResortsListfromDB'
 import { getLanguagesListfromDB } from './getLanguagesListfromDB'
 import { useInput } from "../../hooks/useInput"
 import { addUserInDb }  from './addUser'
-import { useArrayState }  from './useArrayState'
+
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from '@material-ui/core/styles';
 import { InputAdornment } from '@material-ui/core';
-import { isNull } from "lodash";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-
+import Checkbox from '@material-ui/core/Checkbox';
 
 
 Register.propTypes = {
@@ -133,8 +130,8 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
   const [lastName, handleLastNameChange] = useInput("");
 
   const [email, setEmail] = useState("");
-
   const [password, handlePasswordChange] = useInput("");
+
   const [sport, handleSportChange] = useInput("ski");
   const [level, handleLevelChange] = useInput("medium");
 
@@ -380,18 +377,6 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
                     />
               </div>
             </div> 
-            <div className="form-group">
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id="gridCheck"
-                />
-                <label className="form-check-label" htmlFor="gridCheck">
-                  I agree to terms and conditions
-                </label>
-              </div>
-            </div>
             <button
               data-testid="btn-register"
               disabled={showAlert ? true : false}
@@ -400,6 +385,7 @@ function Register({ intialSkierList, updateLoggedIn, getName, getUserId }) {
             >
               Submit
             </button>
+            <p class='mt-3 '><small>By creating an account, you agree to the Terms of Service. We'll occasionally send you account-related emails.</small></p>
           </form>
         </Modal.Body>
       </Modal>
